@@ -16,8 +16,8 @@ setup(
     long_description=Path(f"{path_absolute}/README.md").read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",
     url="https://pollinations.ai/",
-    author="pollinations.ai",
-    author_email="hello@pollinations.ai",
+    author="git.pollinations.ai",
+    author_email="git.pollinations.ai@gmail.com",
     license="MIT",
     classifiers=[
       "License :: OSI Approved :: MIT License",
