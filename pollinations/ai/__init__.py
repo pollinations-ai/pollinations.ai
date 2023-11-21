@@ -3,19 +3,31 @@ from ..ext import Image
 from .. import abc
 
 samples: list = abc.samples
+styles: dict = {
+  'realistic': 'realistic, realism, real life, ultra realistic, high quality, real',
+  'cartoon': 'cartoony, cartoon, cartoonish',
+  'anime': 'anime, anime art, anime style',
+  'logo': 'logo, logo design, logo graphic design, logo digital art',
+}
+
+@abc.resource(deprecated=False)
+def sample_style(*args, **kwargs):
+  return styles.get(random.choice(list(styles.keys())))
 
 @abc.resource(deprecated=False)
 def sample(*args, **kwargs) -> str:
-  return random.choice(samples)
+  return f'prompt: {random.choice(samples)}, details: ({sample_style()})'
 
 @abc.resource(deprecated=False)
 def sample_batch(size: int, *args, **kwargs) -> str:
-  return random.choices(samples, k=size)
+  return [sample() for iter in range(size)]
 
 @abc.resource(deprecated=True)
 def help(*args, **kwargs) -> str:
   help_return: str = """
   sample(): returns 1 random sample prompt
+
+  sample_style(): returns a style of art (realistic, cartoon, anime, logo))
 
   sample_batch(size: int): returns size batch of random sample prompts
 
