@@ -1,6 +1,6 @@
 from .abc import samples
 
-__version__ = '0.1.5'
+__version__: str = '0.1.7'
 
 import random
 
@@ -45,6 +45,8 @@ def main(*args, **kwargs) -> str:
 def help(*args, **kwargs) -> str:
   help_return: str = """
   sample(): returns 1 random sample prompt
+
+  sample_style(): returns a style of art (realistic, cartoon, anime, logo))
 
   sample_batch(size: int): returns size batch of random sample prompts
 
