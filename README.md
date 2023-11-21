@@ -4,7 +4,7 @@
 
 # [pollinations.ai - Image Generation](https://pypi.org/project/pollinations.ai)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/toolkitr/tkr/blob/main/LICENSE)
-[![Python Versions](https://img.shields.io/badge/python-3.7%20|3.8%20|3.9%20|3.10%20|%203.11%20|%203.12%20-blue)](https://www.python.org/downloads/)
+[![Python Versions](https://img.shields.io/badge/python-3.7%20|%203.8%20|%203.9%20|%203.10%20|%203.11%20|%203.12%20-blue)](https://www.python.org/downloads/)
 
 ```
 pollinations.ai: (https://pollinations.ai/)
