@@ -49,7 +49,7 @@ batch: list = ai.sample_batch(size=5)
 image_generator: ai.Image = ai.Image()
 image_generator.generate_batch(prompts=batch, save=True) # OPTIONAL: path  # OPTIONAL: naming = 'counter' | naming = 'prompt'
 
-# image_generator.generate_batch(prompts=batch, save=True, path='somefolder', naming='promot')
+# image_generator.generate_batch(prompts=batch, save=True, path='somefolder', naming='prompt')
 ```
 
 # Links
