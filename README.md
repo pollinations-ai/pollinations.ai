@@ -7,7 +7,7 @@
 [![Python Versions](https://img.shields.io/badge/python-3.7%20|3.8%20|3.9%20|3.10%20|%203.11%20|%203.12%20-blue)](https://www.python.org/downloads/)
 
 ```
-This is not the official pollinations.ai (https://pollinations.ai/)
+pollinations.ai: (https://pollinations.ai/)
 
 This is a WRAPPER designed for easy text-image generation.
 ```
