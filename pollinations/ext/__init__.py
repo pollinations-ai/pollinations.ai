@@ -57,7 +57,6 @@ class Image:
                   handler.write(image.content)
 
           counter += 1
-
       return self.data
 
   @abc.resource(deprecated=False)
