@@ -29,6 +29,7 @@ class Image:
       self.prompt: str = prompt
       request = requests.get(f'{abc.proto}{self.__base}{abc.ai}{prompt}')
       self.data: abc.ImageObject = abc.ImageObject(prompt, request.url, request.headers['Date'], content=request.content)
+      self.data.save: object = self.save
   
       return self.data
 
@@ -46,6 +47,7 @@ class Image:
               return Exception(f"ai.Image >>> InvalidPrompt (filtered)")
           request = requests.get(f'{abc.proto}{self.__base}{abc.ai}{prompt}')
           image = abc.ImageObject(prompt, request.url, request.headers['Date'], content=request.content)
+          image.save: object = self.save
           self.data.append(image)
 
           if save:
