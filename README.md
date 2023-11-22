@@ -29,8 +29,8 @@ prompt: str = 'A cat with a top hat and a mustache.'
 prompt_sample: str = ai.sample()
 
 image_generator: ai.Image = ai.Image(save_file='pollinations.ai.jpg') # OPTIONAL: takes save_file parameter
-image_generator.generate(prompt)
-image_generator.save() # OPTIONAL: takes save_file parameter
+image = image_generator.generate(prompt)
+image.save() # OPTIONAL: takes save_file parameter
 ```
 Setting model filter:
 ```python
