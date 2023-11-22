@@ -1,8 +1,11 @@
 from .abc import samples
+from . import ai as _ai
 
-__version__: str = '0.1.7'
+__version__: str = '0.1.8'
 
 import random
+
+ai: object = _ai
 
 class Sample:
   @property
