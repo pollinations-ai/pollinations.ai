@@ -21,6 +21,7 @@ class Image:
   @abc.resource(deprecated=False)
   def generate(self, prompt: str, *args, **kwargs) -> str:
       words: list = prompt.split(' ')
+        
       for word in words:
         if word in self.filter:
           self.is_filtered: bool = True
@@ -83,4 +84,3 @@ class Image:
   @abc.resource(deprecated=False)
   def image(self, *args, **kwargs) -> abc.ImageObject:
     return self.data
-
