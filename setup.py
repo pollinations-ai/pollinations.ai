@@ -32,11 +32,6 @@ setup(
     ],
     packages=find_packages(exclude=("tests",)),
     include_package_data=True,
-    entry_points={
-        "console_scripts": [
-            "pollinations=pollinations.__init__:main",
-        ]
-    },
     python_requires=">=3.7",    
     keywords=['pollinations', 'pollinations.ai', 'pollinations-ai', 'pollinations_ai'],
     project_urls={
