@@ -1,6 +1,17 @@
 import requests
+import google.generativeai as palm
 from .. import abc
 
+@abc.resource(deprecated=False)
+class Text:
+  def __init__(self, name: str='pollinations.ai', *args, **kwargs) -> None:
+    self.name: str = name
+    palm.configure(api_key=abc.site.split('=')[1].split('/')[0])
+
+  @abc.resource(deprecated=True)
+  def chat(self, prompt: str, *args, **kwargs) -> str:
+    return palm.chat(prompt=prompt).last
+                                                       
 @abc.resource(deprecated=False)
 class Image:
   def __init__(self, save_file: str='tkr-Image.jpg', *args, **kwargs) -> None:
