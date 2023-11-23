@@ -32,6 +32,15 @@ image_generator: ai.Image = ai.Image(save_file='pollinations.ai.jpg') # OPTIONAL
 image = image_generator.generate(prompt)
 image.save() # OPTIONAL: takes save_file parameter
 ```
+Chatting with text generative ai model:
+```python
+import pollinations.ai as ai
+
+model: ai.Text = ai.Text()
+
+response: str = model.chat(prompt='What is the meaning of life?')
+```
+
 Setting model filter:
 ```python
 import pollinations.ai as ai
