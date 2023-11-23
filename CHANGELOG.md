@@ -12,7 +12,7 @@ pollinations.ai: (https://pollinations.ai/)
 This is a WRAPPER designed for easy text-image generation.
 ```
 
-# CHANGELOG V0.1.8
+# CHANGELOG V0.2.0
 
 ## Installing
 ```shell
@@ -23,6 +23,21 @@ python3 -m pip install -U pollinations.ai
 py -3 -m pip install -U pollinations.ai
 ```
 
+V0.2.0 UPDATES:
+```diff
++ pollinations.ai.Text >> Text generative ai model.
++ pollinations.ai.Text.chat(prompt: str) >> Returns ai's response to a prompt.
+```
+```python
+import pollinations.ai as ai
+
+model: ai.Text = ai.Text()
+
+response: str = model.chat('What is the meaning of life?')
+```
+
+
+V0.1.8 UPDATES:
 ## Added
 ```
 + pollinations.ai.models: dict
