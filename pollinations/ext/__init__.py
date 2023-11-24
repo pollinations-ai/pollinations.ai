@@ -1,3 +1,20 @@
+'''
+pollinations.ext
+
+Functions:
+    sample(str): Returns a sample prompt for the Image model.
+    sample_style(str): Returns a style of prompt for the Image model.
+    sample_batch(list, size=10): Returns a batch of sample prompts for the Image model.
+
+Variables:
+    samples (list): List of sample prompts for the Image model.
+    styles (dict): Dictionary of prompt styles for the Image model.
+    realistic (str): styles[realistic]
+    cartoon (str): styles[cartoon]
+    anime (str): styles[anime]
+    logo (str): styles[logo]
+'''
+
 import random
 from .. import abc
 
@@ -16,7 +33,7 @@ logo: str = styles.get("logo")
 
 
 @abc.resource(deprecated=False)
-def sample_style(*args, **kwargs):
+def sample_style(*args, **kwargs) -> str:
     return styles.get(random.choice(list(styles.keys())))
 
 
@@ -26,5 +43,5 @@ def sample(*args, **kwargs) -> str:
 
 
 @abc.resource(deprecated=False)
-def sample_batch(size: int, *args, **kwargs) -> str:
+def sample_batch(size: int, *args, **kwargs) -> list:
     return [sample() for iter in range(size)]
