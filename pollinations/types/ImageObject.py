@@ -1,8 +1,30 @@
+'''
+pollinations.types.ImageObject
+
+Classes:
+    ImageObject (types.ImageObject): Image object.
+'''
+
 from .. import abc
 
 
 @abc.resource(deprecated=False)
 class ImageObject(abc.ImageProtocol):
+    '''
+    pollinations.ai.types.ImageObject
+
+    Parameters:
+        prompt (str): Prompt for the image.
+        url (str): URL for the image.
+        date (str): Date the image was generated.
+        content (binary): Binary content of the image.
+
+    Variables:
+        prompt (str): Prompt for the image.
+        url (str): URL for the image.
+        date (str): Date the image was generated.
+        content (binary): Binary content of the image.
+    '''''
     def __init__(
         self, prompt: str, url: str, date: str, content: bin, *args, **kwargs
     ) -> None:
