@@ -1,7 +1,18 @@
+"""
+Setup script for pollinations.ai
+
+Variables:
+    path_absolute (str): Absolute path to the directory containing the setup.py file
+    version (str): Current version of the package
+
+Functions:
+    setup: Setup function for the package
+"""
+
 from setuptools import setup, find_packages
 from pathlib import Path
 
-path_absolute = Path(__file__).parent.absolute()
+path_absolute: Path = Path(__file__).parent.absolute()
 
 with open(f"{path_absolute}/pollinations/__init__.py", "r") as file:
     for line in file.readlines():
