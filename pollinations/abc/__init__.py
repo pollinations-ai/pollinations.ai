@@ -1,3 +1,18 @@
+"""
+pollinations.abc
+
+Classes:
+    ImageProtocol (abc.ImageProtocol): Image protocol for pollinations.ai
+    TextProtocol (abc.TextProtocol): Text protocol for pollinations.ai
+
+Functions:
+    resource(object, deprecated: bool): Decorator for pollinations.ai resources
+
+Variables:
+    samples (list): List of sample prompts for the Image model.
+    BANNED_WORDS (list): List of banned words for the Image model filter.
+"""
+
 from .imageprotocol import ImageProtocol
 from .textprotocol import TextProtocol
 

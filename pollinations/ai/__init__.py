@@ -1,8 +1,35 @@
+"""
+pollinations.ai
+
+Classes:
+    ImageModel (ai.ImageModel): Text-to-image generative AI model.
+    TextModel (ai.TextModel): Text-to-text generative AI model.
+
+Functions:
+    sample(str): Returns a sample prompt for the Image model.
+    sample_style(str): Returns a style of prompt for the Image model.
+    sample_batch(list, size=10): Returns a batch of sample prompts for the Image model.
+    help(str): Returns general help information for pollinations.ai
+
+Variables:
+    samples (list): List of sample prompts for the Image model.
+    styles (dict): Dictionary of prompt styles for the Image model.
+    realistic (str): styles[realistic]
+    cartoon (str): styles[cartoon]
+    anime (str): styles[anime]
+    logo (str): styles[logo]
+
+    BANNED_WORDS (list): List of banned words for the Image model filter.
+
+"""
+
 import random
 from .. import abc
 from .. import ext
-from ..types.ImageModel import ImageModel
-from ..types.TextModel import TextModel
+from ..types import (
+    ImageModel,
+    TextModel,
+)
 
 Image: ImageModel = ImageModel
 Text: TextModel = TextModel
@@ -22,6 +49,12 @@ sample_batch: object = ext.sample_batch
 
 @abc.resource(deprecated=True)
 def help(*args, **kwargs) -> str:
+    """
+    pollinations.ai.help
+
+    Return:
+        str: Help information for pollinations.ai
+    """
     help_return: str = (
         """
   sample(): returns 1 random sample prompt
