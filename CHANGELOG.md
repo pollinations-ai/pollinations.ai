@@ -12,7 +12,7 @@ pollinations.ai: (https://pollinations.ai/)
 This is a WRAPPER designed for easy text-image generation.
 ```
 
-# CHANGELOG V0.1.8
+# CHANGELOG V0.2.1
 
 ## Installing
 ```shell
@@ -23,35 +23,29 @@ python3 -m pip install -U pollinations.ai
 py -3 -m pip install -U pollinations.ai
 ```
 
+V0.2.1 UPDATES:
+```diff
++ Complete code refactor for pollinations.__init__, pollinations.abc, pollinations.ai, pollinations.ext, and added pollinations.types
+```
+```python
+import pollinations.ai as ai
+
+model: ai.Text = ai.Text()
+
+response: str = model.chat('What is the meaning of life?')
+```
+
+
+V0.2.1 UPDATES:
 ## Added
 ```
-+ pollinations.ai.models: dict
-+ pollinations.ai.samples: list
-+ pollinations.ai.styles: dict
++ pollinations.types
 
-+ pollinations.ai.realistic: str
-+ pollinations.ai.cartoon: str
-+ pollinations.ai.anime: str
-+ pollinations.ai.logo: str
++ pollinations.types.ImageModel
++ pollinations.types.ImageObject
 
-+ pollinations.ai.sample() >> Generates a random prompt from .ai.samples and a random style from .ai.styles.
-+ pollinations.ai.sample_style() >> Gets a random style from .ai.styles.
-+ pollinations.ai.sample_batch(size: int) >> Generates a batch of <size> prompts with styles.
-```
-
-## Image Model
-```
-+ pollinations.ai.Image.filter: list
-+ pollinations.ai.Image.set_filter(filter: list)
-
-+ pollinations.ai.Image.generate(prompt: str) >> Generates an image from a given prompt.
-+ pollinations.ai.Image.generate_batch(prompts: list, save: bool, path: str, naming: str)
-+    > * prompts: list of prompts
-+    > save: If true, images will save to a jpg file.
-+    > path: To save the images to a folder.
-+    > naming ('counter', 'prompt'): Sets the image's filename to include either the counter or prompt.
-
-+ pollinations.ai.ImageObject.save(save_file: str) >> Save the image to a file.
++ pollinations.types.TextModel
++ pollinations.types.TextObject
 ```
 
 # Links
