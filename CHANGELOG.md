@@ -25,7 +25,11 @@ py -3 -m pip install -U pollinations.ai
 
 V0.2.1 UPDATES:
 ```diff
-+ Complete code refactor for pollinations.__init__, pollinations.abc, pollinations.ai, pollinations.ext, and added pollinations.types
++ Complete code refactor for pollinations.__init__, 
++      pollinations.abc, 
++      pollinations.ai, 
++      pollinations.ext, 
++      and added pollinations.types
 ```
 ```python
 import pollinations.ai as ai
@@ -38,14 +42,14 @@ response: str = model.chat('What is the meaning of life?')
 
 V0.2.1 UPDATES:
 ## Added
-```
-+ pollinations.types
+```python
+pollinations.types
 
-+ pollinations.types.ImageModel
-+ pollinations.types.ImageObject
+pollinations.types.ImageModel
+pollinations.types.ImageObject
 
-+ pollinations.types.TextModel
-+ pollinations.types.TextObject
+pollinations.types.TextModel
+pollinations.types.TextObject
 ```
 
 # Links
