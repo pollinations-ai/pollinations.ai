@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pollinations.ai"
-version = "0.1.8"
+version = "0.2.0"
 description = "pollinations.ai | Image Generation"
 readme = "README.md"
 authors = [{ name = "pollinations.ai", email = "hello@pollinations.ai" }, { name = "dev.pollinations.ai", email = "git.pollinations.ai@gmail.com" }]
@@ -22,6 +22,7 @@ classifiers = [
 ]
 keywords = ['pollinations', 'pollinations.ai', 'pollinations-ai', 'pollinations_ai']
 requires-python = ">=3.7.0"
+dependencies = ['google-generativeai']
 
 [project.urls]
 Website = 'https://pollinations.ai/'

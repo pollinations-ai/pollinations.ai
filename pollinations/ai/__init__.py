@@ -1,45 +1,29 @@
 import random
-from ..ext import Image
 from .. import abc
+from .. import ext
+from ..types.ImageModel import ImageModel
+from ..types.TextModel import TextModel
 
-models: dict = {
-  'tti-safe.v3': 'No banned words allowed in prompt, raises Exception',
-  'tti-unsafe.v3': 'No filter for prompts, does not raise Exception'
-}
+Image: ImageModel = ImageModel
+Text: TextModel = TextModel
 
-@abc.resource(deprecated=True)
-def get_models(*args, **kwargs):
-  print(models)
-  return models
+samples: list = ext.samples
+styles: dict = ext.styles
 
-samples: list = abc.samples
-styles: dict = {
-  'realistic': 'realistic, realism, real life, ultra realistic, high quality, real',
-  'cartoon': 'cartoony, cartoon, cartoonish',
-  'anime': 'anime, anime art, anime style',
-  'logo': 'logo, logo design, logo graphic design, logo digital art',
-}
+realistic: str = ext.realistic
+cartoon: str = ext.cartoon
+anime: str = ext.anime
+logo: str = ext.logo
 
-realistic: str = styles.get('realistic')
-cartoon: str = styles.get('cartoon')
-anime: str = styles.get('anime')
-logo: str = styles.get('logo')
+sample_style: object = ext.sample_style
+sample: object = ext.sample
+sample_batch: object = ext.sample_batch
 
-@abc.resource(deprecated=False)
-def sample_style(*args, **kwargs):
-  return styles.get(random.choice(list(styles.keys())))
-
-@abc.resource(deprecated=False)
-def sample(*args, **kwargs) -> str:
-  return f'prompt: {random.choice(samples)}, details: ({sample_style()})'
-
-@abc.resource(deprecated=False)
-def sample_batch(size: int, *args, **kwargs) -> str:
-  return [sample() for iter in range(size)]
 
 @abc.resource(deprecated=True)
 def help(*args, **kwargs) -> str:
-  help_return: str = """
+    help_return: str = (
+        """
   sample(): returns 1 random sample prompt
 
   sample_style(): returns a style of art (realistic, cartoon, anime, logo))
@@ -59,8 +43,15 @@ def help(*args, **kwargs) -> str:
   Image.load(load_file: str (OPTIONAL)): load the image from a file
 
   Image.image(): return the image object
-  
-  """""
-  return help_return
+
+  Text(save_file: str (OPTIONAL)): inialize the ai.Text
+
+  Text.chat(prompt: str): chat with the ai and return the response
+
+  """
+        ""
+    )
+    return help_return
+
 
 BANNED_WORDS: list = abc.BANNED_WORDS
