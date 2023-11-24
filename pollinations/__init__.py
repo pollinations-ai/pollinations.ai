@@ -1,7 +1,7 @@
 from .abc import samples
 from . import ai as _ai
 
-__version__: str = "0.1.8"
+__version__: str = "0.2.1"
 
 
 ai: object = _ai
