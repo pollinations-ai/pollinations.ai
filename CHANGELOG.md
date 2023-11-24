@@ -31,6 +31,7 @@ V0.2.1 UPDATES:
 +      pollinations.ext, 
 +      and added pollinations.types
 ```
+
 ```python
 import pollinations.ai as ai
 
@@ -39,8 +40,6 @@ model: ai.Text = ai.Text()
 response: str = model.chat('What is the meaning of life?')
 ```
 
-
-V0.2.1 UPDATES:
 ## Added
 ```python
 pollinations.types
