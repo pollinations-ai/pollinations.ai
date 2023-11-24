@@ -39,7 +39,6 @@ Functions:
     sample_batch(list, size=10): Returns a batch of sample prompts for the Image model.
 """
 
-from .abc import samples
 from . import ai as _ai
 
 __version__: str = "0.2.2"
