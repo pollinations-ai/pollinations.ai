@@ -12,9 +12,13 @@ pollinations.ai: (https://pollinations.ai/)
 This is a WRAPPER designed for easy text-image generation.
 ```
 
-# CHANGELOG V0.2.2
+# CHANGELOG V0.2.3
 ```diff
 + Formatted and added docstrings to all files, classes, and methods.
+```
+### FIXED
+```python
+pollinations.types.ImageModel.filter: default_filter not defined, set to self.default_filter.
 ```
 
 # CHANGELOG V0.2.1
