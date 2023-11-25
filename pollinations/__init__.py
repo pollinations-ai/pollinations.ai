@@ -41,7 +41,7 @@ Functions:
 
 from . import ai as _ai
 
-__version__: str = "0.2.2"
+__version__: str = "0.2.3"
 
 
 ai: object = _ai
