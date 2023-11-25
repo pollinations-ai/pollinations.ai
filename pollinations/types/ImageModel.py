@@ -41,7 +41,7 @@ class ImageModel:
         self.save_file: str = save_file
         self.prompt: str = None
         self.default_filter: list = abc.BANNED_WORDS
-        self.filter: list = default_filter
+        self.filter: list = self.default_filter
         self.data: object = object
         self.is_filtered: bool = False
 
