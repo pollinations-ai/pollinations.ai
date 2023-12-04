@@ -12,16 +12,36 @@ pollinations.ai: (https://pollinations.ai/)
 This is a WRAPPER designed for easy text-image generation.
 ```
 
-# CHANGELOG V0.2.3
+# CHANGELOG V0.2.4
 ```diff
-+ Formatted and added docstrings to all files, classes, and methods.
++ Added the model, width, height, and seed params to ai.Image.generate()
+
+* prompt
+(Optional):
+  model='turbo'
+  width=1024
+  height=1024
+  seed='random'
 ```
-### FIXED
+### NEW
 ```python
-pollinations.types.ImageModel.filter: default_filter not defined, set to self.default_filter.
+import pollinations.ai as ai
+
+model: ai.Image = ai.Image()
+image: ai.ImageObject = model.generate(
+      prompt='lion feasting on prey',
+      model='pixart',
+      width=1024,
+      height=1024,
+      seed=711144046
+).save()
+print(image.prompt, image.url)
+
+# >>> lion feasting on prey https://image.pollinations.ai/prompt/lion%20feasting%20on%20prey?model=pixart&width=1024&height=1024&seed=711144046
+
 ```
 
-# CHANGELOG V0.2.1
+# CHANGELOG V0.2.3
 
 ## Installing
 ```shell

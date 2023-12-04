@@ -26,12 +26,16 @@ class ImageObject(abc.ImageProtocol):
         content (binary): Binary content of the image.
     '''''
     def __init__(
-        self, prompt: str, url: str, date: str, content: bin, *args, **kwargs
+        self, prompt: str, url: str, date: str, content: bin, *args, model: str = None, width: int = None, height: int = None, seed: int = None, **kwargs
     ) -> None:
         self.prompt: str = prompt
+        self.width: int = width if width else 1024
+        self.height: int = height if height else 1024
+        self.model: str = model if model else 'default'
+        self.seed: int = seed if seed else 'random'
         self.url: str = url
         self.date: str = date
         self.content: bin = content
 
     def __repr__(self, *args, **kwargs) -> str:
-        return f"ImageObject(prompt={self.prompt}, date={self.date}, url={self.url}, content={len(self.content)})"
+        return f"ImageObject(prompt={self.prompt}, width={self.width}, height={self.height}, model={self.model}, seed={self.seed}, url={self.url}, date={self.date}, content={self.content})"
