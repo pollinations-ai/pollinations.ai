@@ -25,13 +25,22 @@ py -3 -m pip install -U pollinations.ai
 ```python
 import pollinations.ai as ai
 
-prompt: str = 'A cat with a top hat and a mustache.'
-prompt_sample: str = ai.sample()
+model: ai.Image = ai.Image()
+image: ai.ImageObject = model.generate(
+      prompt='lion feasting on prey',
+      model='pixart',
+      width=1024,
+      height=1024,
+      seed=711144046
+).save()
+print(image.prompt, image.url)
 
-image_generator: ai.Image = ai.Image(save_file='pollinations.ai.jpg') # OPTIONAL: takes save_file parameter
-image = image_generator.generate(prompt)
-image.save() # OPTIONAL: takes save_file parameter
+# >>> lion feasting on prey https://image.pollinations.ai/prompt/lion%20feasting%20on%20prey?model=pixart&width=1024&height=1024&seed=711144046
 ```
+<div id="header">
+  <img src="https://i.ibb.co/prLjvMq/download.jpg" width=300/>
+</div>
+
 Chatting with text generative ai model:
 ```python
 import pollinations.ai as ai
