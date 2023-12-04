@@ -7,6 +7,7 @@ Classes:
 """
 
 import requests
+import random
 from .. import abc
 from .ImageObject import ImageObject
 
@@ -63,16 +64,30 @@ class ImageModel:
         return self
 
     @abc.resource(deprecated=False)
-    def generate(self, prompt: str, *args, **kwargs) -> str:
+    def generate(self, prompt: str, *args, model: str = None, width: int = 1024, height: int = 1024, seed: int = None, **kwargs) -> str:
         """
         pollinations.ai.types.ImageModel.generate
 
         Parameters:
             prompt (str): The prompt for the image.
+            model (str): The model for the ai to use.
+            width (int): The width of the image.
+            height (int): The height of the image.
+            seed (int): The seed for the ai.
 
         Return:
             ImageObject (class): Returns the ImageObject for the generated image.
         """
+        if seed is None: 
+            seed: int = random.randint(0, 2 ** 32 - 1)
+
+        model_list: list = ['turbo', 'pixart', 'deliberate']
+        if model:
+            if model not in model_list:
+                raise ValueError(f"Invalid model: {model} | Choose from {model_list}")
+        else:
+            model: str = 'turbo'
+        
         words: list = prompt.split(" ")
 
         for word in words:
@@ -81,9 +96,9 @@ class ImageModel:
                 return Exception(f"types.ImageModel >>> InvalidPrompt (filtered)")
 
         self.prompt: str = prompt
-        request = requests.get(f"{abc.proto}{self.__base}{abc.ai}{prompt}")
+        request = requests.get(f"{abc.proto}{self.__base}{abc.ai}{prompt}?model={model}&width={width}&height={height}&seed={seed}")
         self.data: ImageObject = ImageObject(
-            prompt, request.url, request.headers["Date"], content=request.content
+            prompt, request.url, request.headers["Date"], content=request.content, model=model, width=width, height=height, seed=seed
         )
         self.data.save: object = self.save
 
@@ -97,6 +112,7 @@ class ImageModel:
         path: str = None,
         naming: str = "counter",
         *args,
+        model: str = None, width: int = 1024, height: int = 1024, seed: int = None,
         **kwargs,
     ) -> list:
         """
@@ -104,6 +120,10 @@ class ImageModel:
 
         Parameters:
             prompts (list): List of prompts for the images.
+            model (str): The model for the ai to use.
+            width (int): The width of the image.
+            height (int): The height of the image.
+            seed (int): The seed for the ai.
             save (bool): Whether to save the images or not.
             path (str): Path to save the images to.
             naming (str): Naming convention for the images. (counter or prompt)
@@ -121,9 +141,9 @@ class ImageModel:
                 if word in self.filter:
                     self.is_filtered: bool = True
                     return Exception(f"types.ImageModel >>> InvalidPrompt (filtered)")
-            request = requests.get(f"{abc.proto}{self.__base}{abc.ai}{prompt}")
+            request = requests.get(f"{abc.proto}{self.__base}{abc.ai}{prompt}?model={model}&width={width}&height={height}&seed={seed}")
             image: ImageObject = ImageObject(
-                prompt, request.url, request.headers["Date"], content=request.content
+                prompt, request.url, request.headers["Date"], content=request.content, model=model, width=width, height=height, seed=seed
             )
             image.save: object = self.save
             self.data.append(image)
