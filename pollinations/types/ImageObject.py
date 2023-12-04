@@ -9,7 +9,7 @@ from .. import abc
 
 
 @abc.resource(deprecated=False)
-class ImageObject(abc.ImageProtocol): # https://image.pollinations.ai/prompt/black%20and%20white%20portrait%20of%20a%20mouse?model=deliberate&width=768&height=512&seed=645/4
+class ImageObject(abc.ImageProtocol):
     '''
     pollinations.ai.types.ImageObject
 
