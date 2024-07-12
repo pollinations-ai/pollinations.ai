@@ -1,6 +1,6 @@
 #  MIT License
 #
-#  Copyright (c) 2023 pollinations-ai
+#  Copyright (c) 2024 pollinations
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -41,7 +41,7 @@ Functions:
 
 from . import ai as _ai
 
-__version__: str = "0.3.0"
+__version__: str = "0.5.1"
 
 
 ai: object = _ai
