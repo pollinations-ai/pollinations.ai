@@ -3,8 +3,8 @@ requires      = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pollinations.ai"
-version = "0.3.0"
+name = "pollinations"
+version = "0.5.1"
 description = "pollinations.ai | Image Generation"
 readme = "README.md"
 authors = [{ name = "pollinations.ai", email = "hello@pollinations.ai" }, { name = "dev.pollinations.ai", email = "git.pollinations.ai@gmail.com" }]
