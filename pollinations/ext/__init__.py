@@ -31,6 +31,16 @@ cartoon: str = styles.get("cartoon")
 anime: str = styles.get("anime")
 logo: str = styles.get("logo")
 
+models: list = ["turbo", "dreamshaper", "deliberate", "pixart", "playground", "dpo", "dalle3xl", "formulaxl"]
+
+turbo: str = "turbo"
+dreamshaper: str = "dreamshaper"
+deliberate: str = "deliberate"
+pixart: str = "pixart"
+playground: str = "playground"
+dpo: str = "dpo"
+dalle3xl: str = "dalle3xl"
+formulaxl: str = "formulaxl"
 
 @abc.resource(deprecated=False)
 def sample_style(*args, **kwargs) -> str:
