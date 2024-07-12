@@ -1,32 +1,10 @@
 Metadata-Version: 2.1
-Name: pollinations
-Version: 0.5.2
+Name: pollinations.ai
+Version: 1.0.0
 Summary: pollinations.ai | Image Generation
 Home-page: https://pollinations.ai/
 Author: git.pollinations.ai
 Author-email: "pollinations.ai" <hello@pollinations.ai>, "dev.pollinations.ai" <git.pollinations.ai@gmail.com>
-License: MIT License
-        
-        Copyright (c) 2024 pollinations
-        
-        Permission is hereby granted, free of charge, to any person obtaining a copy
-        of this software and associated documentation files (the "Software"), to deal
-        in the Software without restriction, including without limitation the rights
-        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-        copies of the Software, and to permit persons to whom the Software is
-        furnished to do so, subject to the following conditions:
-        
-        The above copyright notice and this permission notice shall be included in all
-        copies or substantial portions of the Software.
-        
-        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-        SOFTWARE.
-        
 Project-URL: Website, https://pollinations.ai/
 Project-URL: Discord, https://discord.gg/8HqSRhJVxn
 Project-URL: Github, https://github.com/pollinations
@@ -45,7 +23,7 @@ Classifier: Topic :: Utilities
 Classifier: Typing :: Typed
 Requires-Python: >=3.7
 Description-Content-Type: text/markdown
-License-File: LICENSE
+License-File: LICENSE.txt
 
 <div id="header">
   <img src="https://i.ibb.co/p049Y5S/86964862.png" width="50"/>   <img src="https://i.ibb.co/r6JZ336/sketch1700556567238.png" width="250">
@@ -63,83 +41,98 @@ This is a WRAPPER designed for easy text-image generation.
 
 ## Installing
 ```shell
+pip install -U pollinations
+pip install -U pollinations.ai
+
 # Linux/macOS
+python3 -m pip install -U pollinations
 python3 -m pip install -U pollinations.ai
 
 # Windows
+py -3 -m pip install -U pollinations
 py -3 -m pip install -U pollinations.ai
 ```
 
 ## Simple Examples
 ```python
+import pollinations.ai as ai
+
 # Version 1
 model: ai.Image = ai.Image()
 image: ai.ImageObject = model.generate(
-      prompt='cat in space',
-).save()
-
+      prompt="A cat playing with a ball",
+      # negative...width...height...height...seed...model...nologo
+)
+image.save("cat_playing_with_ball.png")
+print(image)
+# -------------------------------------------- #
 # Version 2
 class Model(ai.Image):
-      params = {
-            "prompt": "cat in space"
+      params: dict = {
+            "prompt": "cat in space",
+            #negative...width...height...height...seed...model...nologo
       }
 
 model: ai.Image = Model()
 model.generate().save()
 ```
 ```python
-@abc.resource(deprecated=False)
 def generate(
-    self,
-    *args,
-    prompt: str = "",
-    model: str = None,
-    width: int = 1024,
-    height: int = 1024,
-    seed: int = None,
-    nologo: bool = False,
-    **kwargs,
-) -> str:
+        self,
+        prompt: str = "...",
+        *args,
+        negative: str = "",
+        width: int = 1024,
+        height: int = 1024,
+        seed: int = 0,
+        model: str = None,
+        nologo: bool = None,
+        **kwargs,
+    ) -> types.ImageObject:
 ```
+## Batch Generation
 ```python
-# Version 1
-batch: list = ["lion in space", "dog in space"]
-image_generator: ai.Image = ai.Image()
-image_generator.generate_batch(prompts=batch, save=True, path="images")
+import pollinations.ai as ai
 
+# Version 1
+model: ai.Image = ai.Image()
+prompts: list = ["cat in space", "dog in space"]
+images: list[ai.ImageObject] = model.generate_batch(prompts, save=True, path="my/path/here")
+# -------------------------------------------- #
 # Version 2
 class Model(ai.Image):
-      params = {
+      params: dict = {
             "prompt": ["lion in space", "dog in space"]
       }
 
 model: ai.Image = Model()
-model.generate_batch(save=True, path="images")
+model.generate_batch(save=True, path="my/path/here")
 ```
 ```python
-@abc.resource(deprecated=False)
 def generate_batch(
-    self,
-    prompts: list = ["..."],
-    save: bool = False,
-    path: str = None,
-    naming: str = "counter",
-    *args,
-    model: str = None,
-    width: int = 1024,
-    height: int = 1024,
-    seed: int = None,
-    nologo: bool = False,
-    **kwargs,
-) -> list:
+        self,
+        prompts: list = ["..."],
+        negative: list = ["..."],
+        save: bool = False,
+        path: str = "pollinations-Image.png",
+        naming: str = "counter",
+        *args,
+        model: str = None,
+        width: int = 1024,
+        height: int = 1024,
+        seed: int = 0,
+        nologo: bool = False,
+        **kwargs,
+    ) -> list[types.ImageObject]:
 ```
 
-## Setting model filter:
+## Setting model filter
 ```python
 import pollinations.ai as ai
 
-image_generator: ai.Image = ai.Image()
-image_generator.set_filter(ai.BANNED_WORDS)
+model: ai.Image = ai.Image()
+model.set_filter(ai.filtered)
+model.set_filter(["custom", "words", "here"])
 
 # If any word from a prompt is in the filter it will return an exception.
 ```
