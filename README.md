@@ -14,83 +14,98 @@ This is a WRAPPER designed for easy text-image generation.
 
 ## Installing
 ```shell
+pip install -U pollinations
+pip install -U pollinations.ai
+
 # Linux/macOS
+python3 -m pip install -U pollinations
 python3 -m pip install -U pollinations.ai
 
 # Windows
+py -3 -m pip install -U pollinations
 py -3 -m pip install -U pollinations.ai
 ```
 
 ## Simple Examples
 ```python
+import pollinations.ai as ai
+
 # Version 1
 model: ai.Image = ai.Image()
 image: ai.ImageObject = model.generate(
-      prompt='cat in space',
-).save()
-
+      prompt="A cat playing with a ball",
+      # negative...width...height...height...seed...model...nologo
+)
+image.save("cat_playing_with_ball.png")
+print(image)
+# -------------------------------------------- #
 # Version 2
 class Model(ai.Image):
-      params = {
-            "prompt": "cat in space"
+      params: dict = {
+            "prompt": "cat in space",
+            #negative...width...height...height...seed...model...nologo
       }
 
 model: ai.Image = Model()
 model.generate().save()
 ```
 ```python
-@abc.resource(deprecated=False)
 def generate(
-    self,
-    *args,
-    prompt: str = "",
-    model: str = None,
-    width: int = 1024,
-    height: int = 1024,
-    seed: int = None,
-    nologo: bool = False,
-    **kwargs,
-) -> str:
+        self,
+        prompt: str = "...",
+        *args,
+        negative: str = "",
+        width: int = 1024,
+        height: int = 1024,
+        seed: int = 0,
+        model: str = None,
+        nologo: bool = None,
+        **kwargs,
+    ) -> types.ImageObject:
 ```
+## Batch Generation
 ```python
-# Version 1
-batch: list = ["lion in space", "dog in space"]
-image_generator: ai.Image = ai.Image()
-image_generator.generate_batch(prompts=batch, save=True, path="images")
+import pollinations.ai as ai
 
+# Version 1
+model: ai.Image = ai.Image()
+prompts: list = ["cat in space", "dog in space"]
+images: list[ai.ImageObject] = model.generate_batch(prompts, save=True, path="my/path/here")
+# -------------------------------------------- #
 # Version 2
 class Model(ai.Image):
-      params = {
+      params: dict = {
             "prompt": ["lion in space", "dog in space"]
       }
 
 model: ai.Image = Model()
-model.generate_batch(save=True, path="images")
+model.generate_batch(save=True, path="my/path/here")
 ```
 ```python
-@abc.resource(deprecated=False)
 def generate_batch(
-    self,
-    prompts: list = ["..."],
-    save: bool = False,
-    path: str = None,
-    naming: str = "counter",
-    *args,
-    model: str = None,
-    width: int = 1024,
-    height: int = 1024,
-    seed: int = None,
-    nologo: bool = False,
-    **kwargs,
-) -> list:
+        self,
+        prompts: list = ["..."],
+        negative: list = ["..."],
+        save: bool = False,
+        path: str = "pollinations-Image.png",
+        naming: str = "counter",
+        *args,
+        model: str = None,
+        width: int = 1024,
+        height: int = 1024,
+        seed: int = 0,
+        nologo: bool = False,
+        **kwargs,
+    ) -> list[types.ImageObject]:
 ```
 
-## Setting model filter:
+## Setting model filter
 ```python
 import pollinations.ai as ai
 
-image_generator: ai.Image = ai.Image()
-image_generator.set_filter(ai.BANNED_WORDS)
+model: ai.Image = ai.Image()
+model.set_filter(ai.filtered)
+model.set_filter(["custom", "words", "here"])
 
 # If any word from a prompt is in the filter it will return an exception.
 ```
