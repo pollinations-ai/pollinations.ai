@@ -12,7 +12,7 @@ pollinations.ai: (https://pollinations.ai/)
 This is a WRAPPER designed for easy text-image generation.
 ```
 
-# CHANGELOG V0.3.0
+# CHANGELOG V0.5.1
 ```diff
 + Updated API endpoint
 + Update Image generation methods
