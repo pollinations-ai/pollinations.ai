@@ -26,11 +26,11 @@ Interact with text-to-image and text-to-text generative AI models.
 
 Classes:
     Image (types.ImageModel): text-to-image generative AI model.
-    Text (types.TextModel): text-to-text generative AI model.
+    (deprecated) > Text (types.TextModel): text-to-text generative AI model.
 
 Object Classes:
     ImageObject (types.ImageObject): Image object.
-    TextObject (types.TextObject): Text object.
+    (deprecated) > TextObject (types.TextObject): Text object.
 
 Functions:
     help(str): Prints general/basic information.
@@ -41,7 +41,7 @@ Functions:
 
 from . import ai as _ai
 
-__version__: str = "0.2.3"
+__version__: str = "0.3.0"
 
 
 ai: object = _ai
@@ -49,7 +49,7 @@ ai: object = _ai
 help: object = ai.help
 
 Image: object = ai.Image
-Text: object = ai.Text
+# Text: object = ai.Text
 
 sample: object = ai.sample
 sample_style: object = ai.sample_style

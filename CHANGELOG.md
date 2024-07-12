@@ -12,6 +12,35 @@ pollinations.ai: (https://pollinations.ai/)
 This is a WRAPPER designed for easy text-image generation.
 ```
 
+# CHANGELOG V0.3.0
+```diff
++ Updated API endpoint
++ Update Image generation methods
++ Removed and/or deprecated text models and text objects
++ Updated abc.filter
++ Added ImageModel and ImageObject objects to the ai folder
+
+* prompt
+(Optional):
+  model='turbo'
+  width=1024
+  height=1024
+  seed='random'
+  nologo=True
+```
+### NEW
+```python
+import pollinations.ai as ai
+
+model: ai.Image = ai.Image()
+image: ai.ImageObject = model.generate(
+      prompt='lion feasting on prey',
+      # model...width...height...seed...
+      nologo=True,
+).save()
+
+```
+
 # CHANGELOG V0.2.4
 ```diff
 + Added the model, width, height, and seed params to ai.Image.generate()

@@ -1,4 +1,4 @@
-'''
+"""
 pollinations.ext
 
 Functions:
@@ -13,7 +13,7 @@ Variables:
     cartoon (str): styles[cartoon]
     anime (str): styles[anime]
     logo (str): styles[logo]
-'''
+"""
 
 import random
 from .. import abc

@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pollinations.ai"
-version = "0.2.4"
+version = "0.3.0"
 description = "pollinations.ai | Image Generation"
 readme = "README.md"
 authors = [{ name = "pollinations.ai", email = "hello@pollinations.ai" }, { name = "dev.pollinations.ai", email = "git.pollinations.ai@gmail.com" }]
 license = { file = "LICENSE" }
 classifiers = [
     "License :: OSI Approved :: MIT License",
-    'Development Status :: 1 - Planning',
+    'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
     'License :: OSI Approved :: MIT License',
     'Programming Language :: Python',
@@ -22,7 +22,7 @@ classifiers = [
 ]
 keywords = ['pollinations', 'pollinations.ai', 'pollinations-ai', 'pollinations_ai']
 requires-python = ">=3.7.0"
-dependencies = ['google-generativeai']
+dependencies = []
 
 [project.urls]
 Website = 'https://pollinations.ai/'
