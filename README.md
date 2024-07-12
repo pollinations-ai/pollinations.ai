@@ -28,26 +28,33 @@ import pollinations.ai as ai
 model: ai.Image = ai.Image()
 image: ai.ImageObject = model.generate(
       prompt='lion feasting on prey',
-      model='pixart',
-      width=1024,
-      height=1024,
-      seed=711144046
+      # model...width...height...seed...
+      nologo=False,
 ).save()
-print(image.prompt, image.url)
 
-# >>> lion feasting on prey https://image.pollinations.ai/prompt/lion%20feasting%20on%20prey?model=pixart&width=1024&height=1024&seed=711144046
+# >>> lion feasting on prey https://image.pollinations.ai/prompt/lion%20feasting%20on%20prey?model...width...height...seed...&nologo=true
+```
+```python
+@abc.resource(deprecated=False)
+def generate(
+    self,
+    prompt: str,
+    *args,
+    model: str = None, width: int = 1024, height: int = 1024, seed: int = None, nologo: bool = False,
+    **kwargs,
+) -> str:
 ```
 <div id="header">
   <img src="https://i.ibb.co/prLjvMq/download.jpg" width=300/>
 </div>
 
-Chatting with text generative ai model:
+DEPRECATED > Chatting with text generative ai model:
 ```python
-import pollinations.ai as ai
+# import pollinations.ai as ai
 
-model: ai.Text = ai.Text()
+# model: ai.Text = ai.Text()
 
-response: str = model.chat(prompt='What is the meaning of life?')
+# response: str = model.chat(prompt='What is the meaning of life?')
 ```
 
 Setting model filter:
@@ -68,6 +75,19 @@ image_generator: ai.Image = ai.Image()
 image_generator.generate_batch(prompts=batch, save=True) # OPTIONAL: path  # OPTIONAL: naming = 'counter' | naming = 'prompt'
 
 # image_generator.generate_batch(prompts=batch, save=True, path='somefolder', naming='prompt')
+```
+```python
+@abc.resource(deprecated=False)
+def generate_batch(
+    self,
+    prompts: list,
+    save: bool = False,
+    path: str = None,
+    naming: str = "counter",
+    *args,
+    model: str = None, width: int = 1024, height: int = 1024, seed: int = None, nologo: bool = False, 
+    **kwargs,
+) -> list:
 ```
 
 # Links
