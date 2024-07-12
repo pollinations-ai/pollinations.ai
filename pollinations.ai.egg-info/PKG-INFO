@@ -1,0 +1,154 @@
+Metadata-Version: 2.1
+Name: pollinations
+Version: 0.5.2
+Summary: pollinations.ai | Image Generation
+Home-page: https://pollinations.ai/
+Author: git.pollinations.ai
+Author-email: "pollinations.ai" <hello@pollinations.ai>, "dev.pollinations.ai" <git.pollinations.ai@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2024 pollinations
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Website, https://pollinations.ai/
+Project-URL: Discord, https://discord.gg/8HqSRhJVxn
+Project-URL: Github, https://github.com/pollinations
+Project-URL: YouTube, https://www.youtube.com/channel/UCk4yKnLnYfyUmCCbDzOZOug
+Project-URL: Instagram, https://instagram.com/pollinations_ai
+Project-URL: Twitter, https://twitter.com/pollinations_ai
+Keywords: pollinations,pollinations.ai,pollinations-ai,pollinations_ai
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Classifier: Typing :: Typed
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+<div id="header">
+  <img src="https://i.ibb.co/p049Y5S/86964862.png" width="50"/>   <img src="https://i.ibb.co/r6JZ336/sketch1700556567238.png" width="250">
+</div>
+
+# [pollinations.ai - Image Generation](https://pypi.org/project/pollinations.ai)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/toolkitr/tkr/blob/main/LICENSE)
+[![Python Versions](https://img.shields.io/badge/python-3.7%20|%203.8%20|%203.9%20|%203.10%20|%203.11%20|%203.12%20-blue)](https://www.python.org/downloads/)
+
+```
+pollinations.ai: (https://pollinations.ai/)
+
+This is a WRAPPER designed for easy text-image generation.
+```
+
+## Installing
+```shell
+# Linux/macOS
+python3 -m pip install -U pollinations.ai
+
+# Windows
+py -3 -m pip install -U pollinations.ai
+```
+
+## Simple Examples
+```python
+# Version 1
+model: ai.Image = ai.Image()
+image: ai.ImageObject = model.generate(
+      prompt='cat in space',
+).save()
+
+# Version 2
+class Model(ai.Image):
+      params = {
+            "prompt": "cat in space"
+      }
+
+model: ai.Image = Model()
+model.generate().save()
+```
+```python
+@abc.resource(deprecated=False)
+def generate(
+    self,
+    *args,
+    prompt: str = "",
+    model: str = None,
+    width: int = 1024,
+    height: int = 1024,
+    seed: int = None,
+    nologo: bool = False,
+    **kwargs,
+) -> str:
+```
+```python
+# Version 1
+batch: list = ["lion in space", "dog in space"]
+image_generator: ai.Image = ai.Image()
+image_generator.generate_batch(prompts=batch, save=True, path="images")
+
+# Version 2
+class Model(ai.Image):
+      params = {
+            "prompt": ["lion in space", "dog in space"]
+      }
+
+model: ai.Image = Model()
+model.generate_batch(save=True, path="images")
+```
+```python
+@abc.resource(deprecated=False)
+def generate_batch(
+    self,
+    prompts: list = ["..."],
+    save: bool = False,
+    path: str = None,
+    naming: str = "counter",
+    *args,
+    model: str = None,
+    width: int = 1024,
+    height: int = 1024,
+    seed: int = None,
+    nologo: bool = False,
+    **kwargs,
+) -> list:
+```
+
+## Setting model filter:
+```python
+import pollinations.ai as ai
+
+image_generator: ai.Image = ai.Image()
+image_generator.set_filter(ai.BANNED_WORDS)
+
+# If any word from a prompt is in the filter it will return an exception.
+```
+
+
+# Links
+- [Pollinations.ai](https://pollinations.ai/)
+- [Discord](https://discord.gg/8HqSRhJVxn)
+- [Github](https://github.com/pollinations)
+- [Youtube](https://www.youtube.com/channel/UCk4yKnLnYfyUmCCbDzOZOug)
+- [Instagram](https://instagram.com/pollinations_ai)
+- [Twitter (X)](https://twitter.com/pollinations_ai)
