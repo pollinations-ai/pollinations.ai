@@ -21,7 +21,7 @@ with open(f"{path_absolute}/pollinations/__init__.py", "r") as file:
             break
 
 setup(
-    name="pollinations.ai",
+    name="pollinations",
     version=version,
     description="pollinations.ai | Image Generation",
     long_description=Path(f"{path_absolute}/README.md").read_text(encoding="utf-8"),
