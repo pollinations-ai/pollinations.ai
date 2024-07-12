@@ -21,43 +21,71 @@ python3 -m pip install -U pollinations.ai
 py -3 -m pip install -U pollinations.ai
 ```
 
-# Simple Examples
+## Simple Examples
 ```python
-import pollinations.ai as ai
-
+# Version 1
 model: ai.Image = ai.Image()
 image: ai.ImageObject = model.generate(
-      prompt='lion feasting on prey',
-      # model...width...height...seed...
-      nologo=False,
+      prompt='cat in space',
 ).save()
 
-# >>> lion feasting on prey https://image.pollinations.ai/prompt/lion%20feasting%20on%20prey?model...width...height...seed...&nologo=true
+# Version 2
+class Model(ai.Image):
+      params = {
+            "prompt": "cat in space"
+      }
+
+model: ai.Image = Model()
+model.generate().save()
 ```
 ```python
 @abc.resource(deprecated=False)
 def generate(
     self,
-    prompt: str,
     *args,
-    model: str = None, width: int = 1024, height: int = 1024, seed: int = None, nologo: bool = False,
+    prompt: str = "",
+    model: str = None,
+    width: int = 1024,
+    height: int = 1024,
+    seed: int = None,
+    nologo: bool = False,
     **kwargs,
 ) -> str:
 ```
-<div id="header">
-  <img src="https://i.ibb.co/prLjvMq/download.jpg" width=300/>
-</div>
-
-DEPRECATED > Chatting with text generative ai model:
 ```python
-# import pollinations.ai as ai
+# Version 1
+batch: list = ["lion in space", "dog in space"]
+image_generator: ai.Image = ai.Image()
+image_generator.generate_batch(prompts=batch, save=True, path="images")
 
-# model: ai.Text = ai.Text()
+# Version 2
+class Model(ai.Image):
+      params = {
+            "prompt": ["lion in space", "dog in space"]
+      }
 
-# response: str = model.chat(prompt='What is the meaning of life?')
+model: ai.Image = Model()
+model.generate_batch(save=True, path="images")
+```
+```python
+@abc.resource(deprecated=False)
+def generate_batch(
+    self,
+    prompts: list = ["..."],
+    save: bool = False,
+    path: str = None,
+    naming: str = "counter",
+    *args,
+    model: str = None,
+    width: int = 1024,
+    height: int = 1024,
+    seed: int = None,
+    nologo: bool = False,
+    **kwargs,
+) -> list:
 ```
 
-Setting model filter:
+## Setting model filter:
 ```python
 import pollinations.ai as ai
 
@@ -66,29 +94,7 @@ image_generator.set_filter(ai.BANNED_WORDS)
 
 # If any word from a prompt is in the filter it will return an exception.
 ```
-Batch sample and generation:
-```python
-import pollinations.ai as ai
 
-batch: list = ai.sample_batch(size=5)
-image_generator: ai.Image = ai.Image()
-image_generator.generate_batch(prompts=batch, save=True) # OPTIONAL: path  # OPTIONAL: naming = 'counter' | naming = 'prompt'
-
-# image_generator.generate_batch(prompts=batch, save=True, path='somefolder', naming='prompt')
-```
-```python
-@abc.resource(deprecated=False)
-def generate_batch(
-    self,
-    prompts: list,
-    save: bool = False,
-    path: str = None,
-    naming: str = "counter",
-    *args,
-    model: str = None, width: int = 1024, height: int = 1024, seed: int = None, nologo: bool = False, 
-    **kwargs,
-) -> list:
-```
 
 # Links
 - [Pollinations.ai](https://pollinations.ai/)
