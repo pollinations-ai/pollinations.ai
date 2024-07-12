@@ -11,37 +11,64 @@ pollinations.ai: (https://pollinations.ai/)
 
 This is a WRAPPER designed for easy text-image generation.
 ```
-# CHANGELOG V0.5.2
+# CHANGELOG V1.0.0
 ```diff
-+ Added Class generation methods
-+ Improved Image.generate and Image.generate_batch methods
++ Complete rewrite of code
++ Added GitObject (WIP)
++ Full update on ImageModel
++ Added negative prompt support
++ More params for classes
++ Better ImageModel.generate kwargs
++ Better ImageModel.generate method
++ Better ImageModel.genetate_batch kwargs
++ Better ImageModel.generate_batch method
 ```
 ### NEW
 ```python
 import pollinations.ai as ai
 
-# SINGLE GENERATION
 # Version 1
 model: ai.Image = ai.Image()
 image: ai.ImageObject = model.generate(
-      prompt='cat in space',
-).save()
-
+      prompt="A cat playing with a ball",
+      # negative...width...height...height...seed...model...nologo
+)
+image.save("cat_playing_with_ball.png")
+print(image)
+# -------------------------------------------- #
 # Version 2
 class Model(ai.Image):
       params: dict = {
-            "prompt": "cat in space"
+            "prompt": "cat in space",
+            #negative...width...height...height...seed...model...nologo
       }
 
 model: ai.Image = Model()
 model.generate().save()
+```
+```python
+def generate(
+        self,
+        prompt: str = "...",
+        *args,
+        negative: str = "",
+        width: int = 1024,
+        height: int = 1024,
+        seed: int = 0,
+        model: str = None,
+        nologo: bool = None,
+        **kwargs,
+    ) -> types.ImageObject:
+```
+## Batch Generation
+```python
+import pollinations.ai as ai
 
-# BATCH GENERATION
 # Version 1
-batch: list = ["lion in space", "dog in space"]
-image_generator: ai.Image = ai.Image()
-image_generator.generate_batch(prompts=batch, save=True, path="images")
-
+model: ai.Image = ai.Image()
+prompts: list = ["cat in space", "dog in space"]
+images: list[ai.ImageObject] = model.generate_batch(prompts, save=True, path="my/path/here")
+# -------------------------------------------- #
 # Version 2
 class Model(ai.Image):
       params: dict = {
@@ -49,105 +76,35 @@ class Model(ai.Image):
       }
 
 model: ai.Image = Model()
-model.generate_batch(save=True, path="images")
-
+model.generate_batch(save=True, path="my/path/here")
+```
+```python
+def generate_batch(
+        self,
+        prompts: list = ["..."],
+        negative: list = ["..."],
+        save: bool = False,
+        path: str = "pollinations-Image.png",
+        naming: str = "counter",
+        *args,
+        model: str = None,
+        width: int = 1024,
+        height: int = 1024,
+        seed: int = 0,
+        nologo: bool = False,
+        **kwargs,
+    ) -> list[types.ImageObject]:
 ```
 
-# CHANGELOG V0.5.1
-```diff
-+ Updated API endpoint
-+ Update Image generation methods
-+ Removed and/or deprecated text models and text objects
-+ Updated abc.filter
-+ Added ImageModel and ImageObject objects to the ai folder
-
-* prompt
-(Optional):
-  model='turbo'
-  width=1024
-  height=1024
-  seed='random'
-  nologo=True
-```
-### NEW
+## Setting model filter
 ```python
 import pollinations.ai as ai
 
 model: ai.Image = ai.Image()
-image: ai.ImageObject = model.generate(
-      prompt='lion feasting on prey',
-      # model...width...height...seed...
-      nologo=True,
-).save()
+model.set_filter(ai.filtered)
+model.set_filter(["custom", "words", "here"])
 
-```
-
-# CHANGELOG V0.2.4
-```diff
-+ Added the model, width, height, and seed params to ai.Image.generate()
-
-* prompt
-(Optional):
-  model='turbo'
-  width=1024
-  height=1024
-  seed='random'
-```
-### NEW
-```python
-import pollinations.ai as ai
-
-model: ai.Image = ai.Image()
-image: ai.ImageObject = model.generate(
-      prompt='lion feasting on prey',
-      model='pixart',
-      width=1024,
-      height=1024,
-      seed=711144046
-).save()
-print(image.prompt, image.url)
-
-# >>> lion feasting on prey https://image.pollinations.ai/prompt/lion%20feasting%20on%20prey?model=pixart&width=1024&height=1024&seed=711144046
-
-```
-
-# CHANGELOG V0.2.3
-
-## Installing
-```shell
-# Linux/macOS
-python3 -m pip install -U pollinations.ai
-
-# Windows
-py -3 -m pip install -U pollinations.ai
-```
-
-V0.2.1 UPDATES:
-```diff
-+ Complete code refactor for pollinations.__init__, 
-+      pollinations.abc, 
-+      pollinations.ai, 
-+      pollinations.ext, 
-+      and added pollinations.types
-```
-
-```python
-import pollinations.ai as ai
-
-model: ai.Text = ai.Text()
-
-response: str = model.chat('What is the meaning of life?')
-```
-
-## Added
-```python
-pollinations.types
-
-pollinations.types.ImageModel
-pollinations.types.ImageObject
-
-pollinations.types.TextModel
-pollinations.types.TextObject
+# If any word from a prompt is in the filter it will return an exception.
 ```
 
 # Links
