@@ -11,6 +11,47 @@ pollinations.ai: (https://pollinations.ai/)
 
 This is a WRAPPER designed for easy text-image generation.
 ```
+# CHANGELOG V0.5.2
+```diff
++ Added Class generation methods
++ Improved Image.generate and Image.generate_batch methods
+```
+### NEW
+```python
+import pollinations.ai as ai
+
+# SINGLE GENERATION
+# Version 1
+model: ai.Image = ai.Image()
+image: ai.ImageObject = model.generate(
+      prompt='cat in space',
+).save()
+
+# Version 2
+class Model(ai.Image):
+      params: dict = {
+            "prompt": "cat in space"
+      }
+
+model: ai.Image = Model()
+model.generate().save()
+
+# BATCH GENERATION
+# Version 1
+batch: list = ["lion in space", "dog in space"]
+image_generator: ai.Image = ai.Image()
+image_generator.generate_batch(prompts=batch, save=True, path="images")
+
+# Version 2
+class Model(ai.Image):
+      params: dict = {
+            "prompt": ["lion in space", "dog in space"]
+      }
+
+model: ai.Image = Model()
+model.generate_batch(save=True, path="images")
+
+```
 
 # CHANGELOG V0.5.1
 ```diff
