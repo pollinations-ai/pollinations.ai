@@ -19,6 +19,7 @@ class ImageModel:
 
     Paremeters:
         save_file (str): File to save the image to.
+        params (dict): Parameters for the image(s).
 
     Variables:
         save_file (str): File to save the image to.
@@ -37,16 +38,32 @@ class ImageModel:
         image(ImageObject): Returns self.data
     """
 
+    params = {
+        "prompt": None,
+        "width": 1024,
+        "height": 1024,
+        "seed": 0,
+        "model": "turbo",
+        "file": "pollinations-Image.png",
+    }
+
     def __init__(
-        self, save_file: str = "pollinations-Image.jpg", *args, **kwargs
+        self, save_file: str = "pollinations-Image.png", *args, **kwargs
     ) -> None:
-        self.__base: str = "pollinations"
+        self.base: str = "image.pollinations"
         self.save_file: str = save_file
         self.prompt: str = None
         self.default_filter: list = abc.BANNED_WORDS
         self.filter: list = self.default_filter
         self.data: object = object
         self.is_filtered: bool = False
+
+        self.prompt = self.params.get("prompt", "...")
+        self.width = self.params.get("width", 1024)
+        self.height = self.params.get("height", 1024)
+        self.seed = self.params.get("seed", random.randint(0, 2**32 - 1))
+        self.model = self.params.get("model", "turbo")
+        self.file = self.params.get("file", "pollinations-Image.png")
 
     def __repr__(self, *args, **kwargs) -> str:
         return f"ImageModel(save_file={self.save_file})"
@@ -68,8 +85,8 @@ class ImageModel:
     @abc.resource(deprecated=False)
     def generate(
         self,
-        prompt: str,
         *args,
+        prompt: str = "",
         model: str = None,
         width: int = 1024,
         height: int = 1024,
@@ -94,6 +111,17 @@ class ImageModel:
         if seed is None:
             seed: int = random.randint(0, 2**32 - 1)
 
+        if prompt != "":
+            self.prompt: str = prompt
+        else:
+            if self.prompt == "":
+                self.prompt: str = "..."
+        self.width: int = width
+        self.height: int = height
+        self.seed: int = seed
+        self.model: str = model
+        self.nologo: bool = nologo
+
         model_list: list = ["turbo", "pixart", "deliberate"]
         if model:
             if model not in model_list:
@@ -101,17 +129,26 @@ class ImageModel:
         else:
             model: str = "turbo"
 
-        words: list = prompt.split(" ")
+        words: list = self.prompt.split(" ")
 
         for word in words:
             if word in self.filter:
                 self.is_filtered: bool = True
                 return Exception(f"types.ImageModel >>> InvalidPrompt (filtered)")
 
-        self.prompt: str = prompt
-        request = requests.get(
-            f"{abc.proto}{self.__base}{abc.ai}{prompt}?model={model}&width={width}&height={height}&seed={seed}&nologo={nologo}"
-        )
+        request_string: str = f"{abc.proto}{self.base}{abc.ai}{self.prompt}?"
+        if self.model:
+            request_string += f"model={self.model}&"
+        if self.width:
+            request_string += f"width={self.width}&"
+        if self.height:
+            request_string += f"height={self.height}&"
+        if self.seed:
+            request_string += f"seed={self.seed}&"
+        if self.nologo:
+            request_string += f"nologo=true&"
+        request_string: str = request_string[:-1]
+        request = requests.get(request_string)
         self.data: ImageObject = ImageObject(
             prompt,
             request.url,
@@ -130,7 +167,7 @@ class ImageModel:
     @abc.resource(deprecated=False)
     def generate_batch(
         self,
-        prompts: list,
+        prompts: list = ["..."],
         save: bool = False,
         path: str = None,
         naming: str = "counter",
@@ -159,19 +196,38 @@ class ImageModel:
         Return:
             ImageObject (list): Returns a list of ImageObjects for the generated images.
         """
-        self.prompts: list = prompts
+        if isinstance(self.prompt, list):
+            self.prompts: list = self.prompt
+        else:
+            self.prompts: list = prompts
         self.data: list = []
         counter: int = 1
+        self.width: int = width
+        self.height: int = height
+        self.seed: int = seed
+        self.model: str = model
+        self.nologo: bool = nologo
 
-        for prompt in prompts:
+        for prompt in self.prompts:
             words: list = prompt.split(" ")
             for word in words:
                 if word in self.filter:
                     self.is_filtered: bool = True
                     return Exception(f"types.ImageModel >>> InvalidPrompt (filtered)")
-            request = requests.get(
-                f"{abc.proto}{self.__base}{abc.ai}{prompt}?model={model}&width={width}&height={height}&seed={seed}&nologo={nologo}"
-            )
+
+            request_string: str = f"{abc.proto}{self.base}{abc.ai}{prompt}?"
+            if self.model:
+                request_string += f"model={self.model}&"
+            if self.width:
+                request_string += f"width={self.width}&"
+            if self.height:
+                request_string += f"height={self.height}&"
+            if self.seed:
+                request_string += f"seed={self.seed}&"
+            if self.nologo:
+                request_string += f"nologo=true&"
+            request_string: str = request_string[:-1]
+            request = requests.get(request_string)
             image: ImageObject = ImageObject(
                 prompt,
                 request.url,
@@ -192,7 +248,7 @@ class ImageModel:
                 else:
                     file_name: str = prompt
                 with open(
-                    f'{path if path else ""}/batch{file_name}-pollinations.jpg', "wb"
+                    f'{path if path else ""}/batch{file_name}-pollinations.png', "wb"
                 ) as handler:
                     handler.write(image.content)
 
