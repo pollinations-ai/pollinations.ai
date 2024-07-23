@@ -45,6 +45,9 @@ setup(
     include_package_data=True,
     python_requires=">=3.7",
     keywords=["pollinations", "pollinations.ai", "pollinations-ai", "pollinations_ai"],
+    install_requires=[
+        "piexif",
+    ],
     project_urls={
         "Website": "https://pollinations.ai/",
         "Discord": "https://discord.gg/8HqSRhJVxn",
