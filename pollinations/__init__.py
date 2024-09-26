@@ -39,7 +39,7 @@ Functions:
 
 from . import ai as _ai
 
-__version__: str = "1.0.0"
+__version__: str = "1.0.2"
 
 
 ai: object = _ai
