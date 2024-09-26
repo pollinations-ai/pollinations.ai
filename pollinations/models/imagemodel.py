@@ -9,20 +9,19 @@ Classes:
 import random, time
 from .. import abc
 from .. import types
-from ..requests.src import requests
+try: from ..requests.src import requests
+except: import requests
 
 
 @abc.resource(deprecated=False)
 class ImageModel:
     models: list = [
-        "turbo",
-        "dreamshaper",
-        "deliberate",
-        "pixart",
-        "playground",
-        "dpo",
-        "dalle3xl",
-        "formulaxl",
+        "turbo", 
+        "flux", 
+        "flux-realism", 
+        "flux-anime", 
+        "flux-3d", 
+        "any-dark"
     ]
     params: dict = {
         "prompt": None,
