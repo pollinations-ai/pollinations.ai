@@ -11,6 +11,21 @@ pollinations.ai: (https://pollinations.ai/)
 
 This is a WRAPPER designed for easy text-image generation.
 ```
+# CHANGELOG V1.0.2
+```diff
++ Updated Models list
+```
+### NEW
+```python
+models: list = [
+        "turbo", 
+        "flux", 
+        "flux-realism", 
+        "flux-anime", 
+        "flux-3d", 
+        "any-dark"
+    ]
+```
 # CHANGELOG V1.0.0
 ```diff
 + Complete rewrite of code
