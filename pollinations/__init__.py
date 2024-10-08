@@ -13,7 +13,7 @@ import io
 from PIL import Image
 from serpapi import GoogleSearch
 
-keystore: dict = {"serpapi": False}
+__keystore: dict = {"serpapi": False}
 
 TEXT_API: str = "text.pollinations.ai"
 IMAGE_API: str = "image.pollinations.ai"
@@ -59,7 +59,7 @@ def image_models(*args, **kwargs) -> list:
 
 
 def keys(serpapi: str = False, *args, **kwargs) -> None:
-    keystore["serpapi"] = serpapi
+    __keystore["serpapi"] = serpapi
 
 
 class TextObject(object):
@@ -499,14 +499,14 @@ class SmartModel(object):
             return f"Could not fetch weather for {location}"
 
     def get_search(self, query: str) -> str:
-        if keystore["serpapi"] == False:
+        if __keystore["serpapi"] == False:
             text: str = "To make searches, please provide a search api key using:\n>>> pollinations.keys(serpapi='key')\n>>> To get a key go to https://serpapi.com/"
             return f"No search results found. Tell the user that you cannot perform searches since the devloper didn't provide an API key. How developer can add one: {text}"
 
         search = GoogleSearch(
             {
                 "q": query,
-                "api_key": keystore["serpapi"],
+                "api_key": __keystore["serpapi"],
                 "num": 2,
             }
         )
