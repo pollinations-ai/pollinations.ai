@@ -9,7 +9,7 @@
 ```
 pollinations.ai: (https://pollinations.ai/)
 
-This is a WRAPPER designed for easy text-image generation.
+Work with the best generative models from Pollinations using this python wrapper.
 ```
 # REWRITE 2.0.0
 ```diff
