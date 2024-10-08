@@ -1,8 +1,9 @@
-__version__: str = "2.0.4"
+__version__: str = "2.0.6"
 
 import requests
 import datetime
 import difflib
+import chardet
 import random
 import string
 import pytz
@@ -12,7 +13,6 @@ import io
 
 from PIL import Image
 from serpapi import GoogleSearch
-from charset_normalizer import from_bytes
 
 __keystore: dict = {"serpapi": False}
 
@@ -184,8 +184,9 @@ class TextModel(object):
             )
 
         if request.status_code == 200:
-            result = from_bytes(request.content)
-            content = str(result.best())    
+            result = chardet.detect(request.content)
+            encoding = result['encoding']
+            content = request.content.decode(encoding)
         else:
             content: str = "An error occurred during generation, try a new prompt."
 

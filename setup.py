@@ -48,7 +48,8 @@ setup(
     install_requires=[
         "pytz",
         "pillow", 
-        "google-search-results"
+        "google-search-results",
+        "chardet"
     ],
     project_urls={
         "Website": "https://pollinations.ai/",
