@@ -1,4 +1,4 @@
-__version__: str = "2.0.3"
+__version__: str = "2.0.4"
 
 import requests
 import datetime
@@ -12,6 +12,7 @@ import io
 
 from PIL import Image
 from serpapi import GoogleSearch
+from charset_normalizer import from_bytes
 
 __keystore: dict = {"serpapi": False}
 
@@ -183,7 +184,8 @@ class TextModel(object):
             )
 
         if request.status_code == 200:
-            content: str = request.content.decode("utf-8")
+            result = from_bytes(request.content)
+            content = str(result.best())    
         else:
             content: str = "An error occurred during generation, try a new prompt."
 
