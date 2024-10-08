@@ -1,4 +1,4 @@
-__version__: str = "2.0.1"
+__version__: str = "2.0.3"
 
 import requests
 import datetime
@@ -433,8 +433,9 @@ class MultiModel(object):
 
 
 class SmartModel(object):
-    def __init__(self, system: str = "", *args, **kwargs) -> None:
+    def __init__(self, system: str = "", text_model: str="openai", image_model: str=None, *args, **kwargs) -> None:
         self.distinguish_model: TextModel = TextModel(
+            model=mistral_large,
             contextual=True,
             system="""Your task is to determine what the user is asking for: 
                     1. **Time**: Look for clues that suggest the user wants to know the current time or date, such as 'what's the time', 'what time is it', 'current time', or related phrases. If the user asks for the time, respond with ```get_time(<timezone>)``` where `<timezone>` is a valid timezone (e.g., 'America/New_York').
@@ -455,6 +456,9 @@ class SmartModel(object):
         )
         self.main_model: MultiModel = MultiModel(
             system=system,
+            default=image_model,
+            text_model=text_model,
+            image_model=image_model
         )
 
         self.methods: dict = {
@@ -651,5 +655,14 @@ def multi(
     )
 
 
-def smart(system: str = "", *args, **kwargs) -> SmartModel:
-    return SmartModel(system=system)
+def smart(
+        system: str = "", 
+        text_model: str=text_default,
+        image_model: str=None,
+        *args, **kwargs) -> SmartModel:
+    return SmartModel(
+        system=system,
+        text_model=text_model,
+        image_model=image_model,
+        *args, **kwargs
+    )
