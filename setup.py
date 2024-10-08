@@ -45,6 +45,11 @@ setup(
     include_package_data=True,
     python_requires=">=3.7",
     keywords=["pollinations", "pollinations.ai", "pollinations-ai", "pollinations_ai"],
+    install_requires=[
+        "pytz",
+        "pillow", 
+        "google-search-results"
+    ],
     project_urls={
         "Website": "https://pollinations.ai/",
         "Discord": "https://discord.gg/8HqSRhJVxn",
@@ -52,5 +57,5 @@ setup(
         "YouTube": "https://www.youtube.com/channel/UCk4yKnLnYfyUmCCbDzOZOug",
         "Instagram": "https://instagram.com/pollinations_ai",
         "Twitter": "https://twitter.com/pollinations_ai",
-    },
+    }
 )
