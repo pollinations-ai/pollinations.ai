@@ -9,7 +9,7 @@
 ```
 pollinations.ai: (https://pollinations.ai/)
 
-Work with the best generative models from Pollinations using this python wrapper!
+Work with the best generative models from Pollinations using this python wrapper.
 ```
 
 ## Installing
@@ -106,13 +106,15 @@ import pollinations
 pollinations.keys(serpapi="your-key")
 
 smart_model: pollinations.SmartModel = pollinations.smart(
-    system="You are a polite AI Assistant named Pollinations! Use emojis and markdown as you wish."
+    system="You are a helpful and friendly AI assistant. Use emojis and markdown as you like.",
+    text_model=pollinations.mistral_large,      # Optional
+    # image_model=pollinations.flux_anime       # Optional : If not directly chosen, the best fit model according to prompt will be chosen.
 )
 
 smart_model.generate(
     prompt="Hi.",
     display=True,
-    provide_details=False
+    provide_details=False    # Provide extra details of each generation.
 )
 smart_model.generate(
     prompt="What is the weather in london like?",
