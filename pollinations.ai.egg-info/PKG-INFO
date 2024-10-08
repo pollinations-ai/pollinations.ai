@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pollinations
-Version: 2.0.1
+Version: 2.0.2
 Summary: pollinations.ai | Image Generation
 Home-page: https://pollinations.ai/
 Author: git.pollinations.ai
@@ -36,7 +36,7 @@ License-File: LICENSE.md
 ```
 pollinations.ai: (https://pollinations.ai/)
 
-This is a WRAPPER designed for easy text-image generation.
+Work with the best generative models from Pollinations using this python wrapper.
 ```
 
 ## Installing
