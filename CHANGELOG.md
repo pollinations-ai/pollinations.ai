@@ -11,16 +11,16 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this python wrapper.
 ```
-# UPDATE 2.0.4
+# UPDATE 2.0.5
 ```diff
 + Bug fixes
-+ Small tweaks
-+ Charset Normalizer
++ Small Tweaks
++ Better charset
 ```
 ```python
-from charset_normalizer import from_bytes
-result = from_bytes(request.content)
-content = str(result.best()) 
+result = chardet.detect(request.content)
+encoding = result['encoding']
+content = request.content.decode(encoding)
 ```
 
 # REWRITE 2.0.0
