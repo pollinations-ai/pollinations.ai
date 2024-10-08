@@ -11,11 +11,11 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this python wrapper.
 ```
-# UPDATE 2.0.5
+# UPDATE 2.0.6
 ```diff
-+ Bug fixes
++ Bug Fixes
 + Small Tweaks
-+ Better charset
++ Better Charset
 ```
 ```python
 result = chardet.detect(request.content)
