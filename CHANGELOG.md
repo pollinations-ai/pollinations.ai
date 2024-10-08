@@ -11,115 +11,130 @@ pollinations.ai: (https://pollinations.ai/)
 
 This is a WRAPPER designed for easy text-image generation.
 ```
-# CHANGELOG V1.0.2
+# REWRITE 2.0.0
 ```diff
-+ Updated Models list
-```
-### NEW
-```python
-models: list = [
-        "turbo", 
-        "flux", 
-        "flux-realism", 
-        "flux-anime", 
-        "flux-3d", 
-        "any-dark"
-    ]
-```
-# CHANGELOG V1.0.0
-```diff
-+ Complete rewrite of code
-+ Added GitObject (WIP)
-+ Full update on ImageModel
-+ Added negative prompt support
-+ More params for classes
-+ Better ImageModel.generate kwargs
-+ Better ImageModel.generate method
-+ Better ImageModel.genetate_batch kwargs
-+ Better ImageModel.generate_batch method
-```
-### NEW
-```python
-import pollinations.ai as ai
+- All previous code
++ All new code
 
-# Version 1
-model: ai.Image = ai.Image()
-image: ai.ImageObject = model.generate(
-      prompt="A cat playing with a ball",
-      # negative...width...height...height...seed...model...nologo
++ ImageModel
++ TextModel
++ MultiModel
++ SmartModel
+```
+### Examples
+## Image Model
+```python
+import pollinations
+
+image_model: pollinations.ImageModel = pollinations.image(
+    model = pollinations.image_default,
+    seed = 0,
+    width = 1024,
+    height = 1024,
+    enhance = False,
+    nologo = False,
+    private = False,
 )
-image.save("cat_playing_with_ball.png")
-print(image)
-# -------------------------------------------- #
-# Version 2
-class Model(ai.Image):
-      params: dict = {
-            "prompt": "cat in space",
-            #negative...width...height...height...seed...model...nologo
-      }
 
-model: ai.Image = Model()
-model.generate().save()
+image_model.generate(
+    prompt = "A black cat in a cyberpunk city.",
+    negative = "Anime, cartoony, childish.",
+    save = True,
+    file = "image-output.png",
+)
 ```
+## Text Model
 ```python
-def generate(
-        self,
-        prompt: str = "...",
-        *args,
-        negative: str = "",
-        width: int = 1024,
-        height: int = 1024,
-        seed: int = 0,
-        model: str = None,
-        nologo: bool = None,
-        **kwargs,
-    ) -> types.ImageObject:
+import pollinations
+
+text_model: pollinations.TextModel = pollinations.text(
+    frequency_penalty = 0,
+    presence_penalty = 0,
+    temperature = 0.5,
+    top_p = 1,
+    model = pollinations.text_default,
+    stream = True,
+    contextual = True, # True: Holds conversation context up to 10. False: Has no conversation context
+    system = "You are a polite AI Assistant named Pollinations! Use emojis and markdown as you wish."
+)
+
+text_model.generate(
+    prompt="What is 1+1?",
+    display=True
+)
+text_model.generate(
+    prompt="Now add 10 to that.",
+    display=True
+)
 ```
-## Batch Generation
+## Multi Model (Image & Text)
 ```python
-import pollinations.ai as ai
+import pollinations
 
-# Version 1
-model: ai.Image = ai.Image()
-prompts: list = ["cat in space", "dog in space"]
-images: list[ai.ImageObject] = model.generate_batch(prompts, save=True, path="my/path/here")
-# -------------------------------------------- #
-# Version 2
-class Model(ai.Image):
-      params: dict = {
-            "prompt": ["lion in space", "dog in space"]
-      }
+multi_model: pollinations.MultiModel = pollinations.multi(
+    system = "You are a polite AI Assistant named Pollinations! Use emojis and markdown as you wish.",
+    default = None, # None: AI will infer what model to use. Example: pollinations.turbo: Will default image model to turbo
+    text_model = pollinations.text_default, # Safety fail measure incase of model errors in pollinations api.
+    image_model = pollinations.image_default, # Safety fail measure incase of model errors in pollinations api.
+)
 
-model: ai.Image = Model()
-model.generate_batch(save=True, path="my/path/here")
+multi_model.generate(
+    "Hi",
+    display=True,
+    provide_details=False # Provides the details and objects of each generation
+)
+multi_model.generate(
+    "Make an image of a black dog in a cyberpunk city.",
+    display=True,
+    provide_details=False
+)
+multi_model.generate(
+    "Thanks.",
+    display=True,
+    provide_details=False
+)
 ```
+## Smart Model (MultiModel up-to-date with time, dates, weather, and search) (Primitive Testing)
 ```python
-def generate_batch(
-        self,
-        prompts: list = ["..."],
-        negative: list = ["..."],
-        save: bool = False,
-        path: str = "pollinations-Image.png",
-        naming: str = "counter",
-        *args,
-        model: str = None,
-        width: int = 1024,
-        height: int = 1024,
-        seed: int = 0,
-        nologo: bool = False,
-        **kwargs,
-    ) -> list[types.ImageObject]:
-```
+import pollinations
 
-## Setting model filter
-```python
-import pollinations.ai as ai
+# Searching will not work unless you provide a serpapi api-key like this:
+pollinations.keys(serpapi="your-key")
 
-model: ai.Image = ai.Image()
-model.set_filter(ai.filtered)
-model.set_filter(["custom", "words", "here"])
+smart_model: pollinations.SmartModel = pollinations.smart(
+    system="You are a polite AI Assistant named Pollinations! Use emojis and markdown as you wish."
+)
 
-# If any word from a prompt is in the filter it will return an exception.
+smart_model.generate(
+    prompt="Hi.",
+    display=True,
+    provide_details=False
+)
+smart_model.generate(
+    prompt="What is the weather in london like?",
+    display=True,
+    provide_details=False
+)
+smart_model.generate(
+    prompt="What's the latest news there as well?",
+    display=True,
+    provide_details=False
+)
+smart_model.generate(
+    prompt="What time is it in New York City?",
+    display=True,
+    provide_details=False
+)
+smart_model.generate(
+    prompt="Make an image of that at night, include city lights.",
+    display=True,
+    provide_details=False
+)
+smart_model.generate(
+    prompt="Thanks.",
+    display=True,
+    provide_details=False
+)
 ```
 
 # Links
