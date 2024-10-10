@@ -7,3 +7,7 @@ image_model.generate(
     save=True
 )
 ```
+
+<div id="header">
+  <img src="https://image.pollinations.ai/prompt/A cat with flowers around it.?negative=&seed=7952755689&width=1024&height=1024&nologo=False&private=False&model=flux&enhance=False" width=500/>
+</div>
