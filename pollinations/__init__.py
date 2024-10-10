@@ -1,4 +1,4 @@
-__version__: str = "2.0.6"
+__version__: str = "2.0.7"
 
 import requests
 import datetime
@@ -14,7 +14,7 @@ import io
 from PIL import Image
 from serpapi import GoogleSearch
 
-__keystore: dict = {"serpapi": False}
+_keystore: dict = {"serpapi": False}
 
 TEXT_API: str = "text.pollinations.ai"
 IMAGE_API: str = "image.pollinations.ai"
@@ -39,6 +39,7 @@ flux_realism: str = "flux-realism"
 flux_pro: str = "flux-pro"
 flux_anime: str = "flux-anime"
 flux_3D: str = "flux-3d"
+flux_cablyai: str = "flux-cablyai"
 any_dark: str = "any-dark"
 
 
@@ -60,7 +61,7 @@ def image_models(*args, **kwargs) -> list:
 
 
 def keys(serpapi: str = False, *args, **kwargs) -> None:
-    __keystore["serpapi"] = serpapi
+    _keystore["serpapi"] = serpapi
 
 
 class TextObject(object):
@@ -341,6 +342,7 @@ class MultiModel(object):
                 - Flux-Anime: For anime-style images.
                 - Flux-3D: For 3D-rendered images.
                 - Flux-Pro: Pro version of Realism & 3D.
+                - Flux-CablyAi: 3D-cartoonish images.
                 - Any-Dark: Realistic images with vibrant colors. Less trained.
 
                 Read the prompt carefully and analyze for clues on the desired style. If the user mentions 'realistic', 'real-life', or 'natural', choose Flux-Realism. If they mention 'anime', 'cartoon', or '2D-style', choose Flux-Anime. For '3D', 'render', or '3D model', choose Flux-3D. Otherwise, use Turbo. Or if they hint for you to mutate the image description, etc.
@@ -506,14 +508,14 @@ class SmartModel(object):
             return f"Could not fetch weather for {location}"
 
     def get_search(self, query: str) -> str:
-        if __keystore["serpapi"] == False:
+        if _keystore["serpapi"] == False:
             text: str = "To make searches, please provide a search api key using:\n>>> pollinations.keys(serpapi='key')\n>>> To get a key go to https://serpapi.com/"
             return f"No search results found. Tell the user that you cannot perform searches since the devloper didn't provide an API key. How developer can add one: {text}"
 
         search = GoogleSearch(
             {
                 "q": query,
-                "api_key": __keystore["serpapi"],
+                "api_key": _keystore["serpapi"],
                 "num": 2,
             }
         )
