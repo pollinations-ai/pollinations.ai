@@ -1,4 +1,4 @@
-__version__: str = "2.0.9"
+__version__: str = "2.0.10"
 
 import requests
 import datetime
@@ -374,7 +374,7 @@ class MultiModel(object):
         )
 
         self.image_model: ImageModel = ImageModel(
-            enhance=True, model=image_model, private=True, nologo=True
+            enhance=True, model=image_model, private=True, nologo=True, seed="random"
         )
 
     def __closest(self, name: str, *args, **kwargs) -> str:
@@ -433,6 +433,7 @@ class MultiModel(object):
             self.image_model.model = closest
             try:
                 content_2: str = self.image_model.generate(enhanced.text, "", True)
+                print(content_2.params)
             except:
                 content_2: str = self.main_model.generate(
                     "Make an apology that the image generator didn't work.", display
@@ -457,7 +458,7 @@ class MultiModel(object):
 class SmartModel(object):
     def __init__(self, system: str = "", text_model: str="openai", image_model: str=None, *args, **kwargs) -> None:
         self.distinguish_model: TextModel = TextModel(
-            model=mistral_large,
+            model=text_default,
             contextual=True,
             system="""Your task is to determine what the user is asking for: 
                     1. **Time**: Look for clues that suggest the user wants to know the current time or date, such as 'what's the time', 'what time is it', 'current time', or related phrases. If the user asks for the time, respond with ```get_time(<timezone>)``` where `<timezone>` is a valid timezone (e.g., 'America/New_York').
@@ -603,7 +604,6 @@ class SmartModel(object):
                 self.main_model.main_model.messages.append(message)
                 self.main_model.guesser_model.messages.append(message)
                 self.main_model.distinguish_model.messages.append(message)
-                prompt = f"{prompt}"
 
         content: str = self.main_model.generate(prompt, display, provide_details)
         return content
