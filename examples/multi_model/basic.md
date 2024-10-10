@@ -8,12 +8,12 @@ multi_model.generate(
     display=True
 )
 multi_model.generate(
-    prompt="Can you make me an image of mario as an astronaut on the moon.",
+    prompt="Can you make me an image of mario as an astronaut on the moon. Cartoony",
     display=True,
 )
 ```
 
 ```
 Hello! How's it going?
-Sure! Generating your image of Mario as an astronaut on the moon!
+Sure! Generating your image of Mario as an astronaut on the moon in a cartoony style!
 ```
