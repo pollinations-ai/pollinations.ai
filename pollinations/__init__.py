@@ -1,4 +1,4 @@
-__version__: str = "2.0.7"
+__version__: str = "2.0.8"
 
 import requests
 import datetime
@@ -105,8 +105,16 @@ class ImageObject(object):
         self.prompt: str = str(prompt)
         self.negative: str = str(negative)
         self.model: str = str(model)
-        self.params: str = str(params)
+        self.params: dict = dict(params)
         self.time: str = f"[{datetime.date.today().strftime('%Y-%m-%d')}] {time.strftime('%H:%M:%S')}"
+
+    def save(self, file: str="image-output.png", *args, **kwargs) -> object:
+        request: requests.Request = requests.get(
+            url=self.params["url"],
+            headers=HEADER,
+            timeout=30,
+        )
+        Image.open(io.BytesIO(request.content)).save(file)
 
     def __str__(self) -> str:
         return f"ImageObject({self.prompt=}, {self.negative=}, {self.model=}, {self.params=}, {self.time=})"
@@ -163,6 +171,7 @@ class TextModel(object):
             "stream": self.stream,
             "system": self.system,
             "model": self.model,
+            "url": f"https://{TEXT_API}/"
         }
 
         if self.limit[0] >= self.limit[1]:
@@ -173,12 +182,14 @@ class TextModel(object):
 
         if self.contextual:
             params["messages"] = self.messages
+            url: str = params["url"]
             request: requests.Request = requests.post(
-                f"https://{TEXT_API}/", json=params, headers=HEADER, timeout=30
+                url, json=params, headers=HEADER, timeout=30
             )
         else:
+            url: str = f"https://{TEXT_API}/{prompt}"
             request: requests.Request = requests.get(
-                f"https://{TEXT_API}/{prompt}",
+                url,
                 params=params,
                 headers=HEADER,
                 timeout=30,
@@ -208,6 +219,7 @@ class TextModel(object):
 
             print()
 
+        params["url"] = url
         text_object: TextObject = TextObject(
             text=content,
             prompt=prompt,
@@ -278,8 +290,9 @@ class ImageModel(object):
         file: str = str(file)
 
         params: str = f"negative={negative}&seed={self.seed}&width={self.width}&height={self.height}&nologo={self.nologo}&private={self.private}&model={self.model}&enhance={self.enhance}"
+        url: str = f"https://{IMAGE_API}/prompt/{prompt}?{params}"
         request: requests.Request = requests.get(
-            url=f"https://{IMAGE_API}/prompt/{prompt}?{params}",
+            url=url,
             headers=HEADER,
             timeout=30,
         )
@@ -304,6 +317,7 @@ class ImageModel(object):
                 "nologo": self.nologo,
                 "private": self.private,
                 "enhance": self.enhance,
+                "url": url
             }
             image_object: ImageObject = ImageObject(
                 prompt=prompt, negative=negative, model=self.model, params=params
