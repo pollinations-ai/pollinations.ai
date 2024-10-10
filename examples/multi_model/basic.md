@@ -9,7 +9,7 @@ multi_model.generate(
 )
 multi_model.generate(
     prompt="Can you make me an image of mario as an astronaut on the moon. Cartoony",
-    display=True,
+    display=True
 )
 ```
 
