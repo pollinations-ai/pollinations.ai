@@ -1,14 +1,19 @@
 ```python
-import _pollinations.pollinations as pollinations
+import pollinations
 
-text_model: pollinations.TextModel = pollinations.text()
-text_model.generate(
-    prompt="Hello", 
-    display=True # Simulates typing text.
+multi_model: pollinations.MultiModel = pollinations.multi()
+
+multi_model.generate(
+    prompt="Hi",
+    display=True
 )
-# TextObject(...)
+multi_model.generate(
+    prompt="Can you make me an image of mario as an astronaut on the moon.",
+    display=True,
+)
 ```
 
 ```
-Hello! How can I assist you today?
+Hello! How's it going?
+Sure! Generating your image of Mario as an astronaut on the moon!
 ```
