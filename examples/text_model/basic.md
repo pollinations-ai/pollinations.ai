@@ -1,5 +1,5 @@
 ```python
-import _pollinations.pollinations as pollinations
+import pollinations
 
 text_model: pollinations.TextModel = pollinations.text()
 text_model.generate(
