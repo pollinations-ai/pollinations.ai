@@ -17,9 +17,12 @@ image_model.generate(
     save=True,
     file="my_file.png"
 )
+# ImageObject(...)
 ```
 
-
+<div id="header">
+  <img src="https://image.pollinations.ai/prompt/A%20magical%20voodoo%20wizard%20in%20space,%20surounded%20by%20flowers.?negative=Realistic,%20depth%20of%20field,%20blurry&seed=5012083131&width=1024&height=1024&nologo=False&private=True&model=flux-anime&enhance=True" width=500/>
+</div>
 
 ```
 Pollinations will figure out the closest aspect ratio to whatever you put in, limiting it to one of these options.
