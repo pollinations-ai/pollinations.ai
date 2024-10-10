@@ -1,4 +1,4 @@
-__version__: str = "2.0.8"
+__version__: str = "2.0.9"
 
 import requests
 import datetime
@@ -196,9 +196,12 @@ class TextModel(object):
             )
 
         if request.status_code == 200:
-            result = chardet.detect(request.content)
-            encoding = result['encoding']
-            content = request.content.decode(encoding)
+            try:
+                content: str = request.content.decode("utf-8")
+            except:
+                result: dict = chardet.detect(request.content)
+                encoding: str = result['encoding']
+                content: str = request.content.decode(encoding)
         else:
             content: str = "An error occurred during generation, try a new prompt."
 
