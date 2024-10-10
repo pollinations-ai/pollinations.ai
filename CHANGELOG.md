@@ -11,8 +11,9 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this python wrapper.
 ```
-# UPDATE 2.0.7
+# UPDATE 2.0.8
 ```diff
++ Added .save() to ImageObject + updated params
 + Updated model list + key fix
 + Better charset
 ```
