@@ -1,5 +1,5 @@
 ```python
-import _pollinations.pollinations as pollinations
+import pollinations
 
 
 image_model: pollinations.ImageModel = pollinations.image(
