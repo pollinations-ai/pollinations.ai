@@ -1,4 +1,4 @@
-__version__: str = "2.0.6"
+__version__: str = "2.0.10"
 
 import requests
 import datetime
@@ -14,7 +14,7 @@ import io
 from PIL import Image
 from serpapi import GoogleSearch
 
-__keystore: dict = {"serpapi": False}
+_keystore: dict = {"serpapi": False}
 
 TEXT_API: str = "text.pollinations.ai"
 IMAGE_API: str = "image.pollinations.ai"
@@ -39,6 +39,7 @@ flux_realism: str = "flux-realism"
 flux_pro: str = "flux-pro"
 flux_anime: str = "flux-anime"
 flux_3D: str = "flux-3d"
+flux_cablyai: str = "flux-cablyai"
 any_dark: str = "any-dark"
 
 
@@ -60,7 +61,7 @@ def image_models(*args, **kwargs) -> list:
 
 
 def keys(serpapi: str = False, *args, **kwargs) -> None:
-    __keystore["serpapi"] = serpapi
+    _keystore["serpapi"] = serpapi
 
 
 class TextObject(object):
@@ -104,8 +105,16 @@ class ImageObject(object):
         self.prompt: str = str(prompt)
         self.negative: str = str(negative)
         self.model: str = str(model)
-        self.params: str = str(params)
+        self.params: dict = dict(params)
         self.time: str = f"[{datetime.date.today().strftime('%Y-%m-%d')}] {time.strftime('%H:%M:%S')}"
+
+    def save(self, file: str="image-output.png", *args, **kwargs) -> object:
+        request: requests.Request = requests.get(
+            url=self.params["url"],
+            headers=HEADER,
+            timeout=30,
+        )
+        Image.open(io.BytesIO(request.content)).save(file)
 
     def __str__(self) -> str:
         return f"ImageObject({self.prompt=}, {self.negative=}, {self.model=}, {self.params=}, {self.time=})"
@@ -162,6 +171,7 @@ class TextModel(object):
             "stream": self.stream,
             "system": self.system,
             "model": self.model,
+            "url": f"https://{TEXT_API}/"
         }
 
         if self.limit[0] >= self.limit[1]:
@@ -172,21 +182,26 @@ class TextModel(object):
 
         if self.contextual:
             params["messages"] = self.messages
+            url: str = params["url"]
             request: requests.Request = requests.post(
-                f"https://{TEXT_API}/", json=params, headers=HEADER, timeout=30
+                url, json=params, headers=HEADER, timeout=30
             )
         else:
+            url: str = f"https://{TEXT_API}/{prompt}"
             request: requests.Request = requests.get(
-                f"https://{TEXT_API}/{prompt}",
+                url,
                 params=params,
                 headers=HEADER,
                 timeout=30,
             )
 
         if request.status_code == 200:
-            result = chardet.detect(request.content)
-            encoding = result['encoding']
-            content = request.content.decode(encoding)
+            try:
+                content: str = request.content.decode("utf-8")
+            except:
+                result: dict = chardet.detect(request.content)
+                encoding: str = result['encoding']
+                content: str = request.content.decode(encoding)
         else:
             content: str = "An error occurred during generation, try a new prompt."
 
@@ -207,6 +222,7 @@ class TextModel(object):
 
             print()
 
+        params["url"] = url
         text_object: TextObject = TextObject(
             text=content,
             prompt=prompt,
@@ -277,8 +293,9 @@ class ImageModel(object):
         file: str = str(file)
 
         params: str = f"negative={negative}&seed={self.seed}&width={self.width}&height={self.height}&nologo={self.nologo}&private={self.private}&model={self.model}&enhance={self.enhance}"
+        url: str = f"https://{IMAGE_API}/prompt/{prompt}?{params}"
         request: requests.Request = requests.get(
-            url=f"https://{IMAGE_API}/prompt/{prompt}?{params}",
+            url=url,
             headers=HEADER,
             timeout=30,
         )
@@ -303,6 +320,7 @@ class ImageModel(object):
                 "nologo": self.nologo,
                 "private": self.private,
                 "enhance": self.enhance,
+                "url": url
             }
             image_object: ImageObject = ImageObject(
                 prompt=prompt, negative=negative, model=self.model, params=params
@@ -341,6 +359,7 @@ class MultiModel(object):
                 - Flux-Anime: For anime-style images.
                 - Flux-3D: For 3D-rendered images.
                 - Flux-Pro: Pro version of Realism & 3D.
+                - Flux-CablyAi: 3D-cartoonish images.
                 - Any-Dark: Realistic images with vibrant colors. Less trained.
 
                 Read the prompt carefully and analyze for clues on the desired style. If the user mentions 'realistic', 'real-life', or 'natural', choose Flux-Realism. If they mention 'anime', 'cartoon', or '2D-style', choose Flux-Anime. For '3D', 'render', or '3D model', choose Flux-3D. Otherwise, use Turbo. Or if they hint for you to mutate the image description, etc.
@@ -355,7 +374,7 @@ class MultiModel(object):
         )
 
         self.image_model: ImageModel = ImageModel(
-            enhance=True, model=image_model, private=True, nologo=True
+            enhance=True, model=image_model, private=True, nologo=True, seed="random"
         )
 
     def __closest(self, name: str, *args, **kwargs) -> str:
@@ -414,6 +433,7 @@ class MultiModel(object):
             self.image_model.model = closest
             try:
                 content_2: str = self.image_model.generate(enhanced.text, "", True)
+                print(content_2.params)
             except:
                 content_2: str = self.main_model.generate(
                     "Make an apology that the image generator didn't work.", display
@@ -438,7 +458,7 @@ class MultiModel(object):
 class SmartModel(object):
     def __init__(self, system: str = "", text_model: str="openai", image_model: str=None, *args, **kwargs) -> None:
         self.distinguish_model: TextModel = TextModel(
-            model=mistral_large,
+            model=text_default,
             contextual=True,
             system="""Your task is to determine what the user is asking for: 
                     1. **Time**: Look for clues that suggest the user wants to know the current time or date, such as 'what's the time', 'what time is it', 'current time', or related phrases. If the user asks for the time, respond with ```get_time(<timezone>)``` where `<timezone>` is a valid timezone (e.g., 'America/New_York').
@@ -506,14 +526,14 @@ class SmartModel(object):
             return f"Could not fetch weather for {location}"
 
     def get_search(self, query: str) -> str:
-        if __keystore["serpapi"] == False:
+        if _keystore["serpapi"] == False:
             text: str = "To make searches, please provide a search api key using:\n>>> pollinations.keys(serpapi='key')\n>>> To get a key go to https://serpapi.com/"
             return f"No search results found. Tell the user that you cannot perform searches since the devloper didn't provide an API key. How developer can add one: {text}"
 
         search = GoogleSearch(
             {
                 "q": query,
-                "api_key": __keystore["serpapi"],
+                "api_key": _keystore["serpapi"],
                 "num": 2,
             }
         )
@@ -584,7 +604,6 @@ class SmartModel(object):
                 self.main_model.main_model.messages.append(message)
                 self.main_model.guesser_model.messages.append(message)
                 self.main_model.distinguish_model.messages.append(message)
-                prompt = f"{prompt}"
 
         content: str = self.main_model.generate(prompt, display, provide_details)
         return content
