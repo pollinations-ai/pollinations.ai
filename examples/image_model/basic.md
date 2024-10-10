@@ -6,6 +6,7 @@ image_model.generate(
     prompt="A cat with flowers around it.",
     save=True
 )
+# ImageObject(...)
 ```
 
 <div id="header">
