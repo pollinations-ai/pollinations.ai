@@ -1,4 +1,4 @@
-__version__: str = "2.0.10"
+__version__: str = "2.0.11"
 
 import requests
 import datetime
@@ -171,7 +171,6 @@ class TextModel(object):
             "stream": self.stream,
             "system": self.system,
             "model": self.model,
-            "url": f"https://{TEXT_API}/"
         }
 
         if self.limit[0] >= self.limit[1]:
@@ -182,7 +181,7 @@ class TextModel(object):
 
         if self.contextual:
             params["messages"] = self.messages
-            url: str = params["url"]
+            url: str = f"https://{TEXT_API}/"
             request: requests.Request = requests.post(
                 url, json=params, headers=HEADER, timeout=30
             )
@@ -247,11 +246,7 @@ class ImageModel(object):
         **kwargs,
     ) -> None:
         self.model: str = str(model)
-        self.seed: int = (
-            int(seed)
-            if str(seed).lower().strip() != "random"
-            else random.randint(0, 9999999999)
-        )
+        self.seed: int = seed
         self.width: int = int(width)
         self.height: int = int(height)
         self.enhance: bool = bool(enhance)
@@ -292,7 +287,12 @@ class ImageModel(object):
         save: bool = bool(save)
         file: str = str(file)
 
-        params: str = f"negative={negative}&seed={self.seed}&width={self.width}&height={self.height}&nologo={self.nologo}&private={self.private}&model={self.model}&enhance={self.enhance}"
+        seed: int = self.seed
+
+        if self.seed == "random":
+            seed: int = random.randint(0, 9999999999)
+
+        params: str = f"negative={negative}&seed={seed}&width={self.width}&height={self.height}&nologo={self.nologo}&private={self.private}&model={self.model}&enhance={self.enhance}"
         url: str = f"https://{IMAGE_API}/prompt/{prompt}?{params}"
         request: requests.Request = requests.get(
             url=url,
@@ -314,7 +314,7 @@ class ImageModel(object):
                 aspect_ratio: str = "N/A"
             params = {
                 "aspect": aspect_ratio,
-                "seed": self.seed,
+                "seed": seed,
                 "width": self.width,
                 "height": self.height,
                 "nologo": self.nologo,
@@ -336,7 +336,7 @@ class MultiModel(object):
         system: str = "",
         default: str = None,
         text_model: str = "openai",
-        image_model: str = "turbo",
+        image_model: str = None,
         *args,
         **kwargs,
     ) -> None:
@@ -353,8 +353,8 @@ class MultiModel(object):
         self.guesser_model: TextModel = TextModel(
             model=text_model,
             system=f"""Your task is to choose the best model for generating the image described by the user. The available models are:
-                - Turbo (default): For general image generation.
-                - Flux: Ideal for abstract, creative visuals.
+                - Flux (default): For general image generation.
+                - Turbo: Poor quality, fast, less trained.
                 - Flux-Realism: For realistic images.
                 - Flux-Anime: For anime-style images.
                 - Flux-3D: For 3D-rendered images.
@@ -362,7 +362,7 @@ class MultiModel(object):
                 - Flux-CablyAi: 3D-cartoonish images.
                 - Any-Dark: Realistic images with vibrant colors. Less trained.
 
-                Read the prompt carefully and analyze for clues on the desired style. If the user mentions 'realistic', 'real-life', or 'natural', choose Flux-Realism. If they mention 'anime', 'cartoon', or '2D-style', choose Flux-Anime. For '3D', 'render', or '3D model', choose Flux-3D. Otherwise, use Turbo. Or if they hint for you to mutate the image description, etc.
+                Read the prompt carefully and analyze for clues on the desired style. If the user mentions 'realistic', 'real-life', or 'natural', choose Flux-Realism. If they mention 'anime', 'cartoon', or '2D-style', choose Flux-Anime. For '3D', 'render', or '3D model', choose Flux-3D. Otherwise, use flux. Or if they hint for you to mutate the image description, etc.
 
                 Respond with only the model name, wrapped in triple backticks (```<model>```), without any additional text.""",
         )
@@ -414,7 +414,7 @@ class MultiModel(object):
                 f"Dont wrap in quotes. Say what the user wants to generate with images for the image generator, enhance the prompt very slightly. Only say the new prompt (no other text): (Might need to look at chat history) Prompt: {prompt}"
             )
 
-            if self.default == "None":
+            if self.default in ["None", None]:
                 model_guess: str = str(self.guesser_model.generate(enhanced.text).text)
                 try:
                     model_guess: str = (
@@ -424,7 +424,7 @@ class MultiModel(object):
                         .lower()
                     )
                 except:
-                    model_guess: str = "turbo"
+                    model_guess: str = "flux"
                 closest: str = self.__closest(model_guess)
             else:
                 model_guess: str = self.default
@@ -433,7 +433,6 @@ class MultiModel(object):
             self.image_model.model = closest
             try:
                 content_2: str = self.image_model.generate(enhanced.text, "", True)
-                print(content_2.params)
             except:
                 content_2: str = self.main_model.generate(
                     "Make an apology that the image generator didn't work.", display
