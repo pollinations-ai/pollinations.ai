@@ -33,6 +33,10 @@ text_model.generate(
 # TextObject(...)
 ```
 
+<div id="header">
+  <img src="https://media.discordapp.net/attachments/889573359111774329/1306074575347515514/image.png?ex=6735583c&is=673406bc&hm=8fd16f30b991a091dc8fb4793d02f4ff041cdd05d957f7d49ea64b2e7caa9590&=&format=webp&quality=lossless&width=503&height=503" width=500/>
+</div>
+
 ```
 Hello! 🌟 How can I assist you today?
 Your first message was: "Hello" 😊. How can I help you further?
