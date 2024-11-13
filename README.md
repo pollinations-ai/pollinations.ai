@@ -70,76 +70,12 @@ text_model.generate(
     prompt="Now add 10 to that.",
     display=True
 )
-```
-## Multi Model (Image & Text)
-```python
-import pollinations
-
-multi_model: pollinations.MultiModel = pollinations.multi(
-    system = "You are a polite AI Assistant named Pollinations! Use emojis and markdown as you wish.",
-    default = None, # None: AI will infer what model to use. Example: pollinations.turbo: Will default image model to turbo
-    text_model = pollinations.text_default, # Safety fail measure incase of model errors in pollinations api.
-    image_model = pollinations.image_default, # Safety fail measure incase of model errors in pollinations api.
+text_model.image(
+    file="my_file.png"
 )
-
-multi_model.generate(
-    "Hi",
-    display=True,
-    provide_details=False # Provides the details and objects of each generation
-)
-multi_model.generate(
-    "Make an image of a black dog in a cyberpunk city.",
-    display=True,
-    provide_details=False
-)
-multi_model.generate(
-    "Thanks.",
-    display=True,
-    provide_details=False
-)
-```
-## Smart Model (MultiModel up-to-date with time, dates, weather, and search) (Primitive Testing)
-```python
-import pollinations
-
-# Searching will not work unless you provide a serpapi api-key like this:
-pollinations.keys(serpapi="your-key")
-
-smart_model: pollinations.SmartModel = pollinations.smart(
-    system="You are a helpful and friendly AI assistant. Use emojis and markdown as you like.",
-    text_model=pollinations.mistral_large,      # Optional
-    # image_model=pollinations.flux_anime       # Optional : If not directly chosen, the best fit model according to prompt will be chosen.
-)
-
-smart_model.generate(
-    prompt="Hi.",
-    display=True,
-    provide_details=False    # Provide extra details of each generation.
-)
-smart_model.generate(
-    prompt="What is the weather in london like?",
-    display=True,
-    provide_details=False
-)
-smart_model.generate(
-    prompt="What's the latest news there as well?",
-    display=True,
-    provide_details=False
-)
-smart_model.generate(
-    prompt="What time is it in New York City?",
-    display=True,
-    provide_details=False
-)
-smart_model.generate(
-    prompt="Make an image of that at night, include city lights.",
-    display=True,
-    provide_details=False
-)
-smart_model.generate(
-    prompt="Thanks.",
-    display=True,
-    provide_details=False
+text_model.generate(
+    prompt="Describe that file.",
+    display=True
 )
 ```
 
