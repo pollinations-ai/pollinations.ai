@@ -1,3 +1,2 @@
-pytz
 pillow
-google-search-results
+chardet
