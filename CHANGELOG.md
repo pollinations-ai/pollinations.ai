@@ -11,6 +11,26 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this python wrapper.
 ```
+# UPDATE 2.1
+```diff
++ Added image method to TextModel object for vision (Works with some models)
+
++ Added qwen-coder model
++ Added evil model
+- Removed MultiModel
+- Removed SmartModel
+- Removed Aspect constraints on images
+```
+```python
+text_model.image(
+    file="my_file.png"
+)
+text_model.generate(
+    prompt="Describe that file.",
+    display=True
+)
+```
+
 # UPDATE 2.0.10
 ```diff
 + Slight tweaks to models

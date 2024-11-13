@@ -1,14 +1,3 @@
-"""
-Setup script for pollinations.ai
-
-Variables:
-    path_absolute (str): Absolute path to the directory containing the setup.py file
-    version (str): Current version of the package
-
-Functions:
-    setup: Setup function for the package
-"""
-
 from setuptools import setup, find_packages
 from pathlib import Path
 
@@ -46,9 +35,7 @@ setup(
     python_requires=">=3.7",
     keywords=["pollinations", "pollinations.ai", "pollinations-ai", "pollinations_ai"],
     install_requires=[
-        "pytz",
         "pillow", 
-        "google-search-results",
         "chardet"
     ],
     project_urls={
