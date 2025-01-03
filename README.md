@@ -49,7 +49,7 @@ image_model.generate(
 
 image = image_model.generate(
     prompt="A magical voodoo wizard in space, surounded by flowers.",
-    negative="Realistic, depth of field, blurry",
+    safe=False,  # Strict NSFW check
     save=False,
     file="my_file.png"
 )
