@@ -13,10 +13,9 @@ image_model = pollinations.Image(
 
 while True:
     prompt: str = input("Prompt> ")
-    negative: str = input("Negative> ")
     image_model.generate(
         prompt=prompt,
-        negative=negative,
+        safe=False,  # Strict NSFW check
         save=True,
         file="my_file.png"
     )
@@ -26,7 +25,6 @@ while True:
 ## Example
 ```
 Prompt> Moon colony
-Negative> Cartoony, blurry, unrealistic
 ---------------
 ```
 
