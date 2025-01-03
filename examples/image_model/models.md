@@ -1,9 +1,7 @@
 ```python
 import pollinations
 
-print(
-  pollinations.image_models()
-)
+pollinations.Image.models()
 ```
 
 ```
