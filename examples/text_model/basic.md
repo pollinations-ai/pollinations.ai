@@ -1,12 +1,12 @@
 ```python
 import pollinations
 
-text_model: pollinations.TextModel = pollinations.text()
+text_model = pollinations.Text()
+
 text_model.generate(
-    prompt="Hello", 
-    display=True # Simulates typing text.
+    prompt="Hello.", 
+    display=True  # Simulates typing text.
 )
-# TextObject(...)
 ```
 
 ```
