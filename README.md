@@ -26,57 +26,76 @@ py -3 -m pip install -U pollinations
 py -3 -m pip install -U pollinations.ai
 ```
 
-## Image Model
+## Image Generation
 ```python
 import pollinations
 
-image_model: pollinations.ImageModel = pollinations.image(
-    model = pollinations.image_default,
-    seed = 0,
-    width = 1024,
-    height = 1024,
-    enhance = False,
-    nologo = False,
-    private = False,
-)
+image_model = pollinations.Image(
+    model=pollinations.Image.flux(),
+    seed="random",
+    width=1024,
+    height=1024,
+    enhance=True,
+    nologo=True,
+    private=True
+)  # or pollinations.Image()
 
 image_model.generate(
-    prompt = "A black cat in a cyberpunk city.",
-    negative = "Anime, cartoony, childish.",
-    save = True,
-    file = "image-output.png",
+    prompt="A magical voodoo wizard in space, surounded by flowers.",
+    safe=False,  # Strict NSFW check
+    save=True,
+    file="my_file.png"
 )
+
+image = image_model.generate(
+    prompt="A magical voodoo wizard in space, surounded by flowers.",
+    safe=False,  # Strict NSFW check
+    save=False,
+    file="my_file.png"
+)
+
+print(image.model, image.prompt)
+
+print(image_model.models())  # Tuple of models
+print(image_model.flux())  # String
+print(image_model.flux().info())  # Dict
 ```
-## Text Model
+## Text Generation
 ```python
 import pollinations
 
-text_model: pollinations.TextModel = pollinations.text(
-    frequency_penalty = 0,
-    presence_penalty = 0,
-    temperature = 0.5,
-    top_p = 1,
-    model = pollinations.text_default,
-    stream = True,
-    contextual = True, # True: Holds conversation context up to 10. False: Has no conversation context
-    system = "You are a polite AI Assistant named Pollinations! Use emojis and markdown as you wish."
+text_model = pollinations.Text(
+    model=pollinations.Text.openai(),
+    contextual=True,
+    seed="random",
+    system="You are a helpful AI Assistant... ",
+    limit=20
+)  # or pollinations.Text()
+
+text_model.generate(
+    prompt="Hello", 
+    display=True
+)
+
+response = text_model.generate(
+    prompt="Hey",
+    display=False
+)
+
+print(response.text, response.model, response.prompt)
+
+text_model.image(
+    file="image.png"
 )
 
 text_model.generate(
-    prompt="What is 1+1?",
+    prompt="What do you see in this image?",
     display=True
 )
-text_model.generate(
-    prompt="Now add 10 to that.",
-    display=True
-)
-text_model.image(
-    file="my_file.png"
-)
-text_model.generate(
-    prompt="Describe that file.",
-    display=True
-)
+
+print(text_model.models())  # Tuple of models
+print(text_model.openai())  # String
+print(text_model.openai().info())  # Dict
 ```
 
 # Links
