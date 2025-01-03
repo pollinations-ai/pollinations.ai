@@ -280,16 +280,16 @@ class Image:
         def __init__(
             self,
             prompt: str = "",
-            negative: str = "",
             model: str = "",
+            safe: str = "",
             params: Dict = None,
             time: str = "",
             error: str = "",
             url: str = "",
         ):
             self.prompt = prompt
-            self.negative = negative
             self.model = model
+            self.safe = safe
             self.params = params or {}
             self.time = time
             self.error = error
@@ -319,7 +319,7 @@ class Image:
 
         def __str__(self) -> str:
             return (
-                f"Image.Object(prompt='{self.prompt}', negative='{self.negative}', "
+                f"Image.Object(prompt='{self.prompt}', safe='{self.safe}', "
                 f"model='{self.model}', time='{self.time}', params={{...}})"
             )
 
@@ -347,7 +347,7 @@ class Image:
     def generate(
         self,
         prompt: str,
-        negative: str = "",
+        safe: str = "",
         save: bool = False,
         file: str = "image-output.png"
     ) -> Object:
@@ -355,7 +355,7 @@ class Image:
             seed = random.randint(0, 9999999999) if self.seed == "random" else int(self.seed)
             
             params = {
-                "negative": negative,
+                "safe": safe,
                 "seed": seed,
                 "width": self.width,
                 "height": self.height,
@@ -378,7 +378,7 @@ class Image:
                 params["url"] = url
                 image_obj = Image.Object(
                     prompt=prompt,
-                    negative=negative,
+                    safe=safe,
                     model=self.model,
                     params=params,
                 )
@@ -392,7 +392,7 @@ class Image:
             else:
                 return Image.Object(
                     prompt=prompt,
-                    negative=negative,
+                    safe=safe,
                     model=self.model,
                     error=f"Server error: {response.status_code}",
                     url=url
@@ -401,7 +401,7 @@ class Image:
         except Exception as e:
             return Image.Object(
                 prompt=prompt,
-                negative=negative,
+                safe=safe,
                 model=self.model,
                 error=f"Generation error: {str(e)}",
                 url=url
