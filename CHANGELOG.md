@@ -11,6 +11,80 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this python wrapper.
 ```
+# UPDATE 2.2
+```diff
++ Text class
++ Image class
+- TextObject class
+- ImageObject class
+- TextModel class
+- ImageModel class
+```
+```python
+text_model = pollinations.Text(
+    model=pollinations.Text.openai(),
+    contextual=True,
+    seed="random",
+    system="You are a helpful AI Assistant... ",
+    limit=20
+)  # or pollinations.Text()
+
+text_model.generate(
+    prompt="Hello", 
+    display=True
+)
+
+response = text_model.generate(
+    prompt="Hey",
+    display=False
+)
+
+print(response.text, response.model, response.prompt)
+
+text_model.image(
+    file="image.png"
+)
+
+text_model.generate(
+    prompt="What do you see in this image?",
+    display=True
+)
+
+print(text_model.models())  # Tuple of models
+print(text_model.openai())  # String
+print(text_model.openai().info())  # Dict
+```
+```python
+image_model = pollinations.Image(
+    model=pollinations.Image.flux(),
+    seed="random",
+    width=1024,
+    height=1024,
+    enhance=True,
+    nologo=True,
+    private=True
+)  # or pollinations.Image()
+
+image_model.generate(
+    prompt="A magical voodoo wizard in space, surounded by flowers.",
+    negative="Realistic, depth of field, blurry",
+    save=True,
+    file="my_file.png"
+)
+
+image = image_model.generate(
+    prompt="A magical voodoo wizard in space, surounded by flowers.",
+    negative="Realistic, depth of field, blurry",
+    save=False,
+    file="my_file.png"
+)
+
+print(image.model, image.prompt)
+
+print(image_model.models())  # Tuple of models
+print(image_model.flux())  # String
+print(image_model.flux().info())  # Dict
+```
 # UPDATE 2.1
 ```diff
 + Added image method to TextModel object for vision (Works with some models)
