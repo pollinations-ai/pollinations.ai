@@ -5,7 +5,7 @@ pollinations.Text.models()
 
 # Specific model info
 print(pollinations.Text.openai())
-print(pollinations.Text.openai().info())
+print(pollinations.Text.openai.info())
 ```
 
 ```
