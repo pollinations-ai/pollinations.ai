@@ -3,8 +3,8 @@ requires      = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pollinations.ai"
-version = "2.3.1"
+name = "pollinations"
+version = "2.3.2"
 description = "pollinations.ai | Free AI Text & Image Generation"
 readme = "README.md"
 authors = [{ name = "pollinations.ai", email = "hello@pollinations.ai" }, { name = "git.pollinations.ai", email = "git.pollinations.ai@gmail.com" }]
@@ -24,7 +24,7 @@ classifiers = [
 ]
 keywords = ["pollinations", "pollinations.ai", "pollinations-ai", "pollinations_ai", "ai", "api", "sdk", "wrapper", "free"]
 requires-python = ">=3.7.0"
-dependencies = ["chardet"]
+dependencies = ["chardet", "aiohttp"]
 
 [project.urls]
 Website = 'https://pollinations.ai/'

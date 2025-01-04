@@ -1,7 +1,7 @@
 <div id="header">
   <img src="https://i.ibb.co/p049Y5S/86964862.png" width="50"/>   <img src="https://i.ibb.co/r6JZ336/sketch1700556567238.png" width="250">
 </div>
-
+ 
 # [pollinations.ai - Free AI Text & Image Generation](https://pypi.org/project/pollinations.ai)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/toolkitr/tkr/blob/main/LICENSE)
 [![Python Versions](https://img.shields.io/badge/python-3-blue)](https://www.python.org/downloads/)
@@ -55,6 +55,14 @@ print(pollinations.Image.models())
 print(pollinations.Image.flux())
 print(pollinations.Image.flux.info())
 ```
+### Async Image Generation
+```python
+image_model = pollinations.Async.Image()  # Has ALL features and functionality of normal Image class
+
+image = await image_model(
+    prompt="A cat with flowers around it."
+)
+```
 ## Text Generation
 ```python
 import pollinations
@@ -89,10 +97,18 @@ print(pollinations.Text.models())
 print(pollinations.Text.openai())
 print(pollinations.Text.openai.info())
 ```
+### Async Image Generation
+```python
+text_model = pollinations.Async.Text()  # Has ALL features and functionality of normal Text class
 
+response = await text_model(
+    prompt="Hello."
+).response
+```
 ## Image Request Building
 ```python
 import pollinations
+
 image_request = pollinations.Image.Request(
     model=pollinations.Image.flux(),
     prompt="A cat with flowers around it.",

@@ -1,7 +1,7 @@
 <div id="header">
   <img src="https://i.ibb.co/p049Y5S/86964862.png" width="50"/>   <img src="https://i.ibb.co/r6JZ336/sketch1700556567238.png" width="250">
 </div>
-
+ 
 # [pollinations.ai - Free AI Text & Image Generation](https://pypi.org/project/pollinations.ai)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/toolkitr/tkr/blob/main/LICENSE)
 [![Python Versions](https://img.shields.io/badge/python-3-blue)](https://www.python.org/downloads/)
@@ -11,6 +11,33 @@
 pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this Python SDK.
+```
+# UPDATE 2.3.2
+```diff
++ Async class
+```
+```python
+import asyncio
+import pollinations
+
+async def async_test():
+    text_model = pollinations.Async.Text()  # Has ALL features and functionality as normal Text class
+    await text_model(
+        prompt="Hello"
+    )
+    
+    print(text_model.response)
+    
+    image_model = pollinations.Async.Image()  # Has ALL features and functionality as normal Image class
+    await image_model(
+        prompt="A black cat."
+    )
+    
+    await image_model.save(
+        file="pollinations-image.png"
+    )
+    
+asyncio.run(async_test())
 ```
 # FIX 2.3.1
 ```diff
