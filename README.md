@@ -97,7 +97,7 @@ print(pollinations.Text.models())
 print(pollinations.Text.openai())
 print(pollinations.Text.openai.info())
 ```
-### Async Image Generation
+### Async Text Generation
 ```python
 text_model = pollinations.Async.Text()  # Has ALL features and functionality of normal Text class
 
