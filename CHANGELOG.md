@@ -12,6 +12,33 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this Python SDK.
 ```
+# UPDATE 2.3.2
+```diff
++ Async class
+```
+```python
+import asyncio
+import pollinations
+
+async def async_test():
+    text_model = pollinations.Async.Text()  # Has ALL features and functionality as normal Text class
+    await text_model(
+        prompt="Hello"
+    )
+    
+    print(text_model.response)
+    
+    image_model = pollinations.Async.Image()  # Has ALL features and functionality as normal Image class
+    await image_model(
+        prompt="A black cat."
+    )
+    
+    await image_model.save(
+        file="pollinations-image.png"
+    )
+    
+asyncio.run(async_test())
+```
 # FIX 2.3.1
 ```diff
 + Updated classifiers
