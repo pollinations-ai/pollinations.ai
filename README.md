@@ -103,7 +103,7 @@ text_model = pollinations.Async.Text()  # Has ALL features and functionality of 
 
 response = await text_model(
     prompt="Hello."
-).response
+)
 ```
 ## Image Request Building
 ```python
@@ -163,6 +163,7 @@ print(response)
 - [Pollinations.ai](https://pollinations.ai/)
 - [Discord](https://discord.gg/8HqSRhJVxn)
 - [Github](https://github.com/pollinations)
+- [Repository](https://github.com/pollinations-ai/pollinations.ai)
 - [Youtube](https://www.youtube.com/channel/UCk4yKnLnYfyUmCCbDzOZOug)
 - [Instagram](https://instagram.com/pollinations_ai)
 - [Twitter (X)](https://twitter.com/pollinations_ai)
