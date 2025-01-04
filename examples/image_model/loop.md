@@ -2,22 +2,22 @@
 import pollinations
 
 image_model = pollinations.Image(
-    model=pollinations.Image.flux().name,
-    seed="random", # A random seed for the image OR put a number. Example: 42
-    width=1024,
-    height=1024,
-    enhance=True, # Use AI to enhance the prompt further.
-    nologo=False, # Remove watermark,
-    private=True # Will not show up on pollinations.ai public feed
+    model=pollinations.Image.flux(),
+    seed="random",  # A random seed for the image OR put a number. Example: 42
+    width=512,
+    height=512,
+    enhance=False,  # Use AI to enhance the prompt further.
+    nologo=True,  # Remove watermark,
+    private=True,  # Will not show up on pollinations.ai public feed
+    safe=False  # Strict NSFW check
 )
 
 while True:
     prompt: str = input("Prompt> ")
-    image_model.generate(
+    image_model(
         prompt=prompt,
-        safe=False,  # Strict NSFW check
-        save=True,
-        file="my_file.png"
+    ).save(
+        file="pollinations-image.png"
     )
     print("---------------")
 ```

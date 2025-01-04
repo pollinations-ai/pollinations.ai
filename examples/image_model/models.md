@@ -5,7 +5,7 @@ pollinations.Image.models()
 
 # Specific model info
 print(pollinations.Image.flux())
-print(pollinations.Image.flux().info())
+print(pollinations.Image.flux.info())
 ```
 
 ```
@@ -17,5 +17,5 @@ print(pollinations.Image.flux().info())
 )
 
 flux
-{'name': 'flux', 'type': 'image', 'censored': False, 'description': 'Flux Model', 'base_model': True}
+{'name': 'flux', 'type': 'image', 'censored': False, 'description': 'Flux Image Generative Model', 'baseModel': True}
 ```

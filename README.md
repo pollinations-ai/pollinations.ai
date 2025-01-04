@@ -2,14 +2,14 @@
   <img src="https://i.ibb.co/p049Y5S/86964862.png" width="50"/>   <img src="https://i.ibb.co/r6JZ336/sketch1700556567238.png" width="250">
 </div>
 
-# [pollinations.ai - Image Generation](https://pypi.org/project/pollinations.ai)
+# [pollinations.ai - Free AI Text & Image Generation](https://pypi.org/project/pollinations.ai)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/toolkitr/tkr/blob/main/LICENSE)
-[![Python Versions](https://img.shields.io/badge/python-3.7%20|%203.8%20|%203.9%20|%203.10%20|%203.11%20|%203.12%20-blue)](https://www.python.org/downloads/)
+[![Python Versions](https://img.shields.io/badge/python-3-blue)](https://www.python.org/downloads/)
 
 ```
 pollinations.ai: (https://pollinations.ai/)
 
-Work with the best generative models from Pollinations using this python wrapper.
+Work with the best generative models from Pollinations using this Python SDK.
 ```
 
 ## Installing
@@ -35,30 +35,25 @@ image_model = pollinations.Image(
     seed="random",
     width=1024,
     height=1024,
-    enhance=True,
+    enhance=False,
     nologo=True,
-    private=True
-)  # or pollinations.Image()
+    private=True,
+    safe=False
+)  # or pollinations.Image() to use defaults
 
-image_model.generate(
-    prompt="A magical voodoo wizard in space, surounded by flowers.",
-    safe=False,  # Strict NSFW check
-    save=True,
-    file="my_file.png"
+image = image_model(
+    prompt="A cat with flowers around it."
 )
 
-image = image_model.generate(
-    prompt="A magical voodoo wizard in space, surounded by flowers.",
-    safe=False,  # Strict NSFW check
-    save=False,
-    file="my_file.png"
+print(image.prompt, image.response)
+
+image.save(
+    file="pollinations-image.png"
 )
 
-print(image.model, image.prompt)
-
-print(image_model.models())  # Tuple of models
-print(image_model.flux())  # String
-print(image_model.flux().info())  # Dict
+print(pollinations.Image.models())
+print(pollinations.Image.flux())
+print(pollinations.Image.flux.info())
 ```
 ## Text Generation
 ```python
@@ -66,36 +61,86 @@ import pollinations
 
 text_model = pollinations.Text(
     model=pollinations.Text.openai(),
+    system="You are a helpful assistant.",
     contextual=True,
+    messages=[  # or [] or None
+        pollinations.Text.Message(
+            role="user",
+            content="What is the capital of France?"
+        ),
+        pollinations.Text.Message(
+            role="assistant",
+            content="The capital of France is Paris."
+        )
+    ],
     seed="random",
-    system="You are a helpful AI Assistant... ",
-    limit=20
-)  # or pollinations.Text()
-
-text_model.generate(
-    prompt="Hello", 
-    display=True
+    jsonMode=False
 )
 
-response = text_model.generate(
-    prompt="Hey",
-    display=False
+response = text_model(
+    prompt="Hello.",
+    display=True,  # Simulate typing,
+    encode=True  # Use proper encoding
 )
 
-print(response.text, response.model, response.prompt)
+print(response.prompt, response.response)
 
-text_model.image(
-    file="image.png"
+print(pollinations.Text.models())
+print(pollinations.Text.openai())
+print(pollinations.Text.openai.info())
+```
+
+## Image Request Building
+```python
+import pollinations
+image_request = pollinations.Image.Request(
+    model=pollinations.Image.flux(),
+    prompt="A cat with flowers around it.",
+    seed="random",
+    width=1024,
+    height=1024,
+    enhance=False,
+    nologo=True,
+    private=True,
+    safe=False
 )
 
-text_model.generate(
-    prompt="What do you see in this image?",
-    display=True
+image = image_request()
+
+print(image.model, image.prompt, image.response)
+```
+
+## Text Request Building
+```python
+import pollinations
+
+text_request = pollinations.Text.Request(
+    model=pollinations.Text.openai(),
+    prompt="Hello, how are you?",
+    system="You are a helpful assistant.",
+    contextual=True,
+    messages=[  # or [] or None
+        pollinations.Text.Message(
+            role="user",
+            content="What is the capital of France?"
+        ),
+        pollinations.Text.Message(
+            role="assistant",
+            content="The capital of France is Paris."
+        )
+    ],
+    images=[
+        pollinations.Text.Message.image("my_file.png"),
+        pollinations.Text.Message.image("my_file2.png")
+    ],
+    seed="random",
+    jsonMode=False
 )
 
-print(text_model.models())  # Tuple of models
-print(text_model.openai())  # String
-print(text_model.openai().info())  # Dict
+response = text_request(
+    encode=True  # Use proper encoding
+)
+print(response)
 ```
 
 # Links

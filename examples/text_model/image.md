@@ -2,21 +2,19 @@
 import pollinations
 
 text_model = pollinations.Text(
-    model=pollinations.Text.openai().name,
+    model=pollinations.Text.openai(),
     contextual=True,
-    seed="random",
-    system="You are a helpful AI Assistant... ",
-    limit=20
 )  # or pollinations.Text()
 
 text_model.image(
     file="my_file.png"
 )
 
-text_model.generate(
+text_model(
     prompt="What is in this image?", 
-    display=True  # Simulates typing text.
-)  # Text.Object(...)
+    display=True,  # Simulates typing text.
+    encode=True
+)
 ```
 
 <div id="header">

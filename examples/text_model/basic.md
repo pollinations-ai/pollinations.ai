@@ -3,9 +3,10 @@ import pollinations
 
 text_model = pollinations.Text()
 
-text_model.generate(
+text_model(
     prompt="Hello.", 
-    display=True  # Simulates typing text.
+    display=True,  # Simulates typing text.
+    encode=True
 )
 ```
 

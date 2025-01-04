@@ -3,9 +3,11 @@ import pollinations
 
 image_model = pollinations.Image()
 
-image_model.generate(
+image_model(
     prompt="A black cat in a cyberpunk city."
-).save("my_file.png")
+).save(
+  file="pollinations-image.png"
+)
 ```
 
 <div id="header">
