@@ -2,11 +2,8 @@
 import pollinations
 
 text_model = pollinations.Text(
-    model=pollinations.Text.openai().name,
+    model=pollinations.Text.openai(),
     contextual=True,
-    seed="random",
-    system="You are a helpful AI Assistant... ",
-    limit=20
 )  # or pollinations.Text()
 
 while True:
@@ -14,8 +11,9 @@ while True:
     print("\nPollinations:\n> ", end="")
     text_model.generate(
         prompt=prompt,
-        display=True
-    )  # Text.Object(...)
+        display=True,
+        encode=True
+    )
     print()
 ```
 
