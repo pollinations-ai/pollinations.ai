@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pollinations"
-version = "2.2"
-description = "pollinations.ai | Image Generation"
+version = "2.3"
+description = "pollinations.ai | Free AI Text & Image Generation"
 readme = "README.md"
 authors = [{ name = "pollinations.ai", email = "hello@pollinations.ai" }, { name = "dev.pollinations.ai", email = "git.pollinations.ai@gmail.com" }]
 license = { file = "LICENSE" }
@@ -22,7 +22,7 @@ classifiers = [
 ]
 keywords = ['pollinations', 'pollinations.ai', 'pollinations-ai', 'pollinations_ai']
 requires-python = ">=3.7.0"
-dependencies = ["pillow", "chardet"]
+dependencies = ["chardet"]
 
 [project.urls]
 Website = 'https://pollinations.ai/'
