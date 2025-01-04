@@ -10,7 +10,7 @@ with open(f"{path_absolute}/pollinations/__init__.py", "r") as file:
             break
 
 setup(
-    name="pollinations.ai",
+    name="pollinations",
     version=version,
     description="pollinations.ai | Free AI Text & Image Generation",
     long_description=Path(f"{path_absolute}/README.md").read_text(encoding="utf-8"),
@@ -37,7 +37,8 @@ setup(
     python_requires=">=3.7",
     keywords=["pollinations", "pollinations.ai", "pollinations-ai", "pollinations_ai", "ai", "api", "sdk", "wrapper", "free"],
     install_requires=[
-        "chardet"
+        "chardet", 
+        "aiohttp"
     ],
     project_urls={
         "Website": "https://pollinations.ai/",
@@ -47,4 +48,4 @@ setup(
         "Instagram": "https://instagram.com/pollinations_ai",
         "Twitter": "https://twitter.com/pollinations_ai",
     }
-) 
+)
