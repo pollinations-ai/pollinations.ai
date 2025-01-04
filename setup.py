@@ -12,7 +12,7 @@ with open(f"{path_absolute}/pollinations/__init__.py", "r") as file:
 setup(
     name="pollinations",
     version=version,
-    description="pollinations.ai | Image Generation",
+    description="pollinations.ai | Free AI Text & Image Generation",
     long_description=Path(f"{path_absolute}/README.md").read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",
     url="https://pollinations.ai/",
@@ -35,7 +35,6 @@ setup(
     python_requires=">=3.7",
     keywords=["pollinations", "pollinations.ai", "pollinations-ai", "pollinations_ai"],
     install_requires=[
-        "pillow", 
         "chardet"
     ],
     project_urls={
