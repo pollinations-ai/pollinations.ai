@@ -2,14 +2,228 @@
   <img src="https://i.ibb.co/p049Y5S/86964862.png" width="50"/>   <img src="https://i.ibb.co/r6JZ336/sketch1700556567238.png" width="250">
 </div>
 
-# [pollinations.ai - Image Generation](https://pypi.org/project/pollinations.ai)
+# [pollinations.ai - Free AI Text & Image Generation](https://pypi.org/project/pollinations.ai)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/toolkitr/tkr/blob/main/LICENSE)
-[![Python Versions](https://img.shields.io/badge/python-3.7%20|%203.8%20|%203.9%20|%203.10%20|%203.11%20|%203.12%20-blue)](https://www.python.org/downloads/)
+[![Python Versions](https://img.shields.io/badge/python-3-blue)](https://www.python.org/downloads/)
+
 
 ```
 pollinations.ai: (https://pollinations.ai/)
 
-Work with the best generative models from Pollinations using this python wrapper.
+Work with the best generative models from Pollinations using this Python SDK.
+```
+# UPDATE 2.3
+```diff
++ Updated Text class
++ Updated Image class
+```
+```python
+"""
+class Text(
+    model: str = "openai",
+    system: str = "",
+    contextual: bool = False,
+    messages: list = [],
+    seed: int = "random",
+    jsonMode: bool = False,
+    ...
+)
+"""
+
+model = pollinations.Text(
+    model=pollinations.Text.openai(),
+    system="You are a helpful assistant...",
+    contextual=True,
+    messages=[
+        pollinations.Text.Message(
+            role="user",
+            content="What is the capital of France?"
+        ),
+        pollinations.Text.Message(
+            role="assistant",
+            content="The capital of France is Paris."
+        )
+    ],
+    seed=42,
+    jsonMode=True
+)
+
+"""
+(method) def info(...) -> dict
+"""
+
+print(pollinations.Text.openai.info())
+
+"""
+(method) def image(
+    file: str | list,
+    ...
+) -> Text
+"""
+
+model.image("my_file.png")
+print("\n", model(
+    prompt="What do you see in this image?"
+).response)
+
+"""
+(method) def __call__(
+    prompt: str = None,
+    display: bool = False,
+    ...,
+    encode: bool = False
+) -> Text
+"""
+
+response = model(encode=True)  # use proper encoding
+print("\n", response.response, response.time, response.request)  # The capital of France is Paris., ..., Text.Request(...)
+
+print("\n", model(
+    prompt="Hello.",
+    display=True,  # simulate typing
+    encode=False
+).response)
+
+# ---------------------------------------------- #
+
+"""
+class Request(
+    model: str,
+    prompt: str,
+    ...,
+    system: str = "",
+    contextual: bool = False,
+    messages: List[dict] = None,
+    seed: str | int = "random",
+    jsonMode: bool = False
+)
+"""
+
+"""
+class Message(
+    role: str,
+    content: str,
+    images: dict | list = None
+)
+
+(method) def image(
+    file: str,
+    ...
+) -> dict
+"""
+
+request = pollinations.Text.Request(
+    model=pollinations.Text.openai(),
+    prompt="Hello. Whats in this image?",
+    system="You are a helpful assistant...",
+    contextual=True,
+    messages=[
+        pollinations.Text.Message(
+            role="user",
+            content="What is the capital of France?"
+        ),
+        pollinations.Text.Message(
+            role="assistant",
+            content="The capital of France is Paris."
+        )
+    ],
+    images=[
+        pollinations.Text.Message.image("my_file.png"),
+        pollinations.Text.Message.image("my_file2.png")    
+    ], 
+    seed=42,
+    jsonMode=True
+)
+
+print("\n", request(
+    encode=True
+))
+```
+```python
+"""
+class Image(
+    model: str = "flux",
+    seed: str | int = "random",
+    width: int = 1024,
+    height: int = 1024,
+    enhance: bool = False,
+    nologo: bool = False,
+    private: bool = False,
+    safe: bool = False
+)
+"""
+
+model = pollinations.Image(
+    model=pollinations.Image.flux(),
+    seed="random",
+    width=1024,
+    height=1024,
+    enhance=False,
+    nologo=False,
+    private=False,
+    safe=False
+)
+
+"""
+(method) def info(...) -> dict
+"""
+
+print(pollinations.Image.flux.info())
+
+"""
+(method) def __call__(
+    prompt: str,
+    *args: Any
+) -> Image
+"""
+
+image = model(
+    prompt="A cat with flowers around it."
+)
+
+print(image.prompt, image.file)
+
+"""
+(method) def save(file: str = "pollinations-image.png") -> Image
+"""
+
+image.save(
+    file="pollinations-image.png"
+)
+
+# ---------------------------------------------- #
+
+"""
+class Request(
+    model: str = "flux",
+    prompt: str = "",
+    seed: str | int = "random",
+    width: int = 1024,
+    height: int = 1024,
+    enhance: bool = False,
+    nologo: bool = False,
+    private: bool = False,
+    safe: bool = False
+)
+"""
+
+request = pollinations.Image.Request(
+    model=pollinations.Image.flux(),
+    prompt="A cat with flowers around it.",
+    seed="random",
+    width=1024,
+    height=1024,
+    enhance=False,
+    nologo=False,
+    private=False,
+    safe=False
+)
+
+print(request)
+
+request()
+
+print(request.prompt, request.response)
 ```
 # UPDATE 2.2
 ```diff
@@ -102,147 +316,6 @@ text_model.image(
 text_model.generate(
     prompt="Describe that file.",
     display=True
-)
-```
-
-# UPDATE 2.0.10
-```diff
-+ Slight tweaks to models
-+ Fixed charset issue
-+ Added .save() to ImageObject + updated params
-+ Updated model list + key fix
-```
-```python
-result = chardet.detect(request.content)
-encoding = result['encoding']
-content = request.content.decode(encoding)
-```
-
-# REWRITE 2.0.0
-```diff
-- All previous code
-+ All new code
-
-+ ImageModel
-+ TextModel
-+ MultiModel
-+ SmartModel
-```
-### Examples
-## Image Model
-```python
-import pollinations
-
-image_model: pollinations.ImageModel = pollinations.image(
-    model = pollinations.image_default,
-    seed = 0,
-    width = 1024,
-    height = 1024,
-    enhance = False,
-    nologo = False,
-    private = False,
-)
-
-image_model.generate(
-    prompt = "A black cat in a cyberpunk city.",
-    negative = "Anime, cartoony, childish.",
-    save = True,
-    file = "image-output.png",
-)
-```
-## Text Model
-```python
-import pollinations
-
-text_model: pollinations.TextModel = pollinations.text(
-    frequency_penalty = 0,
-    presence_penalty = 0,
-    temperature = 0.5,
-    top_p = 1,
-    model = pollinations.text_default,
-    stream = True,
-    contextual = True, # True: Holds conversation context up to 10. False: Has no conversation context
-    system = "You are a polite AI Assistant named Pollinations! Use emojis and markdown as you wish."
-)
-
-text_model.generate(
-    prompt="What is 1+1?",
-    display=True
-)
-text_model.generate(
-    prompt="Now add 10 to that.",
-    display=True
-)
-```
-## Multi Model (Image & Text)
-```python
-import pollinations
-
-multi_model: pollinations.MultiModel = pollinations.multi(
-    system = "You are a polite AI Assistant named Pollinations! Use emojis and markdown as you wish.",
-    default = None, # None: AI will infer what model to use. Example: pollinations.turbo: Will default image model to turbo
-    text_model = pollinations.text_default, # Safety fail measure incase of model errors in pollinations api.
-    image_model = pollinations.image_default, # Safety fail measure incase of model errors in pollinations api.
-)
-
-multi_model.generate(
-    "Hi",
-    display=True,
-    provide_details=False # Provides the details and objects of each generation
-)
-multi_model.generate(
-    "Make an image of a black dog in a cyberpunk city.",
-    display=True,
-    provide_details=False
-)
-multi_model.generate(
-    "Thanks.",
-    display=True,
-    provide_details=False
-)
-```
-## Smart Model (MultiModel up-to-date with time, dates, weather, and search) (Primitive Testing)
-```python
-import pollinations
-
-# Searching will not work unless you provide a serpapi api-key like this:
-pollinations.keys(serpapi="your-key")
-
-smart_model: pollinations.SmartModel = pollinations.smart(
-    system="You are a helpful and friendly AI assistant. Use emojis and markdown as you like.",
-    text_model=pollinations.mistral_large,      # Optional
-    # image_model=pollinations.flux_anime       # Optional : If not directly chosen, the best fit model according to prompt will be chosen.
-)
-
-smart_model.generate(
-    prompt="Hi.",
-    display=True,
-    provide_details=False    # Provide extra details of each generation.
-)
-smart_model.generate(
-    prompt="What is the weather in london like?",
-    display=True,
-    provide_details=False
-)
-smart_model.generate(
-    prompt="What's the latest news there as well?",
-    display=True,
-    provide_details=False
-)
-smart_model.generate(
-    prompt="What time is it in New York City?",
-    display=True,
-    provide_details=False
-)
-smart_model.generate(
-    prompt="Make an image of that at night, include city lights.",
-    display=True,
-    provide_details=False
-)
-smart_model.generate(
-    prompt="Thanks.",
-    display=True,
-    provide_details=False
 )
 ```
 
