@@ -47,4 +47,4 @@ setup(
         "Instagram": "https://instagram.com/pollinations_ai",
         "Twitter": "https://twitter.com/pollinations_ai",
     }
-)
+) 
