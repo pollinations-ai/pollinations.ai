@@ -1,4 +1,4 @@
-__version__ = "2.3"
+__version__ = "2.3.1"
 
 import requests
 import datetime
@@ -15,6 +15,16 @@ import os
 
 
 class API(enum.Enum):
+    """
+    Enumeration representing API configuration details.
+
+    Attributes:
+        TEXT (str): Endpoint for text-based APIs.
+        IMAGE (str): Endpoint for image-based APIs.
+        HEADERS (dict): HTTP headers required for API requests.
+        TIMEOUT (int): Default timeout for API requests in seconds.
+    """
+
     TEXT = "text.pollinations.ai"
     IMAGE = "image.pollinations.ai"
     HEADERS = {"Content-Type": "application/json"}
@@ -22,6 +32,23 @@ class API(enum.Enum):
 
 
 class Model(object):
+    """
+    Represents a model's configuration & details.
+
+    Attributes:
+        name (str): The name of the model.
+        type (str): The type/category of the model (e.g., chat, image).
+        censored (bool): Whether the model is subject to content censorship.
+        description (str): A brief description of the model.
+        baseModel (bool): Indicates if the model is a base model.
+
+    Methods:
+        info(*args, **kwargs): Returns a dictionary representation of the model's attributes.
+        __call__(*args, **kwargs): Returns the name of the model.
+        __str__(*args, **kwargs): Returns the name of the model as a string.
+        __repr__(*args, **kwargs): Returns a JSON-formatted string of the model attributes.
+    """
+
     def __init__(
         self,
         name: str = None,
@@ -58,6 +85,25 @@ class Model(object):
 
 
 class Text(object):
+    """
+    Manages interactions with text-based AI models.
+
+    Attributes:
+        model (str): The model's name.
+        system (str): Systeml prompt or configuration.
+        contextual (bool): Indicates if the interaction is context-aware.
+        messages (list): List of conversation messages.
+        seed (int or str): Seed for model behavior.
+        jsonMode (bool): Whether the response should be in JSON format.
+
+    Methods:
+        image(file: str | list, *args, **kwargs): Vision capability of the model. (openai model only)
+        __call__(prompt: str, display: bool, *args, encode: bool, **kwargs): Sends a prompt to the model and processes the response.
+        __str__(): Returns a string representation of the Text instance.
+        __repr__(): Returns a JSON-formatted string of the Text instance attributes.
+        models(*args, **kwargs): Fetches a tuple of available model names.
+    """
+
     def __init__(
         self,
         model: str = "openai",
@@ -87,8 +133,7 @@ class Text(object):
         self.time = None
 
     def image(self, file: str | list, *args, **kwargs):
-        # Currently causing issues, possible API issue?
-        # Looking into errors.
+        # broken, get this whenever using image(s): An error occurred: 500 - Request failed with status code 400
         if isinstance(file, str):
             self.images = Text.Message.image(file)
         else:
@@ -181,6 +226,22 @@ class Text(object):
         return tuple()
 
     class Message(object):
+        """
+        Represents a single message in a conversation with a model.
+
+        Attributes:
+            role (str): The role of the sender (user, assistant, system).
+            content (str): The textual content of the message.
+            images (dict | list): Optional image content associated with the message.
+            timestamp (datetime): The creation timestamp of the message.
+
+        Methods:
+            image(file: str, *args, **kwargs): Converts an image file to a dictionary for inclusion in a message.
+            __call__(*args, **kwargs): Converts the message object into a dictionary format.
+            __str__(*args, **kwargs): Returns a string representation of the message.
+            __repr__(*args, **kwargs): Returns a JSON-formatted string of the message attributes.
+        """
+
         class Role(object):
             USER = "user"
             ASSISTANT = "assistant"
@@ -245,6 +306,25 @@ class Text(object):
             )
 
     class Request(object):
+        """
+        Handles requests to text-based AI APIs.
+
+        Attributes:
+            model (str): The name of the model.
+            prompt (str): The input text prompt.
+            system (str): System configuration for the request.
+            contextual (bool): Whether the request maintains contextual awareness.
+            messages (list): List of conversation messages.
+            images (list): Optional list of image for vision (openai model only).
+            seed (int or str): Random seed for the request.
+            jsonMode (bool): Whether the response should be in JSON format.
+
+        Methods:
+            __call__(encode: bool, *args, **kwargs): Sends the API request and processes the response.
+            __str__(*args, **kwargs): Returns a string representation of the request instance.
+            __repr__(*args, **kwargs): Returns a JSON-formatted string of the request attributes.
+        """
+
         def __init__(
             self,
             model: str,
@@ -462,6 +542,26 @@ class Text(object):
 
 
 class Image(object):
+    """
+    Manages interactions with image-based AI models.
+
+    Attributes:
+        model (str): The model's name.
+        seed (int or str): Seed for model behavior.
+        width (int): The width of the output image.
+        height (int): The height of the output image.
+        enhance (bool): Whether the prompt should be AI enhanced.
+        nologo (bool): Removes logos from output images if True.
+        private (bool): Indicates if the request is private from feed.
+        safe (bool): Ensures safe content generation (strict NSFW filtering).
+
+    Methods:
+        __call__(prompt: str, *args): Sends a prompt to the model and processes the response.
+        save(file: str): Saves the response image to a file.
+        __str__(*args, **kwargs): Returns a string representation of the Image instance.
+        __repr__(*args, **kwargs): Returns a dictionary representation of the Image instance attributes.
+    """
+
     def __init__(
         self,
         model: str = "flux",
@@ -535,6 +635,28 @@ class Image(object):
         }
 
     class Request(object):
+        """
+        Handles requests to image-based AI APIs.
+
+        Attributes:
+            model (str): The name of the model.
+            prompt (str): The input description or prompt for image generation.
+            seed (int or str): Seed for ensuring consistent outputs.
+            width (int): The desired width of the output image.
+            height (int): The desired height of the output image.
+            enhance (bool): Whether the prompt should be AI enhanced.
+            nologo (bool): Removes logos from output images if True.
+            private (bool): Indicates if the request is private from feed.
+            safe (bool): Ensures safe content generation (strict NSFW filtering).
+            file (str): The file path for saving the generated image.
+
+        Methods:
+            __call__(*args, encode: bool, **kwargs): Sends the image generation request to the API and processes the response.
+            save(file: str): Saves the response image to the specified file.
+            __str__(*args, **kwargs): Returns a string representation of the request instance.
+            __repr__(*args, **kwargs): Returns a JSON-formatted string of the request attributes.
+        """
+
         def __init__(
             self,
             model: str = "flux",
