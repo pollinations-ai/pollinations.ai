@@ -2,14 +2,15 @@
   <img src="https://i.ibb.co/p049Y5S/86964862.png" width="50"/>   <img src="https://i.ibb.co/r6JZ336/sketch1700556567238.png" width="250">
 </div>
 
-# [pollinations.ai - Image Generation](https://pypi.org/project/pollinations.ai)
+# [pollinations.ai - Free AI Text & Image Generation](https://pypi.org/project/pollinations.ai)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/toolkitr/tkr/blob/main/LICENSE)
-[![Python Versions](https://img.shields.io/badge/python-3.7%20|%203.8%20|%203.9%20|%203.10%20|%203.11%20|%203.12%20-blue)](https://www.python.org/downloads/)
+[![Python Versions](https://img.shields.io/badge/python-3-blue)](https://www.python.org/downloads/)
+
 
 ```
 pollinations.ai: (https://pollinations.ai/)
 
-Work with the best generative models from Pollinations using this python wrapper.
+Work with the best generative models from Pollinations using this Python SDK.
 ```
 
 ## Explanation
