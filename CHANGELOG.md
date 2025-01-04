@@ -12,6 +12,10 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this Python SDK.
 ```
+# FIX 2.3.3
+```diff
++ Updated license & badge markdown
+```
 # UPDATE 2.3.2
 ```diff
 + Async class
