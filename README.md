@@ -55,6 +55,14 @@ print(pollinations.Image.models())
 print(pollinations.Image.flux())
 print(pollinations.Image.flux.info())
 ```
+### Async Image Generation
+```python
+image_model = pollinations.Async.Image()  # Has ALL features and functionality of normal Image class
+
+image = await image_model(
+    prompt="A cat with flowers around it."
+)
+```
 ## Text Generation
 ```python
 import pollinations
@@ -89,10 +97,18 @@ print(pollinations.Text.models())
 print(pollinations.Text.openai())
 print(pollinations.Text.openai.info())
 ```
+### Async Image Generation
+```python
+text_model = pollinations.Async.Text()  # Has ALL features and functionality of normal Text class
 
+response = await text_model(
+    prompt="Hello."
+).response
+```
 ## Image Request Building
 ```python
 import pollinations
+
 image_request = pollinations.Image.Request(
     model=pollinations.Image.flux(),
     prompt="A cat with flowers around it.",
