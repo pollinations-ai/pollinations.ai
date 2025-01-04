@@ -44,6 +44,7 @@ setup(
         "Website": "https://pollinations.ai/",
         "Discord": "https://discord.gg/8HqSRhJVxn",
         "Github": "https://github.com/pollinations",
+        "Repository": "https://github.com/pollinations-ai/pollinations.ai",
         "YouTube": "https://www.youtube.com/channel/UCk4yKnLnYfyUmCCbDzOZOug",
         "Instagram": "https://instagram.com/pollinations_ai",
         "Twitter": "https://twitter.com/pollinations_ai",
