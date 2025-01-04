@@ -6,10 +6,15 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pollinations-ai/pollinations.ai/blob/main/LICENSE)
 [![Python Versions](https://img.shields.io/badge/python-3%20%7C%203.10--3.13-blue)](https://www.python.org/downloads/)
 
+
 ```
 pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this Python SDK.
+```
+# FIX 2.3.4
+```diff
++ Fixed Async.Text.Message.__call__ issue
 ```
 # FIX 2.3.3
 ```diff
@@ -359,6 +364,7 @@ text_model.generate(
 - [Pollinations.ai](https://pollinations.ai/)
 - [Discord](https://discord.gg/8HqSRhJVxn)
 - [Github](https://github.com/pollinations)
+- [Repository](https://github.com/pollinations-ai/pollinations.ai)
 - [Youtube](https://www.youtube.com/channel/UCk4yKnLnYfyUmCCbDzOZOug)
 - [Instagram](https://instagram.com/pollinations_ai)
 - [Twitter (X)](https://twitter.com/pollinations_ai)
