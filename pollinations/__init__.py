@@ -87,7 +87,8 @@ class Text(object):
         self.time = None
 
     def image(self, file: str | list, *args, **kwargs):
-        # broken, get this whenever using image(s): An error occurred: 500 - Request failed with status code 400
+        # Currently causing issues, possible API issue?
+        # Looking into errors.
         if isinstance(file, str):
             self.images = Text.Message.image(file)
         else:
