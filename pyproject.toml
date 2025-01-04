@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pollinations"
-version = "2.3.2"
+version = "2.3.3"
 description = "pollinations.ai | Free AI Text & Image Generation"
 readme = "README.md"
 authors = [{ name = "pollinations.ai", email = "hello@pollinations.ai" }, { name = "git.pollinations.ai", email = "git.pollinations.ai@gmail.com" }]
@@ -30,6 +30,7 @@ dependencies = ["chardet", "aiohttp"]
 Website = 'https://pollinations.ai/'
 Discord = 'https://discord.gg/8HqSRhJVxn'
 Github = 'https://github.com/pollinations'
+Repository = 'https://github.com/pollinations-ai/pollinations.ai'
 YouTube = 'https://www.youtube.com/channel/UCk4yKnLnYfyUmCCbDzOZOug'
 Instagram = 'https://instagram.com/pollinations_ai'
 Twitter = 'https://twitter.com/pollinations_ai'
