@@ -163,7 +163,7 @@ print(response)
 
 """
 
-__version__ = "2.3.4"
+__version__ = "2.3.5"
 
 import requests
 import datetime
@@ -575,8 +575,11 @@ class Text(object):
                             response = response.encode("utf-8")
                             response = response.decode("utf-8")
                         except Exception:
-                            detection = chardet.detect(request.content)
-                            response = response.decode(detection["encoding"])
+                            try:
+                                detection = chardet.detect(request.content)
+                                response = response.decode(detection["encoding"])
+                            except Exception:
+                                pass
 
                     return response
                 else:
@@ -1334,8 +1337,11 @@ class Async:
                                 response = response.encode("utf-8")
                                 response = response.decode("utf-8")
                             except Exception:
-                                detection = chardet.detect(await request.read())
-                                response = response.decode(detection["encoding"])
+                                try:
+                                    detection = chardet.detect(await request.read())
+                                    response = response.decode(detection["encoding"])
+                                except Exception:
+                                    pass
 
                         return response
 

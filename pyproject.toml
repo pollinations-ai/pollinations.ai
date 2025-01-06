@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pollinations"
-version = "2.3.4"
+version = "2.3.5"
 description = "pollinations.ai | Free AI Text & Image Generation"
 readme = "README.md"
 authors = [{ name = "pollinations.ai", email = "hello@pollinations.ai" }, { name = "git.pollinations.ai", email = "git.pollinations.ai@gmail.com" }]
