@@ -163,7 +163,7 @@ print(response)
 
 """
 
-__version__ = "2.3.5"
+__version__ = "2.3.6"
 
 import requests
 import datetime
@@ -565,9 +565,12 @@ class Text(object):
                     )
 
                 if request.status_code == 200:
-                    try:
-                        response = request.json()
-                    except Exception:
+                    if self.jsonMode:
+                        try:
+                            response = request.json()
+                        except Exception:
+                            response = request.text
+                    else:
                         response = request.text
 
                     if encode:
@@ -709,6 +712,14 @@ class Text(object):
         description="Pollinations 1 (OptiLLM)",
         baseModel=False,
     )
+    
+    deepseek = Model(
+            name="deepseek",
+            type="chat",
+            censored=True,
+            description="DeepSeek-V3",
+            baseModel=True
+        )
 
 
 class Image(object):
@@ -1303,10 +1314,13 @@ class Async:
                                 timeout=aiohttp.ClientTimeout(total=API.TIMEOUT.value),
                             ) as request:
                                 if request.status == 200:
-                                    try:
-                                        response = await request.json()
-                                    except Exception:
-                                        response = await request.text()
+                                    if self.jsonMode:
+                                        try:
+                                            response = await request.json()
+                                        except Exception:
+                                            response = await request.text
+                                    else:
+                                        response = request.text
                                 else:
                                     return f"An error occurred: {request.status} - {await request.text()}"
                         else:
@@ -1468,6 +1482,14 @@ class Async:
             censored=False,
             description="Pollinations 1 (OptiLLM)",
             baseModel=False,
+        )
+        
+        deepseek = Model(
+            name="deepseek",
+            type="chat",
+            censored=True,
+            description="DeepSeek-V3",
+            baseModel=True
         )
 
     class Image:
