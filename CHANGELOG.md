@@ -12,6 +12,10 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this Python SDK.
 ```
+# FIX 2.3.5
+```dif
++ Fixed encoding error in Text.Request.__call__
+```
 # FIX 2.3.4
 ```diff
 + Fixed Async.Text.Message.__call__ issue
