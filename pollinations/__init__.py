@@ -1,6 +1,6 @@
 """
 ```
-pollinations.ai: (https://pollinations.ai/)
+pollinations.ai: (https://pollinations.ai/) 
 
 Work with the best generative models from Pollinations using this Python SDK.
 ```
