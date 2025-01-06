@@ -16,6 +16,7 @@ Work with the best generative models from Pollinations using this Python SDK.
 ```diff
 + Fixed Text.Request encoding issues
 + Fixed Async.Text.Request encoding issues
++ Added `deepseek` Text model
 ```
 # FIX 2.3.5
 ```dif
