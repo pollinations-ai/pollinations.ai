@@ -163,7 +163,7 @@ print(response)
 
 """
 
-__version__ = "2.3.7"
+__version__ = "2.3.8"
 
 import requests
 import datetime
@@ -1267,7 +1267,7 @@ class Async:
             async def __call__(self, encode: bool = False, *args, **kwargs):
                 try:
                     async with aiohttp.ClientSession() as session:
-                        if self.contextual:
+                        if self.contextual or self.images not in [None, []]:
                             messages = [
                                 message()
                                 if isinstance(message, Async.Text.Message)
