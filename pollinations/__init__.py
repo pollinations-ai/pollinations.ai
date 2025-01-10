@@ -163,7 +163,7 @@ print(response)
 
 """
 
-__version__ = "2.3.7"
+__version__ = "2.3.8"
 
 import requests
 import datetime
