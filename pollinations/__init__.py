@@ -1,6 +1,6 @@
 """
 ```
-pollinations.ai: (https://pollinations.ai/) 
+pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this Python SDK.
 ```
@@ -163,7 +163,7 @@ print(response)
 
 """
 
-__version__ = "2.3.6"
+__version__ = "2.3.7"
 
 import requests
 import datetime
@@ -297,10 +297,10 @@ class Text(object):
 
         self.prompt = None
         self.request = None
+        self.response = None
         self.time = None
 
     def image(self, file: str | list, *args, **kwargs):
-        # broken, get this whenever using image(s): An error occurred: 500 - Request failed with status code 400
         if isinstance(file, str):
             self.images = Text.Message.image(file)
         else:
@@ -506,7 +506,7 @@ class Text(object):
             **kwargs,
         ) -> None:
             self.timestamp = datetime.datetime.now()
-            self.model = str(model) if model in Text.models() else "openai"
+            self.model = str(model)
             self.prompt = str(prompt)
             self.system = str(system)
             self.contextual = contextual if isinstance(contextual, bool) else False
@@ -517,7 +517,7 @@ class Text(object):
 
         def __call__(self, encode: bool = False, *args, **kwargs):
             try:
-                if self.contextual:
+                if self.contextual or self.images not in [None, []]:
                     messages = [
                         message() if isinstance(message, Text.Message) else message
                         for message in self.messages
@@ -649,14 +649,6 @@ class Text(object):
         baseModel=True,
     )
 
-    mistral_large = Model(
-        name="mistral-large",
-        type="chat",
-        censored=False,
-        description="Mistral Large (v2)",
-        baseModel=True,
-    )
-
     command_r = Model(
         name="command-r",
         type="chat",
@@ -712,14 +704,14 @@ class Text(object):
         description="Pollinations 1 (OptiLLM)",
         baseModel=False,
     )
-    
+
     deepseek = Model(
-            name="deepseek",
-            type="chat",
-            censored=True,
-            description="DeepSeek-V3",
-            baseModel=True
-        )
+        name="deepseek",
+        type="chat",
+        censored=True,
+        description="DeepSeek-V3",
+        baseModel=True,
+    )
 
 
 class Image(object):
@@ -755,7 +747,7 @@ class Image(object):
         safe: bool = False,
     ):
         self.timestamp = datetime.datetime.now()
-        self.model = str(model) if model in Image.models() else "flux"
+        self.model = str(model)
         self.seed = seed
         self.width = width if isinstance(width, int) else 1024
         self.height = height if isinstance(height, int) else 1024
@@ -851,7 +843,7 @@ class Image(object):
             safe: bool = False,
         ):
             self.timestamp = datetime.datetime.now()
-            self.model = str(model) if model in Image.models() else "flux"
+            self.model = str(model)
             self.prompt = str(prompt)
             self.seed = random.randint(1, 999999999) if seed == "random" else seed
             self.width = width if isinstance(width, int) else 1024
@@ -1040,6 +1032,7 @@ class Async:
             self.images = None
             self.prompt = None
             self.request = None
+            self.response = None
             self.time = None
 
         async def image(self, file: str | list, *args, **kwargs):
@@ -1180,7 +1173,7 @@ class Async:
                     with open(file, "rb") as img_file:
                         return base64.b64encode(img_file.read()).decode("utf-8")
 
-                encoded_image = await asyncio.to_thread(read_file)
+                encoded_image = await read_file()
                 file_extension = file.split(".")[-1].lower()
 
                 mime_types = {
@@ -1260,7 +1253,7 @@ class Async:
                 **kwargs,
             ) -> None:
                 self.timestamp = datetime.datetime.now()
-                self.model = model
+                self.model = str(model)
                 self.prompt = str(prompt)
                 self.system = str(system)
                 self.contextual = contextual
@@ -1308,7 +1301,7 @@ class Async:
                                     "model": self.model,
                                     "messages": messages,
                                     "seed": self.seed,
-                                    "jsonMode": str(self.jsonMode).lower(),
+                                    "json": str(self.jsonMode).lower(),
                                 },
                                 headers=API.HEADERS.value,
                                 timeout=aiohttp.ClientTimeout(total=API.TIMEOUT.value),
@@ -1318,9 +1311,9 @@ class Async:
                                         try:
                                             response = await request.json()
                                         except Exception:
-                                            response = await request.text
+                                            response = await request.text()
                                     else:
-                                        response = request.text
+                                        response = await request.text()
                                 else:
                                     return f"An error occurred: {request.status} - {await request.text()}"
                         else:
@@ -1420,14 +1413,6 @@ class Async:
             baseModel=True,
         )
 
-        mistral_large = Model(
-            name="mistral-large",
-            type="chat",
-            censored=False,
-            description="Mistral Large (v2)",
-            baseModel=True,
-        )
-
         command_r = Model(
             name="command-r",
             type="chat",
@@ -1483,13 +1468,13 @@ class Async:
             description="Pollinations 1 (OptiLLM)",
             baseModel=False,
         )
-        
+
         deepseek = Model(
             name="deepseek",
             type="chat",
             censored=True,
             description="DeepSeek-V3",
-            baseModel=True
+            baseModel=True,
         )
 
     class Image:
@@ -1527,7 +1512,7 @@ class Async:
             safe: bool = False,
         ):
             self.timestamp = datetime.datetime.now()
-            self.model = model
+            self.model = str(model)
             self.seed = seed
             self.width = width if isinstance(width, int) else 1024
             self.height = height if isinstance(height, int) else 1024
@@ -1646,7 +1631,7 @@ class Async:
                 safe: bool = False,
             ):
                 self.timestamp = datetime.datetime.now()
-                self.model = model
+                self.model = str(model)
                 self.prompt = str(prompt)
                 self.seed = random.randint(1, 999999999) if seed == "random" else seed
                 self.width = width if isinstance(width, int) else 1024
