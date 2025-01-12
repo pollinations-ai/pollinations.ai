@@ -163,7 +163,7 @@ print(response)
 
 """
 
-__version__ = "2.3.8"
+__version__ = "2.3.9"
 
 import requests
 import datetime
@@ -795,17 +795,20 @@ class Image(object):
         return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe})"
 
     def __repr__(self, *args, **kwargs):
-        return {
-            "model": self.model,
-            "seed": self.seed,
-            "width": self.width,
-            "height": self.height,
-            "enhance": self.enhance,
-            "nologo": self.nologo,
-            "private": self.private,
-            "safe": self.safe,
-            "timestamp": str(self.timestamp),
-        }
+        return json.dumps(
+            {
+                "model": self.model,
+                "seed": self.seed,
+                "width": self.width,
+                "height": self.height,
+                "enhance": self.enhance,
+                "nologo": self.nologo,
+                "private": self.private,
+                "safe": self.safe,
+                "timestamp": str(self.timestamp),
+            },
+            indent=4,
+        )
 
     class Request(object):
         """
@@ -890,17 +893,20 @@ class Image(object):
             return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe})"
 
         def __repr__(self, *args, **kwargs):
-            return {
-                "model": self.model,
-                "seed": self.seed,
-                "width": self.width,
-                "height": self.height,
-                "enhance": self.enhance,
-                "nologo": self.nologo,
-                "private": self.private,
-                "safe": self.safe,
-                "timestamp": str(self.timestamp),
-            }
+            return json.dumps(
+                {
+                    "model": self.model,
+                    "seed": self.seed,
+                    "width": self.width,
+                    "height": self.height,
+                    "enhance": self.enhance,
+                    "nologo": self.nologo,
+                    "private": self.private,
+                    "safe": self.safe,
+                    "timestamp": str(self.timestamp),
+                },
+                indent=4,
+            )
 
     @staticmethod
     def models(*args, **kwargs) -> tuple:
@@ -1581,17 +1587,20 @@ class Async:
             return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe})"
 
         def __repr__(self, *args, **kwargs):
-            return {
-                "model": self.model,
-                "seed": self.seed,
-                "width": self.width,
-                "height": self.height,
-                "enhance": self.enhance,
-                "nologo": self.nologo,
-                "private": self.private,
-                "safe": self.safe,
-                "timestamp": str(self.timestamp),
-            }
+            return json.dumps(
+                {
+                    "model": self.model,
+                    "seed": self.seed,
+                    "width": self.width,
+                    "height": self.height,
+                    "enhance": self.enhance,
+                    "nologo": self.nologo,
+                    "private": self.private,
+                    "safe": self.safe,
+                    "timestamp": str(self.timestamp),
+                },
+                indent=4,
+            )
 
         class Request:
             """
@@ -1681,17 +1690,20 @@ class Async:
                 return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe})"
 
             def __repr__(self, *args, **kwargs):
-                return {
-                    "model": self.model,
-                    "seed": self.seed,
-                    "width": self.width,
-                    "height": self.height,
-                    "enhance": self.enhance,
-                    "nologo": self.nologo,
-                    "private": self.private,
-                    "safe": self.safe,
-                    "timestamp": str(self.timestamp),
-                }
+                return json.dumps(
+                    {
+                        "model": self.model,
+                        "seed": self.seed,
+                        "width": self.width,
+                        "height": self.height,
+                        "enhance": self.enhance,
+                        "nologo": self.nologo,
+                        "private": self.private,
+                        "safe": self.safe,
+                        "timestamp": str(self.timestamp),
+                    },
+                    indent=4,
+                )
 
         flux = Model(
             name="flux",
