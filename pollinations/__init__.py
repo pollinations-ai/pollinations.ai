@@ -163,7 +163,7 @@ print(response)
 
 """
 
-__version__ = "2.3.9"
+__version__ = "2.3.10"
 
 import requests
 import datetime
@@ -279,6 +279,7 @@ class Text(object):
         messages: list = [],
         seed: int = "random",
         jsonMode: bool = False,
+        referrer: str = "pollinations.py",
         *args,
         **kwargs,
     ) -> None:
@@ -289,6 +290,7 @@ class Text(object):
         self.messages = messages
         self.seed = seed
         self.jsonMode = jsonMode
+        self.referrer = referrer
 
         if self.system is not None and self.system != "":
             self.messages = [Text.Message("system", self.system)] + self.messages
@@ -338,6 +340,7 @@ class Text(object):
             images=self.images,
             seed=self.seed,
             jsonMode=self.jsonMode,
+            referrer=self.referrer,
         )
 
         self.request = request
@@ -365,7 +368,7 @@ class Text(object):
         return self
 
     def __str__(self):
-        return f"{self.__class__.__name__}(model={self.model}, prompt={self.prompt}, system={self.system}, contextual={self.contextual}, messages={len(self.messages)}, timestamp={self.timestamp})"
+        return f"{self.__class__.__name__}(model={self.model}, prompt={self.prompt}, system={self.system}, contextual={self.contextual}, messages={len(self.messages)}, referrer={self.referrer}, timestamp={self.timestamp})"
 
     def __repr__(self):
         return json.dumps(
@@ -376,6 +379,7 @@ class Text(object):
                 "system": self.system,
                 "contextual": self.contextual,
                 "messages": len(self.messages),
+                "referrer": self.referrer,
                 "timestamp": str(self.timestamp),
             },
             indent=4,
@@ -503,6 +507,7 @@ class Text(object):
             images: typing.List[dict] = None,
             seed: typing.Union[str, int] = "random",
             jsonMode: bool = False,
+            referrer: str = "pollinations.py",
             **kwargs,
         ) -> None:
             self.timestamp = datetime.datetime.now()
@@ -514,6 +519,7 @@ class Text(object):
             self.images = images
             self.seed = random.randint(0, 9999999999) if seed == "random" else int(seed)
             self.jsonMode = jsonMode if isinstance(jsonMode, bool) else False
+            self.referrer = referrer
 
         def __call__(self, encode: bool = False, *args, **kwargs):
             try:
@@ -544,6 +550,7 @@ class Text(object):
                             "messages": messages,
                             "seed": self.seed,
                             "jsonMode": self.jsonMode,
+                            "referrer": self.referrer
                         },
                         headers=API.HEADERS.value,
                         timeout=API.TIMEOUT.value,
@@ -552,7 +559,8 @@ class Text(object):
                     params = {
                         "model": self.model,
                         "seed": self.seed,
-                        "json": self.jsonMode,
+                        "jsonMode": self.jsonMode,
+                        "referrer": self.referrer
                     }
                     if self.system:
                         params["system"] = self.system
@@ -592,7 +600,7 @@ class Text(object):
                 return f"An error occurred: {e}"
 
         def __str__(self, *args, **kwargs):
-            return f"{self.__class__.__name__}(model={self.model}, prompt={self.prompt}, system={self.system}, contextual={self.contextual}, messages={len(self.messages)}, timestamp={self.timestamp})"
+            return f"{self.__class__.__name__}(model={self.model}, prompt={self.prompt}, system={self.system}, contextual={self.contextual}, messages={len(self.messages)}, referrer={self.referrer}, timestamp={self.timestamp})"
 
         def __repr__(self, *args, **kwargs):
             return json.dumps(
@@ -603,6 +611,7 @@ class Text(object):
                     "system": self.system,
                     "contextual": self.contextual,
                     "messages": len(self.messages),
+                    "referrer": self.referrer,
                     "images": len(self.images) if self.images is not None else 0,
                     "timestamp": str(self.timestamp),
                 },
@@ -745,6 +754,7 @@ class Image(object):
         nologo: bool = False,
         private: bool = False,
         safe: bool = False,
+        referrer: str = "pollinations.py"
     ):
         self.timestamp = datetime.datetime.now()
         self.model = str(model)
@@ -755,6 +765,7 @@ class Image(object):
         self.nologo = nologo if isinstance(nologo, bool) else False
         self.private = private if isinstance(private, bool) else False
         self.safe = safe if isinstance(safe, bool) else False
+        self.referrer = referrer
 
         self.prompt = None
         self.response = None
@@ -775,6 +786,7 @@ class Image(object):
             nologo=self.nologo,
             private=self.private,
             safe=self.safe,
+            referrer=self.referrer
         )
 
         self.prompt = prompt
@@ -792,7 +804,7 @@ class Image(object):
         return self
 
     def __str__(self, *args, **kwargs):
-        return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe})"
+        return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe}, referrer={self.referrer}, timestamp={self.timestamp})"
 
     def __repr__(self, *args, **kwargs):
         return json.dumps(
@@ -805,6 +817,7 @@ class Image(object):
                 "nologo": self.nologo,
                 "private": self.private,
                 "safe": self.safe,
+                "referrer": self.referrer,
                 "timestamp": str(self.timestamp),
             },
             indent=4,
@@ -844,6 +857,7 @@ class Image(object):
             nologo: bool = False,
             private: bool = False,
             safe: bool = False,
+            referrer: str = "pollinations.py"
         ):
             self.timestamp = datetime.datetime.now()
             self.model = str(model)
@@ -855,6 +869,7 @@ class Image(object):
             self.nologo = nologo if isinstance(nologo, bool) else False
             self.private = private if isinstance(private, bool) else False
             self.safe = safe if isinstance(safe, bool) else False
+            self.referrer = referrer
 
             self.response = None
             self.time = None
@@ -871,6 +886,7 @@ class Image(object):
                     "private": self.private,
                     "model": self.model,
                     "enhance": self.enhance,
+                    "referrer": self.referrer
                 }
 
                 query_params = "&".join(f"{k}={v}" for k, v in params.items())
@@ -890,7 +906,7 @@ class Image(object):
                 return self
 
         def __str__(self, *args, **kwargs):
-            return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe})"
+            return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe}, referrer={self.referrer}, timestamp={self.timestamp})"
 
         def __repr__(self, *args, **kwargs):
             return json.dumps(
@@ -903,6 +919,7 @@ class Image(object):
                     "nologo": self.nologo,
                     "private": self.private,
                     "safe": self.safe,
+                    "referrer": self.referrer,
                     "timestamp": str(self.timestamp),
                 },
                 indent=4,
@@ -1019,6 +1036,7 @@ class Async:
             messages: list = [],
             seed: int = "random",
             jsonMode: bool = False,
+            referrer: str = "pollinations.py",
             *args,
             **kwargs,
         ) -> None:
@@ -1029,6 +1047,7 @@ class Async:
             self.messages = messages
             self.seed = seed
             self.jsonMode = jsonMode
+            self.referrer = referrer
 
             if self.system is not None and self.system != "":
                 self.messages = [
@@ -1080,6 +1099,7 @@ class Async:
                 images=self.images,
                 seed=self.seed,
                 jsonMode=self.jsonMode,
+                referrer=self.referrer
             )
 
             self.request = request
@@ -1120,7 +1140,7 @@ class Async:
                     return tuple()
 
         def __str__(self):
-            return f"{self.__class__.__name__}(model={self.model}, prompt={self.prompt}, system={self.system}, contextual={self.contextual}, messages={len(self.messages)}, timestamp={self.timestamp})"
+            return f"{self.__class__.__name__}(model={self.model}, prompt={self.prompt}, system={self.system}, contextual={self.contextual}, messages={len(self.messages)}, referrer={self.referrer}, timestamp={self.timestamp})"
 
         def __repr__(self):
             return json.dumps(
@@ -1131,6 +1151,7 @@ class Async:
                     "system": self.system,
                     "contextual": self.contextual,
                     "messages": len(self.messages),
+                    "referrer": self.referrer,
                     "timestamp": str(self.timestamp),
                 },
                 indent=4,
@@ -1256,6 +1277,7 @@ class Async:
                 images: typing.List[dict] = None,
                 seed: typing.Union[str, int] = "random",
                 jsonMode: bool = False,
+                referrer: str = "pollinations.py",
                 **kwargs,
             ) -> None:
                 self.timestamp = datetime.datetime.now()
@@ -1269,6 +1291,7 @@ class Async:
                     random.randint(0, 9999999999) if seed == "random" else int(seed)
                 )
                 self.jsonMode = jsonMode
+                self.referrer = referrer
 
             async def __call__(self, encode: bool = False, *args, **kwargs):
                 try:
@@ -1307,7 +1330,8 @@ class Async:
                                     "model": self.model,
                                     "messages": messages,
                                     "seed": self.seed,
-                                    "json": str(self.jsonMode).lower(),
+                                    "jsonMode": str(self.jsonMode).lower(),
+                                    "referrer": self.referrer
                                 },
                                 headers=API.HEADERS.value,
                                 timeout=aiohttp.ClientTimeout(total=API.TIMEOUT.value),
@@ -1326,7 +1350,8 @@ class Async:
                             params = {
                                 "model": self.model,
                                 "seed": self.seed,
-                                "json": str(self.jsonMode).lower(),
+                                "jsonMode": str(self.jsonMode).lower(),
+                                "referrer": self.referrer
                             }
                             if self.system:
                                 params["system"] = self.system
@@ -1362,7 +1387,7 @@ class Async:
                     return f"An error occurred: {e}"
 
             def __str__(self, *args, **kwargs):
-                return f"{self.__class__.__name__}(model={self.model}, prompt={self.prompt}, system={self.system}, contextual={self.contextual}, messages={len(self.messages)}, timestamp={self.timestamp})"
+                return f"{self.__class__.__name__}(model={self.model}, prompt={self.prompt}, system={self.system}, contextual={self.contextual}, messages={len(self.messages)}, referrer={self.referrer}, timestamp={self.timestamp})"
 
             def __repr__(self, *args, **kwargs):
                 return json.dumps(
@@ -1374,6 +1399,7 @@ class Async:
                         "contextual": self.contextual,
                         "messages": len(self.messages),
                         "images": len(self.images) if self.images is not None else 0,
+                        "referrer": self.referrer,
                         "timestamp": str(self.timestamp),
                     },
                     indent=4,
@@ -1516,6 +1542,7 @@ class Async:
             nologo: bool = False,
             private: bool = False,
             safe: bool = False,
+            referrer: str = "pollinations.py"
         ):
             self.timestamp = datetime.datetime.now()
             self.model = str(model)
@@ -1526,6 +1553,7 @@ class Async:
             self.nologo = nologo if isinstance(nologo, bool) else False
             self.private = private if isinstance(private, bool) else False
             self.safe = safe if isinstance(safe, bool) else False
+            self.referrer = referrer
 
             self.prompt = None
             self.response = None
@@ -1548,6 +1576,7 @@ class Async:
                 nologo=self.nologo,
                 private=self.private,
                 safe=self.safe,
+                referrer=self.referrer
             )
 
             self.prompt = prompt
@@ -1584,7 +1613,7 @@ class Async:
                     return tuple()
 
         def __str__(self, *args, **kwargs):
-            return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe})"
+            return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe}, referrer={self.referrer}, timestamp={self.timestamp})"
 
         def __repr__(self, *args, **kwargs):
             return json.dumps(
@@ -1597,6 +1626,7 @@ class Async:
                     "nologo": self.nologo,
                     "private": self.private,
                     "safe": self.safe,
+                    "referrer": self.referrer,
                     "timestamp": str(self.timestamp),
                 },
                 indent=4,
@@ -1638,6 +1668,7 @@ class Async:
                 nologo: bool = False,
                 private: bool = False,
                 safe: bool = False,
+                referrer: str = "pollinations.py"
             ):
                 self.timestamp = datetime.datetime.now()
                 self.model = str(model)
@@ -1649,6 +1680,7 @@ class Async:
                 self.nologo = nologo if isinstance(nologo, bool) else False
                 self.private = private if isinstance(private, bool) else False
                 self.safe = safe if isinstance(safe, bool) else False
+                self.referrer = referrer
 
                 self.response = None
                 self.time = None
@@ -1665,6 +1697,7 @@ class Async:
                         "private": str(self.private).lower(),
                         "model": self.model,
                         "enhance": str(self.enhance).lower(),
+                        "referrer": self.referrer
                     }
 
                     query_params = "&".join(f"{k}={v}" for k, v in params.items())
@@ -1687,7 +1720,7 @@ class Async:
                     return self
 
             def __str__(self, *args, **kwargs):
-                return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe})"
+                return f"{self.__class__.__name__}(model={self.model}, seed={self.seed}, width={self.width}, height={self.height}, enhance={self.enhance}, nologo={self.nologo}, private={self.private}, safe={self.safe}, referrer={self.referrer}, timestamp={self.timestamp})"
 
             def __repr__(self, *args, **kwargs):
                 return json.dumps(
@@ -1700,6 +1733,7 @@ class Async:
                         "nologo": self.nologo,
                         "private": self.private,
                         "safe": self.safe,
+                        "referrer": self.referrer,
                         "timestamp": str(self.timestamp),
                     },
                     indent=4,
