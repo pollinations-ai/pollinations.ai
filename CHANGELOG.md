@@ -12,6 +12,10 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this Python SDK.
 ```
+# FIX 2.3.11
+```diff
++ Fixed small jsonMode issue
+```
 # UPDATE 2.3.10
 ```diff
 + Option to add referrer in requests (Text, Text.Request, Image, Image.Request)
