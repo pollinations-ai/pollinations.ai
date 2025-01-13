@@ -31,7 +31,8 @@ image_model = pollinations.Image(
     enhance=False,
     nologo=True,
     private=True,
-    safe=False
+    safe=False,
+    referrer="pollinations.py"
 )  # or pollinations.Image() to use defaults
 
 image = image_model(
@@ -75,7 +76,8 @@ text_model = pollinations.Text(
         )
     ],
     seed="random",
-    jsonMode=False
+    jsonMode=False,
+    referrer="pollinations.py"
 )
 
 response = text_model(
@@ -111,7 +113,8 @@ image_request = pollinations.Image.Request(
     enhance=False,
     nologo=True,
     private=True,
-    safe=False
+    safe=False,
+    referrer="pollinations.py"
 )
 
 image = image_request()
@@ -143,7 +146,8 @@ text_request = pollinations.Text.Request(
         pollinations.Text.Message.image("my_file2.png")
     ],
     seed="random",
-    jsonMode=False
+    jsonMode=False,
+    referrer="pollinations.py"
 )
 
 response = text_request(
@@ -262,6 +266,7 @@ class Text(object):
         messages (list): List of conversation messages.
         seed (int or str): Seed for model behavior.
         jsonMode (bool): Whether the response should be in JSON format.
+        referrer (str): Request referrer to attach.
 
     Methods:
         image(file: str | list, *args, **kwargs): Vision capability of the model. (openai model only)
@@ -489,6 +494,7 @@ class Text(object):
             images (list): Optional list of image for vision (openai model only).
             seed (int or str): Random seed for the request.
             jsonMode (bool): Whether the response should be in JSON format.
+            referrer (str): Request referrer to attach.
 
         Methods:
             __call__(encode: bool, *args, **kwargs): Sends the API request and processes the response.
@@ -736,6 +742,7 @@ class Image(object):
         nologo (bool): Removes logos from output images if True.
         private (bool): Indicates if the request is private from feed.
         safe (bool): Ensures safe content generation (strict NSFW filtering).
+        referrer (str): Request referrer to attach.
 
     Methods:
         __call__(prompt: str, *args): Sends a prompt to the model and processes the response.
@@ -837,7 +844,7 @@ class Image(object):
             nologo (bool): Removes logos from output images if True.
             private (bool): Indicates if the request is private from feed.
             safe (bool): Ensures safe content generation (strict NSFW filtering).
-            file (str): The file path for saving the generated image.
+            referrer (str): Request referrer to attach.
 
         Methods:
             __call__(*args, encode: bool, **kwargs): Sends the image generation request to the API and processes the response.
@@ -1019,6 +1026,7 @@ class Async:
             messages (list): List of conversation messages.
             seed (int or str): Seed for model behavior.
             jsonMode (bool): Whether the response should be in JSON format.
+            referrer (str): Request referrer to attach.
 
         Methods:
             image(file: str | list, *args, **kwargs): Vision capability of the model. (openai model only)
@@ -1259,6 +1267,7 @@ class Async:
                 images (list): Optional list of image for vision (openai model only).
                 seed (int or str): Random seed for the request.
                 jsonMode (bool): Whether the response should be in JSON format.
+                referrer (str): Request referrer to attach.
 
             Methods:
                 __call__(encode: bool, *args, **kwargs): Sends the API request and processes the response.
@@ -1524,6 +1533,7 @@ class Async:
             nologo (bool): Removes logos from output images if True.
             private (bool): Indicates if the request is private from feed.
             safe (bool): Ensures safe content generation (strict NSFW filtering).
+            referrer (str): Request referrer to attach.
 
         Methods:
             __call__(prompt: str, *args): Sends a prompt to the model and processes the response.
@@ -1648,7 +1658,7 @@ class Async:
                 nologo (bool): Removes logos from output images if True.
                 private (bool): Indicates if the request is private from feed.
                 safe (bool): Ensures safe content generation (strict NSFW filtering).
-                file (str): The file path for saving the generated image.
+                referrer (str): Request referrer to attach.
 
             Methods:
                 __call__(*args, encode: bool, **kwargs): Sends the image generation request to the API and processes the response.
