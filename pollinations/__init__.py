@@ -167,7 +167,7 @@ print(response)
 
 """
 
-__version__ = "2.3.10"
+__version__ = "2.3.11"
 
 import requests
 import datetime
@@ -555,7 +555,7 @@ class Text(object):
                             "model": self.model,
                             "messages": messages,
                             "seed": self.seed,
-                            "jsonMode": self.jsonMode,
+                            "json": self.jsonMode,
                             "referrer": self.referrer
                         },
                         headers=API.HEADERS.value,
@@ -565,7 +565,7 @@ class Text(object):
                     params = {
                         "model": self.model,
                         "seed": self.seed,
-                        "jsonMode": self.jsonMode,
+                        "json": self.jsonMode,
                         "referrer": self.referrer
                     }
                     if self.system:
@@ -1339,7 +1339,7 @@ class Async:
                                     "model": self.model,
                                     "messages": messages,
                                     "seed": self.seed,
-                                    "jsonMode": str(self.jsonMode).lower(),
+                                    "json": str(self.jsonMode).lower(),
                                     "referrer": self.referrer
                                 },
                                 headers=API.HEADERS.value,
@@ -1359,7 +1359,7 @@ class Async:
                             params = {
                                 "model": self.model,
                                 "seed": self.seed,
-                                "jsonMode": str(self.jsonMode).lower(),
+                                "json": str(self.jsonMode).lower(),
                                 "referrer": self.referrer
                             }
                             if self.system:
