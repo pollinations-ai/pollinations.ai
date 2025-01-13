@@ -38,7 +38,8 @@ image_model = pollinations.Image(
     enhance=False,
     nologo=True,
     private=True,
-    safe=False
+    safe=False,
+    referrer="pollinations.py"
 )  # or pollinations.Image() to use defaults
 
 image = image_model(
@@ -82,7 +83,8 @@ text_model = pollinations.Text(
         )
     ],
     seed="random",
-    jsonMode=False
+    jsonMode=False,
+    referrer="pollinations.py"
 )
 
 response = text_model(
@@ -118,7 +120,8 @@ image_request = pollinations.Image.Request(
     enhance=False,
     nologo=True,
     private=True,
-    safe=False
+    safe=False,
+    referrer="pollinations.py"
 )
 
 image = image_request()
@@ -150,7 +153,8 @@ text_request = pollinations.Text.Request(
         pollinations.Text.Message.image("my_file2.png")
     ],
     seed="random",
-    jsonMode=False
+    jsonMode=False,
+    referrer="pollinations.py"
 )
 
 response = text_request(
