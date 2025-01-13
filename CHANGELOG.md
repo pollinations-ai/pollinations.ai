@@ -12,6 +12,17 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this Python SDK.
 ```
+# UPDATE 2.3.10
+```diff
++ Option to add referrer in requests (Text, Text.Request, Image, Image.Request)
+```
+## Example
+```python
+request = Text(
+    ...,
+    referrer="my_app"
+)
+```
 # FIX 2.3.9
 ```diff
 + Fixed __repr__ issues
