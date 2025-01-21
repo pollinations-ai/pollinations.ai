@@ -12,6 +12,19 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this Python SDK.
 ```
+# UPDATE 2.4
+```diff
++ vision (bool) option in pollinations.Model
+
++ pollinations.Text.openai_large
++ pollinations.Async.Text.openai_large
+
++ pollinations.Text.claude
++ pollinations.Async.Text.claude
+
++ pollinations.Text.llama_light
++ pollinations.Async.Text.llama_light
+```
 # FIX 2.3.11
 ```diff
 + Fixed small jsonMode issue

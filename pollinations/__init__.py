@@ -167,7 +167,7 @@ print(response)
 
 """
 
-__version__ = "2.3.11"
+__version__ = "2.4"
 
 import requests
 import datetime
@@ -227,6 +227,7 @@ class Model(object):
         censored: bool = False,
         description: str = None,
         baseModel: bool = False,
+        vision: bool = False,
         *args,
         **kwargs,
     ) -> None:
@@ -235,6 +236,7 @@ class Model(object):
         self.censored = censored
         self.description = description
         self.baseModel = baseModel
+        self.vision = vision
 
     def info(self, *args, **kwargs) -> dict:
         return {
@@ -243,6 +245,7 @@ class Model(object):
             "censored": self.censored,
             "description": self.description,
             "baseModel": self.baseModel,
+            "vision": self.vision
         }
 
     def __call__(self, *args, **kwargs):
@@ -628,8 +631,18 @@ class Text(object):
         name="openai",
         type="chat",
         censored=True,
+        description="OpenAI GPT-4o-mini",
+        baseModel=True,
+        vision=True
+    )
+    
+    openai_large = Model(
+        name="openai-large",
+        type="chat",
+        censored=True,
         description="OpenAI GPT-4o",
         baseModel=True,
+        vision=True
     )
 
     qwen = Model(
@@ -726,6 +739,22 @@ class Text(object):
         censored=True,
         description="DeepSeek-V3",
         baseModel=True,
+    )
+    
+    claude = Model(
+        name="claude-hybridspace",
+        type="chat",
+        censored=True,
+        description="Claude Hybridspace",
+        baseModel=True
+    )
+    
+    llama_light = Model(
+        name="llamalight",
+        type="chat",
+        censored=True,
+        description="Llama 3.1 8B Instruct",
+        baseModel=True
     )
 
 
@@ -1418,8 +1447,18 @@ class Async:
             name="openai",
             type="chat",
             censored=True,
+            description="OpenAI GPT-4o-mini",
+            baseModel=True,
+            vision=True
+        )
+    
+        openai_large = Model(
+            name="openai-large",
+            type="chat",
+            censored=True,
             description="OpenAI GPT-4o",
             baseModel=True,
+            vision=True
         )
 
         qwen = Model(
@@ -1516,6 +1555,22 @@ class Async:
             censored=True,
             description="DeepSeek-V3",
             baseModel=True,
+        )
+        
+        claude = Model(
+            name="claude-hybridspace",
+            type="chat",
+            censored=True,
+            description="Claude Hybridspace",
+            baseModel=True
+        )
+        
+        llama_light = Model(
+            name="llamalight",
+            type="chat",
+            censored=True,
+            description="Llama 3.1 8B Instruct",
+            baseModel=True
         )
 
     class Image:
