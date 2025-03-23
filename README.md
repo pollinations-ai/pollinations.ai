@@ -53,8 +53,6 @@ image.save(
 )
 
 print(pollinations.Image.models())
-print(pollinations.Image.flux())
-print(pollinations.Image.flux.info())
 ```
 ### Async Image Generation
 ```python
@@ -83,6 +81,8 @@ text_model = pollinations.Text(
         )
     ],
     seed="random",
+    private=True,
+    reasoning_effort="low",
     jsonMode=False,
     referrer="pollinations.py"
 )
@@ -96,8 +96,6 @@ response = text_model(
 print(response.prompt, response.response)
 
 print(pollinations.Text.models())
-print(pollinations.Text.openai())
-print(pollinations.Text.openai.info())
 ```
 ### Async Text Generation
 ```python
@@ -153,6 +151,8 @@ text_request = pollinations.Text.Request(
         pollinations.Text.Message.image("my_file2.png")
     ],
     seed="random",
+    private=False,
+    reasoning_effort="low",
     jsonMode=False,
     referrer="pollinations.py"
 )
