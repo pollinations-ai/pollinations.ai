@@ -46,8 +46,6 @@ image.save(
 )
 
 print(pollinations.Image.models())
-print(pollinations.Image.flux())
-print(pollinations.Image.flux.info())
 ```
 ### Async Image Generation
 ```python
@@ -89,8 +87,6 @@ response = text_model(
 print(response.prompt, response.response)
 
 print(pollinations.Text.models())
-print(pollinations.Text.openai())
-print(pollinations.Text.openai.info())
 ```
 ### Async Text Generation
 ```python
@@ -146,6 +142,8 @@ text_request = pollinations.Text.Request(
         pollinations.Text.Message.image("my_file2.png")
     ],
     seed="random",
+    private=False,
+    reasoning_effort="low",
     jsonMode=False,
     referrer="pollinations.py"
 )
@@ -167,7 +165,7 @@ print(response)
 
 """
 
-__version__ = "2.4"
+__version__ = "2.5"
 
 import requests
 import datetime
@@ -199,7 +197,7 @@ class API(enum.Enum):
     TEXT = "text.pollinations.ai"
     IMAGE = "image.pollinations.ai"
     HEADERS = {"Content-Type": "application/json"}
-    TIMEOUT = 60
+    TIMEOUT = 80
 
 
 class Model(object):
@@ -228,6 +226,11 @@ class Model(object):
         description: str = None,
         baseModel: bool = False,
         vision: bool = False,
+        reasoning: bool = False,
+        provider: str = None,
+        maxTokens: int = None,
+        audio: bool = False,
+        voices: list = None,
         *args,
         **kwargs,
     ) -> None:
@@ -237,6 +240,11 @@ class Model(object):
         self.description = description
         self.baseModel = baseModel
         self.vision = vision
+        self.reasoning = reasoning
+        self.provider = provider
+        self.maxTokens = maxTokens
+        self.audio = audio
+        self.voices = voices
 
     def info(self, *args, **kwargs) -> dict:
         return {
@@ -286,6 +294,8 @@ class Text(object):
         contextual: bool = False,
         messages: list = [],
         seed: int = "random",
+        private: bool = False,
+        reasoning_effort: str = "low",
         jsonMode: bool = False,
         referrer: str = "pollinations.py",
         *args,
@@ -297,6 +307,8 @@ class Text(object):
         self.contextual = contextual
         self.messages = messages
         self.seed = seed
+        self.private = private
+        self.reasoning_effort = reasoning_effort
         self.jsonMode = jsonMode
         self.referrer = referrer
 
@@ -347,6 +359,8 @@ class Text(object):
             messages=self.messages,
             images=self.images,
             seed=self.seed,
+            private=self.private,
+            reasoning_effort=self.reasoning_effort,
             jsonMode=self.jsonMode,
             referrer=self.referrer,
         )
@@ -387,6 +401,8 @@ class Text(object):
                 "system": self.system,
                 "contextual": self.contextual,
                 "messages": len(self.messages),
+                "private": self.private,
+                "reasoning_effort": self.reasoning_effort,
                 "referrer": self.referrer,
                 "timestamp": str(self.timestamp),
             },
@@ -515,6 +531,8 @@ class Text(object):
             messages: typing.List[dict] = None,
             images: typing.List[dict] = None,
             seed: typing.Union[str, int] = "random",
+            private: bool = False,
+            reasoning_effort: str = "low",
             jsonMode: bool = False,
             referrer: str = "pollinations.py",
             **kwargs,
@@ -527,6 +545,8 @@ class Text(object):
             self.messages = messages or []
             self.images = images
             self.seed = random.randint(0, 9999999999) if seed == "random" else int(seed)
+            self.private = private if isinstance(private, bool) else False
+            self.reasoning_effort = reasoning_effort if reasoning_effort in ["low", "medium", "high"] else "low"
             self.jsonMode = jsonMode if isinstance(jsonMode, bool) else False
             self.referrer = referrer
 
@@ -558,6 +578,8 @@ class Text(object):
                             "model": self.model,
                             "messages": messages,
                             "seed": self.seed,
+                            "private": self.private,
+                            "reasoning_effort": self.reasoning_effort,
                             "json": self.jsonMode,
                             "referrer": self.referrer
                         },
@@ -568,6 +590,8 @@ class Text(object):
                     params = {
                         "model": self.model,
                         "seed": self.seed,
+                        "private": self.private,
+                        "reasoning_effort": self.reasoning_effort,
                         "json": self.jsonMode,
                         "referrer": self.referrer
                     }
@@ -620,142 +644,14 @@ class Text(object):
                     "system": self.system,
                     "contextual": self.contextual,
                     "messages": len(self.messages),
+                    "private": self.private,
+                    "reasoning_effort": self.reasoning_effort,
                     "referrer": self.referrer,
                     "images": len(self.images) if self.images is not None else 0,
                     "timestamp": str(self.timestamp),
                 },
                 indent=4,
             )
-
-    openai = Model(
-        name="openai",
-        type="chat",
-        censored=True,
-        description="OpenAI GPT-4o-mini",
-        baseModel=True,
-        vision=True
-    )
-    
-    openai_large = Model(
-        name="openai-large",
-        type="chat",
-        censored=True,
-        description="OpenAI GPT-4o",
-        baseModel=True,
-        vision=True
-    )
-
-    qwen = Model(
-        name="qwen",
-        type="chat",
-        censored=False,
-        description="Qwen 2.5 72B",
-        baseModel=True,
-    )
-
-    qwen_coder = Model(
-        name="qwen-coder",
-        type="chat",
-        censored=False,
-        description="Qwen 2.5 Coder 32B",
-        baseModel=True,
-    )
-
-    llama = Model(
-        name="llama",
-        type="chat",
-        censored=False,
-        description="Llama 3.3 70B",
-        baseModel=True,
-    )
-
-    mistral = Model(
-        name="mistral",
-        type="chat",
-        censored=False,
-        description="Mistral Nemo",
-        baseModel=True,
-    )
-
-    command_r = Model(
-        name="command-r",
-        type="chat",
-        censored=False,
-        description="Command-R",
-        baseModel=False,
-    )
-
-    unity = Model(
-        name="unity",
-        type="chat",
-        censored=False,
-        description="Unity with Mistral Large by Unity AI Lab",
-        baseModel=False,
-    )
-
-    midjourney = Model(
-        name="midjourney",
-        type="chat",
-        censored=True,
-        description="Midijourney musical transformer",
-        baseModel=False,
-    )
-
-    rtist = Model(
-        name="rtist",
-        type="chat",
-        censored=True,
-        description="Rtist image generator by @bqrio",
-        baseModel=False,
-    )
-
-    searchgpt = Model(
-        name="searchgpt",
-        type="chat",
-        censored=True,
-        description="SearchGPT with realtime news and web search",
-        baseModel=False,
-    )
-
-    evil = Model(
-        name="evil",
-        type="chat",
-        censored=False,
-        description="Evil Mode - Experimental",
-        baseModel=False,
-    )
-
-    p1 = Model(
-        name="p1",
-        type="chat",
-        censored=False,
-        description="Pollinations 1 (OptiLLM)",
-        baseModel=False,
-    )
-
-    deepseek = Model(
-        name="deepseek",
-        type="chat",
-        censored=True,
-        description="DeepSeek-V3",
-        baseModel=True,
-    )
-    
-    claude = Model(
-        name="claude-hybridspace",
-        type="chat",
-        censored=True,
-        description="Claude Hybridspace",
-        baseModel=True
-    )
-    
-    llama_light = Model(
-        name="llamalight",
-        type="chat",
-        censored=True,
-        description="Llama 3.1 8B Instruct",
-        baseModel=True
-    )
 
 
 class Image(object):
@@ -971,72 +867,7 @@ class Image(object):
         if response.status_code == 200:
             return tuple(response.json())
         return tuple()
-
-    flux = Model(
-        name="flux",
-        type="image",
-        censored=False,
-        description="Flux Image Generative Model",
-        baseModel=True,
-    )
-
-    flux_realism = Model(
-        name="flux-realism",
-        type="image",
-        censored=False,
-        description="Flux Realism Image Generative Model",
-        baseModel=False,
-    )
-
-    flux_cablyai = Model(
-        name="flux-cablyai",
-        type="image",
-        censored=False,
-        description="Flux 1.1 Image Generative Model",
-        baseModel=False,
-    )
-
-    flux_anime = Model(
-        name="flux-anime",
-        type="image",
-        censored=False,
-        description="Flux Anime Image Generative Model",
-        baseModel=False,
-    )
-
-    flux_3d = Model(
-        name="flux-3d",
-        type="image",
-        censored=False,
-        description="Flux 3D Image Generative Model",
-        baseModel=False,
-    )
-
-    flux_pro = Model(
-        name="flux-pro",
-        type="image",
-        censored=False,
-        description="Flux Pro Image Generative Model",
-        baseModel=False,
-    )
-
-    any_dark = Model(
-        name="any-dark",
-        type="image",
-        censored=False,
-        description="Any Dark Image Generative Model",
-        baseModel=False,
-    )
-
-    turbo = Model(
-        name="turbo",
-        type="image",
-        censored=False,
-        description="Turbo Image Generative Model",
-        baseModel=True,
-    )
-
-
+            
 class Async:
     """
     Contains the async versions of Text and Image classes.
@@ -1072,6 +903,8 @@ class Async:
             contextual: bool = False,
             messages: list = [],
             seed: int = "random",
+            private: bool = False,
+            reasoning_effort: str = "low",
             jsonMode: bool = False,
             referrer: str = "pollinations.py",
             *args,
@@ -1083,6 +916,8 @@ class Async:
             self.contextual = contextual
             self.messages = messages
             self.seed = seed
+            self.private = private
+            self.reasoning_effort = reasoning_effort
             self.jsonMode = jsonMode
             self.referrer = referrer
 
@@ -1135,6 +970,8 @@ class Async:
                 messages=self.messages,
                 images=self.images,
                 seed=self.seed,
+                private=self.private,
+                reasoning_effort=self.reasoning_effort,
                 jsonMode=self.jsonMode,
                 referrer=self.referrer
             )
@@ -1188,6 +1025,9 @@ class Async:
                     "system": self.system,
                     "contextual": self.contextual,
                     "messages": len(self.messages),
+                    "images": len(self.images) if self.images is not None else 0,
+                    "private": self.private,
+                    "reasoning_effort": self.reasoning_effort,
                     "referrer": self.referrer,
                     "timestamp": str(self.timestamp),
                 },
@@ -1314,6 +1154,8 @@ class Async:
                 messages: typing.List[dict] = None,
                 images: typing.List[dict] = None,
                 seed: typing.Union[str, int] = "random",
+                private: bool = False,
+                reasoning_effort: str = "low",
                 jsonMode: bool = False,
                 referrer: str = "pollinations.py",
                 **kwargs,
@@ -1328,6 +1170,8 @@ class Async:
                 self.seed = (
                     random.randint(0, 9999999999) if seed == "random" else int(seed)
                 )
+                self.private = private if isinstance(private, bool) else False
+                self.reasoning_effort = reasoning_effort if reasoning_effort in ["low", "medium", "high"] else "low"
                 self.jsonMode = jsonMode
                 self.referrer = referrer
 
@@ -1368,6 +1212,8 @@ class Async:
                                     "model": self.model,
                                     "messages": messages,
                                     "seed": self.seed,
+                                    "private": str(self.private).lower(),
+                                    "reasoning_effort": self.reasoning_effort,
                                     "json": str(self.jsonMode).lower(),
                                     "referrer": self.referrer
                                 },
@@ -1388,6 +1234,8 @@ class Async:
                             params = {
                                 "model": self.model,
                                 "seed": self.seed,
+                                "private": str(self.private).lower(),
+                                "reasoning_effort": self.reasoning_effort,
                                 "json": str(self.jsonMode).lower(),
                                 "referrer": self.referrer
                             }
@@ -1437,141 +1285,13 @@ class Async:
                         "contextual": self.contextual,
                         "messages": len(self.messages),
                         "images": len(self.images) if self.images is not None else 0,
+                        "private": self.private,
+                        "reasoning_effort": self.reasoning_effort,
                         "referrer": self.referrer,
                         "timestamp": str(self.timestamp),
                     },
                     indent=4,
                 )
-
-        openai = Model(
-            name="openai",
-            type="chat",
-            censored=True,
-            description="OpenAI GPT-4o-mini",
-            baseModel=True,
-            vision=True
-        )
-    
-        openai_large = Model(
-            name="openai-large",
-            type="chat",
-            censored=True,
-            description="OpenAI GPT-4o",
-            baseModel=True,
-            vision=True
-        )
-
-        qwen = Model(
-            name="qwen",
-            type="chat",
-            censored=False,
-            description="Qwen 2.5 72B",
-            baseModel=True,
-        )
-
-        qwen_coder = Model(
-            name="qwen-coder",
-            type="chat",
-            censored=False,
-            description="Qwen 2.5 Coder 32B",
-            baseModel=True,
-        )
-
-        llama = Model(
-            name="llama",
-            type="chat",
-            censored=False,
-            description="Llama 3.3 70B",
-            baseModel=True,
-        )
-
-        mistral = Model(
-            name="mistral",
-            type="chat",
-            censored=False,
-            description="Mistral Nemo",
-            baseModel=True,
-        )
-
-        command_r = Model(
-            name="command-r",
-            type="chat",
-            censored=False,
-            description="Command-R",
-            baseModel=False,
-        )
-
-        unity = Model(
-            name="unity",
-            type="chat",
-            censored=False,
-            description="Unity with Mistral Large by Unity AI Lab",
-            baseModel=False,
-        )
-
-        midjourney = Model(
-            name="midjourney",
-            type="chat",
-            censored=True,
-            description="Midijourney musical transformer",
-            baseModel=False,
-        )
-
-        rtist = Model(
-            name="rtist",
-            type="chat",
-            censored=True,
-            description="Rtist image generator by @bqrio",
-            baseModel=False,
-        )
-
-        searchgpt = Model(
-            name="searchgpt",
-            type="chat",
-            censored=True,
-            description="SearchGPT with realtime news and web search",
-            baseModel=False,
-        )
-
-        evil = Model(
-            name="evil",
-            type="chat",
-            censored=False,
-            description="Evil Mode - Experimental",
-            baseModel=False,
-        )
-
-        p1 = Model(
-            name="p1",
-            type="chat",
-            censored=False,
-            description="Pollinations 1 (OptiLLM)",
-            baseModel=False,
-        )
-
-        deepseek = Model(
-            name="deepseek",
-            type="chat",
-            censored=True,
-            description="DeepSeek-V3",
-            baseModel=True,
-        )
-        
-        claude = Model(
-            name="claude-hybridspace",
-            type="chat",
-            censored=True,
-            description="Claude Hybridspace",
-            baseModel=True
-        )
-        
-        llama_light = Model(
-            name="llamalight",
-            type="chat",
-            censored=True,
-            description="Llama 3.1 8B Instruct",
-            baseModel=True
-        )
 
     class Image:
         """
@@ -1804,66 +1524,3 @@ class Async:
                     indent=4,
                 )
 
-        flux = Model(
-            name="flux",
-            type="image",
-            censored=False,
-            description="Flux Image Generative Model",
-            baseModel=True,
-        )
-
-        flux_realism = Model(
-            name="flux-realism",
-            type="image",
-            censored=False,
-            description="Flux Realism Image Generative Model",
-            baseModel=False,
-        )
-
-        flux_cablyai = Model(
-            name="flux-cablyai",
-            type="image",
-            censored=False,
-            description="Flux 1.1 Image Generative Model",
-            baseModel=False,
-        )
-
-        flux_anime = Model(
-            name="flux-anime",
-            type="image",
-            censored=False,
-            description="Flux Anime Image Generative Model",
-            baseModel=False,
-        )
-
-        flux_3d = Model(
-            name="flux-3d",
-            type="image",
-            censored=False,
-            description="Flux 3D Image Generative Model",
-            baseModel=False,
-        )
-
-        flux_pro = Model(
-            name="flux-pro",
-            type="image",
-            censored=False,
-            description="Flux Pro Image Generative Model",
-            baseModel=False,
-        )
-
-        any_dark = Model(
-            name="any-dark",
-            type="image",
-            censored=False,
-            description="Any Dark Image Generative Model",
-            baseModel=False,
-        )
-
-        turbo = Model(
-            name="turbo",
-            type="image",
-            censored=False,
-            description="Turbo Image Generative Model",
-            baseModel=True,
-        )
