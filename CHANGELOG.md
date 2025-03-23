@@ -12,6 +12,13 @@ pollinations.ai: (https://pollinations.ai/)
 
 Work with the best generative models from Pollinations using this Python SDK.
 ```
+# UPDATE 2.5
+```diff
++ private (bool) option in pollinations.Text
++ reasoning_effort (string) ["low", "medium", "high"] option in pollinations.Text
+
+- IMPORTANT: Removed all model variables inside of classes. Use strings from Text.models() and Image.models()
+```
 # UPDATE 2.4
 ```diff
 + vision (bool) option in pollinations.Model

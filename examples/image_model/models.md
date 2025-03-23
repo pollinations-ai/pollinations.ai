@@ -3,9 +3,6 @@ import pollinations
 
 pollinations.Image.models()
 
-# Specific model info
-print(pollinations.Image.flux())
-print(pollinations.Image.flux.info())
 ```
 
 ```
@@ -15,7 +12,4 @@ print(pollinations.Image.flux.info())
   'model-3',
   ...
 )
-
-flux
-{'name': 'flux', 'type': 'image', 'censored': False, 'description': 'Flux Image Generative Model', 'baseModel': True}
 ```
