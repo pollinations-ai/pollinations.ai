@@ -2,14 +2,15 @@
 import pollinations
 
 image_model = pollinations.Image(
-    model=pollinations.Image.flux(),
+    model="flux",
     seed="random",  # A random seed for the image OR put a number. Example: 42
     width=512,
     height=512,
     enhance=False,  # Use AI to enhance the prompt further.
     nologo=True,  # Remove watermark,
     private=True,  # Will not show up on pollinations.ai public feed
-    safe=False  # Strict NSFW check
+    safe=False, # Strict NSFW check
+    referrer="pollinations.py"
 )
 
 while True:
