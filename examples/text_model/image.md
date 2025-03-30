@@ -7,7 +7,7 @@ text_model = pollinations.Text(
 )  # or pollinations.Text()
 
 text_model.image(
-    file="my_file.png"
+    file="pollinations-image.png"
 )
 
 text_model(
