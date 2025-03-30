@@ -1,7 +1,7 @@
 ```python
 import pollinations
 
-pollinations.Text.models()
+print(pollinations.Text.models())
 
 ```
 

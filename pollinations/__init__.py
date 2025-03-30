@@ -24,7 +24,7 @@ py -3 -m pip install -U pollinations.ai
 import pollinations
 
 image_model = pollinations.Image(
-    model=pollinations.Image.flux(),
+    model="flux",
     seed="random",
     width=1024,
     height=1024,
@@ -60,7 +60,7 @@ image = await image_model(
 import pollinations
 
 text_model = pollinations.Text(
-    model=pollinations.Text.openai(),
+    model="openai",
     system="You are a helpful assistant.",
     contextual=True,
     messages=[  # or [] or None
@@ -74,6 +74,8 @@ text_model = pollinations.Text(
         )
     ],
     seed="random",
+    private=True,
+    reasoning_effort="low",
     jsonMode=False,
     referrer="pollinations.py"
 )
@@ -101,7 +103,7 @@ response = await text_model(
 import pollinations
 
 image_request = pollinations.Image.Request(
-    model=pollinations.Image.flux(),
+    model="flux",
     prompt="A cat with flowers around it.",
     seed="random",
     width=1024,
@@ -123,7 +125,7 @@ print(image.model, image.prompt, image.response)
 import pollinations
 
 text_request = pollinations.Text.Request(
-    model=pollinations.Text.openai(),
+    model="openai",
     prompt="Hello, how are you?",
     system="You are a helpful assistant.",
     contextual=True,
@@ -162,10 +164,32 @@ print(response)
 - [Youtube](https://www.youtube.com/channel/UCk4yKnLnYfyUmCCbDzOZOug)
 - [Instagram](https://instagram.com/pollinations_ai)
 - [Twitter (X)](https://twitter.com/pollinations_ai)
-
 """
 
 __version__ = "2.5"
+__license__ = "MIT"
+
+# MIT License
+
+# Copyright (c) 2025 pollinations
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
 import requests
 import datetime
@@ -1523,4 +1547,3 @@ class Async:
                     },
                     indent=4,
                 )
-

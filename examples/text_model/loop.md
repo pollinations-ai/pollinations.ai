@@ -2,14 +2,14 @@
 import pollinations
 
 text_model = pollinations.Text(
-    model=pollinations.Text.openai(),
+    model="openai",
     contextual=True,
 )  # or pollinations.Text()
 
 while True:
     prompt: str = input("User:\n> ")
     print("\nPollinations:\n> ", end="")
-    text_model.generate(
+    text_model(
         prompt=prompt,
         display=True,
         encode=True

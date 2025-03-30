@@ -2,12 +2,12 @@
 import pollinations
 
 text_model = pollinations.Text(
-    model=pollinations.Text.openai(),
+    model="openai",
     contextual=True,
 )  # or pollinations.Text()
 
 text_model.image(
-    file="my_file.png"
+    file="pollinations-image.png"
 )
 
 text_model(
