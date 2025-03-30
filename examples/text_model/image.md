@@ -2,7 +2,7 @@
 import pollinations
 
 text_model = pollinations.Text(
-    model=pollinations.Text.openai(),
+    model="openai",
     contextual=True,
 )  # or pollinations.Text()
 
