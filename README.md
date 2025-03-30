@@ -31,7 +31,7 @@ py -3 -m pip install -U pollinations.ai
 import pollinations
 
 image_model = pollinations.Image(
-    model=pollinations.Image.flux(),
+    model="flux",
     seed="random",
     width=1024,
     height=1024,
@@ -67,7 +67,7 @@ image = await image_model(
 import pollinations
 
 text_model = pollinations.Text(
-    model=pollinations.Text.openai(),
+    model="openai",
     system="You are a helpful assistant.",
     contextual=True,
     messages=[  # or [] or None
@@ -110,7 +110,7 @@ response = await text_model(
 import pollinations
 
 image_request = pollinations.Image.Request(
-    model=pollinations.Image.flux(),
+    model="flux",
     prompt="A cat with flowers around it.",
     seed="random",
     width=1024,
@@ -132,7 +132,7 @@ print(image.model, image.prompt, image.response)
 import pollinations
 
 text_request = pollinations.Text.Request(
-    model=pollinations.Text.openai(),
+    model="openai",
     prompt="Hello, how are you?",
     system="You are a helpful assistant.",
     contextual=True,
