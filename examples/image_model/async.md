@@ -7,7 +7,8 @@ async def async_test():
 
     await image_model(
         prompt="A black cat in a cyberpunk city."
-    ).save(
+    )
+    await image_model.save(
         file="pollinations-image.png"
     )
 
