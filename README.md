@@ -110,7 +110,20 @@ model = pollinations.Text()
 print(model.Transcribe("test.mp3"))
 ```
 
+## Async Audio Transcription
+```python
+model = pollinations.Text()
+
+async def async_example():
+    print(await model.TranscribeAsync("my_audio.mp3"))
+```
+
 ## Audio Generation
+```python
+# Coming in a future update
+```
+
+## Async Audio Generation
 ```python
 # Coming in a future update
 ```
