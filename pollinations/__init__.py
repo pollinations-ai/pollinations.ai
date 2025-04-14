@@ -116,7 +116,7 @@ from pollinations.core.image import Image  # noqa: F401
 
 from pollinations.models import Model, text_models, image_models
 
-__version__ = "3.5.0"
+__version__ = "3.5.1"
 __license__ = "MIT"
 __description__ = (
     "Work with the best generative AI from Pollinations using this Python SDK. 🐝"
