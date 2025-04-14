@@ -1,36 +1,48 @@
 [build-system]
-requires      = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pollinations"
-version = "2.5"
-description = "pollinations.ai | Free AI Text & Image Generation"
+version = "3.5.1"
+description = "TESTING | pollinations.ai | Free AI Image, Text, and Audio Generation"
 readme = "README.md"
-authors = [{ name = "pollinations.ai", email = "hello@pollinations.ai" }, { name = "git.pollinations.ai", email = "git.pollinations.ai@gmail.com" }]
-license = { file = "LICENSE" }
+requires-python = ">=3.7"
+license = { text = "MIT" }
+authors = [{ name = "git.pollinations.ai", email = "git.pollinations.ai@gmail.com" }]
+keywords = ["pollinations", "pollinations.ai", "pollinations-ai", "pollinations_ai", "ai", "api", "sdk", "wrapper", "free"]
 classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
     "Operating System :: OS Independent",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Science/Research",
-    "Development Status :: 4 - Beta",
-    "Natural Language :: English"
+    "License :: OSI Approved :: MIT License",
+    "Typing :: Typed"
 ]
-keywords = ["pollinations", "pollinations.ai", "pollinations-ai", "pollinations_ai", "ai", "api", "sdk", "wrapper", "free"]
-requires-python = ">=3.7.0"
-dependencies = ["chardet", "aiohttp"]
+dependencies = [
+    "httpx",
+    "pillow"
+]
 
 [project.urls]
-Website = 'https://pollinations.ai/'
-Discord = 'https://discord.gg/8HqSRhJVxn'
-Github = 'https://github.com/pollinations'
-Repository = 'https://github.com/pollinations-ai/pollinations.ai'
-YouTube = 'https://www.youtube.com/channel/UCk4yKnLnYfyUmCCbDzOZOug'
-Instagram = 'https://instagram.com/pollinations_ai'
-Twitter = 'https://twitter.com/pollinations_ai'
+Website = "https://pollinations.ai/"
+SDK-Repository = "https://github.com/pollinations-ai/pollinations.ai"
+Discord = "https://discord.gg/8HqSRhJVxn"
+Github = "https://github.com/pollinations"
+YouTube = "https://www.youtube.com/channel/UCk4yKnLnYfyUmCCbDzOZOug"
+Instagram = "https://instagram.com/pollinations_ai"
+Twitter = "https://twitter.com/pollinations_ai"
+
+[project.scripts]
+pollinate = "pollinations.cli:main"
+
+[tool.setuptools]
+packages = { find = {} }
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = { attr = "pollinations.__version__" }
