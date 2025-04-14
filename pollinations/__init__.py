@@ -114,9 +114,11 @@ print(model.Transcribe("test.mp3"))
 from pollinations.core.text import Text  # noqa: F401
 from pollinations.core.image import Image  # noqa: F401
 
+from pollinations.models import Model, text_models, image_models
+
 __version__ = "3.5.0"
 __license__ = "MIT"
 __description__ = (
     "Work with the best generative AI from Pollinations using this Python SDK. 🐝"
 )
-__all__ = ["Text", "Image", "__version__", "__license__", "__description__"]
+__all__ = ["Text", "Image", "Model", "text_models", "image_models", "__version__", "__license__", "__description__"]
