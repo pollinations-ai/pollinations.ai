@@ -1,5 +1,5 @@
 <div id="header">
-  <img src="https://github.com/pollinations-ai/pollinations.ai/blob/main/assets/pollinations_logo_icon_black.png.png" width="50"/>        <img src="https://github.com/pollinations-ai/pollinations.ai/blob/main/assets/pollinations_text.png" width="250">
+  <img src="https://i.ibb.co/WpWqrTN3/pollinations-logo-icon-black-png.png" width="50"/>   <img src="https://i.ibb.co/r6JZ336/sketch1700556567238.png" width="250">
 </div>
 
 # [pollinations.ai -  Free AI Image, Text, and Audio Generation](https://pypi.org/project/pollinations)
