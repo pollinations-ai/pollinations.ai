@@ -12,32 +12,33 @@ def _prepare_request(params: Params, *args: Args, **kwargs: Kwargs) -> Params | 
 
     params["__iprompt"] = _encode_string((params.pop("__iprompt", "Error symbol alert, simple vector grapic.") + "?"))
     params["__inegative"] = _encode_string(params.pop("__inegative", "Detailed, lots of detail"))
+
     prompt = _encode_string(params.pop("__prompt", ""))
     system = _encode_string(params.pop("__system", ""))
     images = params.pop("__images", None)
     seed = params.pop("seed", None)
 
-    messages = []
+    if "messages" not in params or not params["messages"]:
+        messages = []
 
-    if system:
-        messages.append({"role": "system", "content": system})
+        if system:
+            messages.append({"role": "system", "content": system})
 
-    if prompt is not None:
-        content = [{"type": "text", "text": prompt}]
-        if images:
-            if isinstance(images, dict):
-                content.append(images)
-            else:
-                content.extend(images)
-        messages.append({"role": "user", "content": content})
+        if prompt:
+            content = [{"type": "text", "text": prompt}]
+            if images:
+                if isinstance(images, dict):
+                    content.append(images)
+                else:
+                    content.extend(images)
+            messages.append({"role": "user", "content": content})
 
-    if messages:
         params["messages"] = messages
 
     if seed:
         params["seed"] = (
             seed
-            if type(seed) in (int, float)
+            if isinstance(seed, (int, float))
             else randint(-2147483648, 2147483647)
         )
 
