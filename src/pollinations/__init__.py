@@ -59,10 +59,8 @@ from ._core import (
     get_client,
     get_async_client,
 )
-from .core import (
-    text,
-    image
-)
+from .core.text import Text
+from .core.image import Image
 from .helpers import get_latest
 from .version import (
     __title__,
@@ -85,7 +83,7 @@ __all__ = [
 
     "BaseClass", "get_client", "get_async_client", 
     
-    "text", "image",
+    "Text", "Image",
     
     "get_latest",
     
