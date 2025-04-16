@@ -103,7 +103,7 @@ class Image(BaseClass):
         self.file = file
         
         params = self._setup()
-        params["__iprompt"] = prompt # type: ignore
+        params["__iprompt"] = prompt
         params["__inegative"] = negative
         
         self.request = await _get_async_image_request(self._async_client, params=params)
