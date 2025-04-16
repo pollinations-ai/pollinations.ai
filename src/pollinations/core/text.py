@@ -90,8 +90,9 @@ class Text(BaseClass):
         self.response: Output = None
         self.request: Request = None
 
-        if self.system:
+        if self.system and not any(m.get("role") == "system" for m in self.messages):
             self.messages.insert(0, _create_message("system", self.system))
+
 
         for k, v in kwargs.items():
             setattr(self, k, v)
@@ -118,7 +119,12 @@ class Text(BaseClass):
         **kwargs: Kwargs,
     ) -> Output:
         prompt = self._check(prompt)
+
+        if self.contextual:
+            self.messages.append(_create_message("user", prompt))
+
         params = self._setup(prompt)
+
 
         if stream:
 
@@ -153,6 +159,10 @@ class Text(BaseClass):
         **kwargs: Kwargs,
     ) -> Output:
         prompt = self._check(prompt)
+
+        if self.contextual:
+            self.messages.append(_create_message("user", prompt))
+
         params = self._setup(prompt)
 
         if stream:
@@ -247,20 +257,19 @@ class Text(BaseClass):
             and k not in {"images", "prompt", "response", "request", "system"}
         }
 
-        if not self.contextual:
-            params["__prompt"] = prompt or " "
-            if self.system:
-                params["__system"] = self.system
-            if self.images:
-                params["__images"] = self.images
-        else:
-            if prompt:
-                self.messages.append(
-                    _create_message("user", prompt, self.images)
-                )
+        if self.contextual:
             params["messages"] = self.messages
+        else:
+            params["messages"] = self.messages + [_create_message("user", prompt)]
 
+        if self.system:
+            params["__system"] = self.system
+        if self.images:
+            params["__images"] = self.images
+        params["__prompt"] = prompt or " " 
+        self.images = []
         return params
+
 
     @staticmethod
     def _decode(content: bytes) -> str:
