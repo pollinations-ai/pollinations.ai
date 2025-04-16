@@ -1,19 +1,19 @@
+from .core import Text, Image
+from .version import __version__
+
 import argparse
+from typing import List 
 
-import pollinations as pollinations
-
-from pollinations.core.text import Text
-from pollinations.core.image import Image
-
+__all__: List[str] = ["main", "Text", "Image"]
 
 def main() -> None:
     parser = argparse.ArgumentParser(
         prog="pollinations",
-        description="Work with the best generative AI from Pollinations using this Python SDK. 🐝",
+        description="Work with the best generative AI from Pollinations using this Python SDK. 🐝"
     )
 
     parser.add_argument(
-        "--version", action="version", version="%(prog)s " + pollinations.__version__
+        "--version", action="version", version="%(prog)s " + __version__
     )
 
     parser.add_argument("--text", action="store_true", help="Generate text")
@@ -60,10 +60,10 @@ def main() -> None:
         help="Use AI to enhance your image prompts",
         default=False,
     )
-
+    
     args = parser.parse_args()
     first_sent = False
-
+    
     if args.text:
         text_model = Text(
             model=args.model, system=args.system, private=args.private, seed=args.seed
@@ -83,16 +83,14 @@ def main() -> None:
         image_model = Image(
             model=args.model,
             seed=args.seed,
-            file=args.file,
             width=args.width,
             height=args.height,
-            negative=args.negative,
             private=args.private,
             enhance=args.enhance,
         )
 
         print("Pollinations - Waiting...")
 
-        image_model(args.prompt, save=True)
+        image_model(args.prompt, negative=args.negative, file=args.file, save=True)
         print("\033[F\033[K", end="")
         first_sent = False
