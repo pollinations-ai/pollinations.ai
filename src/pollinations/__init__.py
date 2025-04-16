@@ -98,7 +98,4 @@ for __name in __all__:
         except (TypeError, AttributeError):
             pass
 
-try:
-    get_latest()
-except Exception:
-    pass
+get_latest()
