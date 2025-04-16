@@ -6,10 +6,6 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pollinations-ai/pollinations.ai/blob/main/LICENSE)
 [![Python Versions](https://img.shields.io/badge/python-3%20%7C%203.10--3.13-blue)](https://www.python.org/downloads/)
 
-# [pollinations.ai -  Free AI Image, Text, and Audio Generation](https://pypi.org/project/pollinations)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pollinations-ai/pollinations.ai/blob/main/LICENSE)
-[![Python Versions](https://img.shields.io/badge/python-3%20%7C%203.10--3.13-blue)](https://www.python.org/downloads/)
-
 ```
 pollinations.ai: (https://pollinations.ai/)
 
@@ -17,6 +13,11 @@ Work with the best generative AI from Pollinations using this Python SDK. 🐝
 ```
 
 # Changelog
+
+# 4.1.0 (Fixed bugs)
+```diff
++ Fixed message chain bug, versions under this will not function properly
+```
 
 # 4.0.0 (Full major rewrite)
 ```diff
