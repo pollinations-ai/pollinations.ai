@@ -6,10 +6,6 @@
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pollinations-ai/pollinations.ai/blob/main/LICENSE)
 [![Python Versions](https://img.shields.io/badge/python-3%20%7C%203.10--3.13-blue)](https://www.python.org/downloads/)
 
-# [pollinations.ai -  Free AI Image, Text, and Audio Generation](https://pypi.org/project/pollinations)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pollinations-ai/pollinations.ai/blob/main/LICENSE)
-[![Python Versions](https://img.shields.io/badge/python-3%20%7C%203.10--3.13-blue)](https://www.python.org/downloads/)
-
 ```
 pollinations.ai: (https://pollinations.ai/)
 
