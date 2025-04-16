@@ -2,7 +2,7 @@
   <img src="https://i.ibb.co/p049Y5S/86964862.png" width="50"/>   <img src="https://i.ibb.co/r6JZ336/sketch1700556567238.png" width="250">
 </div>
 
-# [pollinations.ai - Free AI Text & Image Generation](https://pypi.org/project/pollinations)
+# [pollinations.ai -  Free AI Image, Text, and Audio Generation](https://pypi.org/project/pollinations)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/pollinations-ai/pollinations.ai/blob/main/LICENSE)
 [![Python Versions](https://img.shields.io/badge/python-3%20%7C%203.10--3.13-blue)](https://www.python.org/downloads/)
 
@@ -26,107 +26,283 @@ py -3 -m pip install pollinations
 py -3 -m pip install pollinations.ai
 ```
 
+# Usage
+
 ## Image Generation
+<details>
+<summary>View Code Example</summary>
+
 ```python
-model = pollinations.Image(  # Optional Arguments
-    model="flux",
-    seed="random",
-    file="pollinations-image.png",
-    width=1024,
-    height=1024,
-    nologo=False,
-    private=False,
-    enhance=False,
-    safe=False,
-    referrer="pollinations.py",
-)
+import pollinations
 
-print(model.models())
+model = pollinations.Image()
+"""
+(method) def __init__(
+    self: Self@Image,
+    model: ImageModel | None = "flux",
+    width: Width | None = 1024,
+    height: Height | None = 1024,
+    seed: Seed | None = "random",
+    nologo: NoLogo | None = False,
+    private: Private | None = False,
+    enhance: Enhance | None = False,
+    safe: Safe | None = False,
+    referrer: Referrer | None = "pollinations.py",
+    *any_kwargs_will_be_passed_in_request: Args,
+    **kwargs: Kwargs,
+) -> None
+"""
 
-image = model("A dog and cat.")  # Returns pillow Image instance
-
-image.save("image.png")  
-# (or) 
-# (optional) model.file="image.png"
-image = model("A dog and cat.", save=True)
+"""
+(method) def __call__(
+    self: Self@Image,
+    prompt: Prompt,
+    negative: Negative | None = "",
+    *args: Args,
+    file: Filename | None = "pollinations-image.jpeg",
+    save: Save = False,
+    *kwargs: Kwargs
+) -> PILImage
+"""
+image = model("A dog and cat.")
+image.save("my_image.jpeg")
+# Alternatively:
+# image = model.Generate("A dog and cat.", file="my_image.jpeg", save=True)
 ```
+</details>
 
-## Async Image Generation
+<details>
+<summary>(Async) View Code Example</summary>
+
 ```python
-async def async_example():
-    image = await model.Async("A horse and pig.")
-    # image = await model.Async("A horse and pig.", save=True)
+import pollinations
 
-    image.save("a_image.png")
-    print(image)
-    print(model)
+"""
+(method) def __init__(
+    self: Self@Image,
+    model: ImageModel | None = "flux",
+    width: Width | None = 1024,
+    height: Height | None = 1024,
+    seed: Seed | None = "random",
+    nologo: NoLogo | None = False,
+    private: Private | None = False,
+    enhance: Enhance | None = False,
+    safe: Safe | None = False,
+    referrer: Referrer | None = "pollinations.py",
+    *any_kwargs_will_be_passed_in_request: Args,
+    **kwargs: Kwargs,
+) -> None
+"""
+
+model = pollinations.Image()
+
+"""
+(method) async def Async(
+    self: Self@Image,
+    prompt: Prompt,
+    negative: Negative | None = "",
+    *args: Args,
+    file: Filename | None = "pollinations-image.jpeg",
+    save: Save = False,
+    *kwargs: Kwargs
+) -> PILImage
+"""
+
+image = await model.Async("A dog and cat.")
+image.save("my_image.jpeg")
+# Alternatively:
+# image = await model.Async("A dog and cat.", file="my_image.jpeg", save=True)
 ```
+</details>
 
 ## Text Generation
+<details>
+<summary>View Code Example</summary>
+
 ```python
-model = pollinations.Text(  # Optional Arguments
-    model="openai",
-    system="You are a helpful assistant.",
-    contextual=True,
-    messages=[],
-    private=False,
-    seed="random",
-    reasoning_effort="medium",
-    tools=[],
-    tool_choices=[],
-    voice=None,
-    json_mode=False,
-    referrer="pollinations.py",
-)
+import pollinations
 
-print(model.models())
+"""
+(method) def __init__(
+    self: Self@Text,
+    model: Model | None = "openai",
+    system: System | None = "You are a helpful AI assistant.",
+    contextual: Contextual | None = False,
+    messages: Messages | None = [],
+    private: Private | None = False,
+    seed: Seed | None = "random",
+    reasoning_effort: ReasoningEffort | None = "medium",
+    tools: Tools | None = [],
+    tool_choices: ToolChoice | None = [],
+    voice: Voice | None = None,
+    json_mode: JsonMode | None = False,
+    referrer: Referrer | None = "pollinations.py",
+    openai_endpoint: UseOpenAIEndpoint | None = False,
+    *any_kwargs_will_be_passed_in_request: Args,
+    **kwargs: Kwargs,
+) -> None
+"""
 
-print(model("Hello world"))
+model = pollinations.Text()
 
-model.image("image.png")  # model.image(["image1.png", "image2.png", ...])
-print(model("What do you see in that image?"))
+"""
+(method) def __call__(
+    self: Self@Text,
+    prompt: Prompt | None = None,
+    *any_kwargs_will_be_passed_in_request: Args,
+    stream: Stream | None = False,
+    **kwargs: Kwargs
+) -> Output
+"""
+
+print(model("Hello, what is 1 + 1?"))
+# Alternatively:
+# print(model.Generate("Hello, what is 1 + 1?"))
 
 
-# Stream Request
-for token in model("Explain AI at a low level.", stream=True):
+# Streaming
+for token in model("Hello, what is 1 + 1?", stream=True):
+    print(token, end="", flush=True)
+    
+# Alternatively:
+# for token in model.Generate("Hello, what is 1 + 1?", stream=True):
+#     print(token, end="", flush=True)
+```
+</details>
+
+<details>
+<summary>(Async) View Code Example</summary>
+
+```python
+import pollinations
+
+"""
+(method) def __init__(
+    self: Self@Text,
+    model: Model | None = "openai",
+    system: System | None = "You are a helpful AI assistant.",
+    contextual: Contextual | None = False,
+    messages: Messages | None = [],
+    private: Private | None = False,
+    seed: Seed | None = "random",
+    reasoning_effort: ReasoningEffort | None = "medium",
+    tools: Tools | None = [],
+    tool_choices: ToolChoice | None = [],
+    voice: Voice | None = None,
+    json_mode: JsonMode | None = False,
+    referrer: Referrer | None = "pollinations.py",
+    openai_endpoint: UseOpenAIEndpoint | None = False,
+    *any_kwargs_will_be_passed_in_request: Args,
+    **kwargs: Kwargs,
+) -> None
+"""
+
+model = pollinations.Text()
+
+"""
+(method) async def Async(
+    self: Self@Text,
+    prompt: Prompt | None = None,
+    *any_kwargs_will_be_passed_in_request: Args,
+    stream: Stream | None = False,
+    **kwargs: Kwargs
+) -> Output
+"""
+
+print(await model.Async("Hello, what is 1 + 1?"))
+
+# Streaming
+async for token in await model.Async("Hello, what is 1 + 1?", stream=True):
     print(token, end="", flush=True)
 ```
-
-## Async Text Generation
-```python
-async def async_example():
-    image = await model.Async("A horse and pig.")
-    # image = await model.Async("A horse and pig.", save=True)
-
-    image.save("a_image.png")
-    print(image)
-    print(model)
-```
+</details>
 
 ## Audio Transcription
+<details>
+<summary>View Code Examples</summary>
+
 ```python
+import pollinations
+
+"""
+(method) def __init__(
+    self: Self@Text,
+    model: Model | None = "openai",
+    system: System | None = "You are a helpful AI assistant.",
+    contextual: Contextual | None = False,
+    messages: Messages | None = [],
+    private: Private | None = False,
+    seed: Seed | None = "random",
+    reasoning_effort: ReasoningEffort | None = "medium",
+    tools: Tools | None = [],
+    tool_choices: ToolChoice | None = [],
+    voice: Voice | None = None,
+    json_mode: JsonMode | None = False,
+    referrer: Referrer | None = "pollinations.py",
+    openai_endpoint: UseOpenAIEndpoint | None = False,
+    *any_kwargs_will_be_passed_in_request: Args,
+    **kwargs: Kwargs,
+) -> None
+"""
+
 model = pollinations.Text()
 
-print(model.Transcribe("test.mp3"))
-```
+"""
+(method) def Transcribe(
+    self: Self@Text,
+    file: Filename,
+    *any_kwargs_will_be_passed_in_request: Args,
+    **kwargs: Kwargs
+) -> Output
+"""
 
-## Async Audio Transcription
+print(model.Transcribe("my_audio.mp3"))
+```
+</details>
+<details>
+<summary>(Async) View Code Examples</summary>
+
 ```python
+import pollinations
+
+"""
+(method) def __init__(
+    self: Self@Text,
+    model: Model | None = "openai",
+    system: System | None = "You are a helpful AI assistant.",
+    contextual: Contextual | None = False,
+    messages: Messages | None = [],
+    private: Private | None = False,
+    seed: Seed | None = "random",
+    reasoning_effort: ReasoningEffort | None = "medium",
+    tools: Tools | None = [],
+    tool_choices: ToolChoice | None = [],
+    voice: Voice | None = None,
+    json_mode: JsonMode | None = False,
+    referrer: Referrer | None = "pollinations.py",
+    openai_endpoint: UseOpenAIEndpoint | None = False,
+    *any_kwargs_will_be_passed_in_request: Args,
+    **kwargs: Kwargs,
+) -> None
+"""
+
 model = pollinations.Text()
 
-async def async_example():
-    print(await model.TranscribeAsync("my_audio.mp3"))
+"""
+(method) def Transcribe(
+    self: Self@Text,
+    file: Filename,
+    *any_kwargs_will_be_passed_in_request: Args,
+    **kwargs: Kwargs
+) -> Output
+"""
+
+print(await model.TranscribeAsync("my_audio.mp3"))
 ```
+</details>
 
 ## Audio Generation
-```python
-# Coming in a future update
-```
-
-## Async Audio Generation
-```python
-# Coming in a future update
-```
+Coming soon
 
 # Links
 - [SDK-Repository](https://github.com/pollinations-ai/pollinations.ai)
