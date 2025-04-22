@@ -9,6 +9,8 @@ from .aliases import (
     Stream,
     Filename,
     ImageData,
+    Infinity,
+    Time,
     Payload,
     Params,
     EmptyParams,
@@ -36,7 +38,9 @@ from .aliases import (
     UseOpenAIEndpoint,
     Images,
     ImageFormat,
-    Output
+    Output,
+    FeedType,
+    MaxData
 )
 from .httpx import URL, Response, Request, Client, AsyncClient
 from .model import TextModel, ImageModel
@@ -52,6 +56,8 @@ __all__ = [
     "Stream",
     "Filename",
     "ImageData",
+    "Infinity",
+    "Time",
     "Payload",
     "Params",
     "EmptyParams",
@@ -80,6 +86,8 @@ __all__ = [
     "Images",
     "ImageFormat",
     "Output",
+    "FeedType",
+    "MaxData",
     "URL",
     "Response",
     "Request",

@@ -7,6 +7,7 @@ from ._consts import (
     DEFAULT_MAX_RETRIES,
     DEFAULT_HEADERS,
 )
+from ._get_feed_request import _get_feed_request, _get_async_feed_request
 from ._get_image_request import _get_image_request, _get_async_image_request
 from ._get_stream_request import _get_stream_text_request, _get_async_stream_text_request
 from ._get_text_request import _get_text_request, _get_async_text_request
@@ -21,6 +22,8 @@ __all__: list[str] = [
     "DEFAULT_TIMEOUT",
     "DEFAULT_MAX_RETRIES",
     "DEFAULT_HEADERS",
+    "_get_feed_request",
+    "_get_async_feed_request",
     "_get_image_request",
     "_get_async_image_request",
     "_get_stream_text_request",

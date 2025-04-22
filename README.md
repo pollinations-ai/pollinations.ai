@@ -306,6 +306,77 @@ print(await model.TranscribeAsync("my_audio.mp3"))
 ## Audio Generation
 Coming soon
 
+## Feed Reading
+<details>
+<summary>View Code Example</summary>
+
+```python
+import pollinations
+
+"""
+(method) def __init__(
+    self: Self@Feed,
+    type: FeedType = "image",
+    max_data: MaxData | None = None,
+    *args: Args, 
+    **kwargs: Kwargs
+) -> None
+"""
+
+feed = pollinations.Feed()
+# feed = pollinations.Feed("text", 10)  # Optionally specify type and amount
+
+"""
+(method) def __call__(
+    self: Self@Feed,
+    *args: Args, 
+    **kwargs: Kwargs
+) -> Iterator[Data]
+"""
+
+for item in feed():
+    print(len(feed.data), item.data)
+
+# Alternatively:
+# for item in feed.Get():
+#     print(len(feed.data), item.data)
+```
+</details>
+<details>
+<summary>(Async) View Code Example</summary>
+
+```python
+import pollinations
+
+"""
+(method) def __init__(
+    self: Self@Feed,
+    type: FeedType = "image",
+    max_data: MaxData | None = None,
+    *args: Args, 
+    **kwargs: Kwargs
+) -> None
+"""
+
+feed = pollinations.Feed()
+# feed = pollinations.Feed("text", 10)  # Optionally specify type and amount
+
+"""
+(method) async def Async(
+    self: Self@Feed,
+    *args: Args, 
+    **kwargs: Kwargs
+) -> AsyncIterator[Data]
+"""
+
+async for item in feed.Async():
+    print(len(feed.data), item.data)
+```
+
+</details>
+
+<br>
+
 # Links
 - [SDK-Repository](https://github.com/pollinations-ai/pollinations.ai)
 - [Pollinations.ai](https://pollinations.ai/)
