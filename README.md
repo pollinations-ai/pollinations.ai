@@ -35,7 +35,6 @@ py -3 -m pip install pollinations.ai
 ```python
 import pollinations
 
-model = pollinations.Image()
 """
 (method) def __init__(
     self: Self@Image,
@@ -53,6 +52,8 @@ model = pollinations.Image()
 ) -> None
 """
 
+model = pollinations.Image()
+
 """
 (method) def __call__(
     self: Self@Image,
@@ -64,6 +65,7 @@ model = pollinations.Image()
     *kwargs: Kwargs
 ) -> PILImage
 """
+
 image = model("A dog and cat.")
 image.save("my_image.jpeg")
 # Alternatively:
