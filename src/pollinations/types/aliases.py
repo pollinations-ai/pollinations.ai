@@ -13,6 +13,8 @@ __all__: list[str] = [
     "Stream",
     "Filename",
     "ImageData",
+    "Infinity",
+    "Time",
     "Payload",
     "Params",
     "EmptyParams",
@@ -40,7 +42,9 @@ __all__: list[str] = [
     "UseOpenAIEndpoint",
     "Images",
     "ImageFormat",
-    "Output"
+    "Output",
+    "FeedType",
+    "MaxData"
 ]
 
 # All
@@ -54,6 +58,9 @@ Stream: TypeAlias = bool
 Filename: TypeAlias = str
 ImageData: TypeAlias = Union[str, BytesIO]
 PILImage: TypeAlias = _Image
+
+Infinity: TypeAlias = None
+Time: TypeAlias = float
 
 Payload: TypeAlias = dict[str, Any]
 Params: TypeAlias = dict[str, Any]
@@ -89,3 +96,8 @@ UseOpenAIEndpoint: TypeAlias = bool
 Images: TypeAlias = List[Dict[str, Any]]
 ImageFormat: TypeAlias = dict[str, Union[str, dict[str, str]]]
 Output: TypeAlias = Union[str, Any]
+
+
+# Feed
+FeedType: TypeAlias = Literal["image", "text"]
+MaxData: TypeAlias = int
