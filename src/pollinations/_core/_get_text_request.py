@@ -1,4 +1,5 @@
 from .._utils._prepare_request import _prepare_request
+from .._utils._clean_params import _clean_params
 from ..types import (
     Client,
     AsyncClient,
@@ -22,6 +23,8 @@ def _get_text_request(
 ) -> Response:
     params = _prepare_request(params)
     _use_openai = params.pop("__openai", False)
+    params = _clean_params(params)
+    
     client.headers = DEFAULT_HEADERS
     request: Request = client.post(
         "" if _use_openai is False else "openai",
@@ -51,6 +54,8 @@ async def _get_async_text_request(
 ) -> Response:
     params = _prepare_request(params)
     _use_openai = params.pop("__openai", False)
+    params = _clean_params(params)
+    
     client.headers = DEFAULT_HEADERS
     request: Request = await client.post(
         "" if _use_openai is False else "openai",
