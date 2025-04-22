@@ -81,6 +81,7 @@ from ._core import (
     get_client,
     get_async_client,
 )
+from .core.feed import Feed
 from .core.text import Text
 from .core.image import Image
 from .helpers import get_latest
@@ -105,7 +106,7 @@ __all__ = [
 
     "BaseClass", "get_client", "get_async_client", 
     
-    "Text", "Image",
+    "Feed", "Text", "Image",
     
     "get_latest",
     
