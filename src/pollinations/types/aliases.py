@@ -13,6 +13,7 @@ __all__: list[str] = [
     "Stream",
     "Filename",
     "ImageData",
+    "Payload",
     "Params",
     "EmptyParams",
     "StreamData",
@@ -54,6 +55,7 @@ Filename: TypeAlias = str
 ImageData: TypeAlias = Union[str, BytesIO]
 PILImage: TypeAlias = _Image
 
+Payload: TypeAlias = dict[str, Any]
 Params: TypeAlias = dict[str, Any]
 EmptyParams: TypeAlias = dict
 
