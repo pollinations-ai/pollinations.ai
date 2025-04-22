@@ -14,7 +14,7 @@ Work with the best generative AI from Pollinations using this Python SDK. 🐝
 
 # Changelog
 
-# 4.3.0 (Lots of minor changes)
+# 4.3.0 (Lots of minor changes) 
 ```diff
 + Fixed changelog, security & readme doc
 + Removed redundant params in payload
