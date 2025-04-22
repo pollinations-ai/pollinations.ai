@@ -14,7 +14,13 @@ Work with the best generative AI from Pollinations using this Python SDK. 🐝
 
 # Changelog
 
-# 4.3.0 (Lots of minor changes) 
+# 4.3.1 (Feed addition)
+```diff
++ Feed class (for image and text feed)
++ More type aliases
+```
+
+# 4.3.0 (Lots of minor changes)
 ```diff
 + Fixed changelog, security & readme doc
 + Removed redundant params in payload
