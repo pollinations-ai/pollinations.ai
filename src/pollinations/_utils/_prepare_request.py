@@ -12,7 +12,8 @@ def _prepare_request(params: Params, *args: Args, **kwargs: Kwargs) -> Params | 
 
     params["__iprompt"] = _encode_string((params.pop("__iprompt", "Error symbol alert, simple vector grapic.") + "?"))
     params["__inegative"] = _encode_string(params.pop("__inegative", "Detailed, lots of detail"))
-
+    
+    params["json"] = params.pop("json_mode", False)
     prompt = _encode_string(params.pop("__prompt", ""))
     system = _encode_string(params.pop("__system", ""))
     images = params.pop("__images", None)
