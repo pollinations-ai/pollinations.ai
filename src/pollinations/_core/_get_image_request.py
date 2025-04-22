@@ -1,4 +1,5 @@
 from .._utils._prepare_request import _prepare_request
+from .._utils._clean_params import _clean_params
 from ..types import (
     Client,
     AsyncClient,
@@ -21,9 +22,12 @@ def _get_image_request(
     client: Client, params: Params, *args: Args, **kwargs: Kwargs
 ) -> Response:
     params = _prepare_request(params)
-
     prompt = params.pop("__iprompt")
+    params = _clean_params(params)
+    
     for k, v in params.items():
+        if k == "__inegative":
+            k = "negative"
         prompt += f"{k}={v}&"
     prompt = prompt[:-1]
 
@@ -47,8 +51,9 @@ async def _get_async_image_request(
     client: AsyncClient, params: Params, *args: Args, **kwargs: Kwargs
 ) -> Response:
     params = _prepare_request(params)
-
     prompt = params.pop("__iprompt")
+    params = _clean_params(params)
+    
     for k, v in params.items():
         prompt += f"{k}={v}&"
     prompt = prompt[:-1]

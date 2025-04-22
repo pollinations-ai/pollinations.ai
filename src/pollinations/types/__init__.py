@@ -9,6 +9,7 @@ from .aliases import (
     Stream,
     Filename,
     ImageData,
+    Payload,
     Params,
     EmptyParams,
     StreamData,
@@ -39,7 +40,6 @@ from .aliases import (
 )
 from .httpx import URL, Response, Request, Client, AsyncClient
 from .model import TextModel, ImageModel
-from .payload import Payload
 
 __all__ = [
     "PILImage",
@@ -52,6 +52,7 @@ __all__ = [
     "Stream",
     "Filename",
     "ImageData",
+    "Payload",
     "Params",
     "EmptyParams",
     "StreamData",
@@ -86,5 +87,4 @@ __all__ = [
     "AsyncClient",
     "TextModel",
     "ImageModel",
-    "Payload"
 ]

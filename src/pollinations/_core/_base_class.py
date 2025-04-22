@@ -11,6 +11,8 @@ class BaseClass:
                     return repr(val[:27] + "...")
                 case str():
                     return repr(val)
+                case bytes() if len(val) > 30:
+                    return repr(val[:27] + b"...")
                 case list() if len(val) > 3:
                     return f"[{', '.join(fmt(v) for v in val[:3])}, ...]"
                 case list():
@@ -25,6 +27,14 @@ class BaseClass:
                         f"{fmt(k)}: {fmt(v)}" for k, v in val.items()
                     )
                     return f"{{{items}}}"
+                case tuple() if len(val) > 3:
+                    return f"({', '.join(fmt(v) for v in val[:3])}, ...)"
+                case tuple():
+                    return f"({', '.join(fmt(v) for v in val)})"
+                case set() | frozenset() if len(val) > 3:
+                    return f"{{{', '.join(fmt(v) for v in sorted(val)[:3])}, ...}}"
+                case set() | frozenset():
+                    return f"{{{', '.join(fmt(v) for v in sorted(val))}}}"
                 case float():
                     return f"{val:.4g}"
                 case int() | bool() | None:

@@ -1,5 +1,6 @@
 from .._utils._prepare_request import _prepare_request
 from .._utils._stream_process import _stream_process
+from .._utils._clean_params import _clean_params
 from ..types import (
     Client,
     AsyncClient,
@@ -35,8 +36,8 @@ def _get_stream_text_request(
 ) -> Iterator[StreamData]:
     params = _prepare_request(params)
     params["stream"] = True
-
     _use_openai = params.pop("__openai", False)
+    params = _clean_params(params)
 
     client.headers = DEFAULT_HEADERS
 
@@ -76,8 +77,8 @@ async def _get_async_stream_text_request(
 ) -> AsyncIterator[StreamData]:
     params = _prepare_request(params)
     params["stream"] = True
-
     _use_openai = params.pop("__openai", False)
+    params = _clean_params(params)
 
     client.headers = DEFAULT_HEADERS
 

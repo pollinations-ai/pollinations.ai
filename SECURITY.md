@@ -16,7 +16,10 @@ Work with the best generative AI from Pollinations using this Python SDK. 🐝
 
 ## Reporting
 This SDK is dedicated to the community's concerns and issues. Security is taken extremely seriously. If you discover any security vulnerabilities please report here:
-git.pollinations@gmail.com
+
+Mail: git.pollinations@gmail.com
+
+Discord (Fastest): @flo.a
 
 ## Disclosure Responsibility
 If you come across a vulnerability, please act responsibly by reporting it directly to us before sharing it publicly. This gives us a chance to fix the issue and protect users. Security fixes may take some time depending on the complexity, but we take all reports seriously and aim to resolve them as quickly and safely as possible.
