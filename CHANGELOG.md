@@ -14,6 +14,8 @@ Work with the best generative AI from Pollinations using this Python SDK. 🐝
 
 # Changelog
 
+# 4.5.0 (Fixed text vision)
+
 # 4.4.0 (Fixed feed issue + other changes)
 ```diff
 + Added better access to Feed.Data, such as Feed.Data["key"], Feed.Data.keys(), etc.
