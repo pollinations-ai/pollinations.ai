@@ -3,6 +3,8 @@ import pollinations
 import pyaudio
 import wave
 
+# pollinations.Text().Transcribe("my_audio.mp3")
+
 def main() -> None:
     p = pyaudio.PyAudio()
     chunk = 1024
