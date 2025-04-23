@@ -39,6 +39,8 @@ class Feed(BaseClass):
         self._async_text_client = get_async_client(TEXT_API_URI + "feed")
         self._async_image_client = get_async_client(IMAGE_API_URI + "feed")
 
+        self.status = "DONE"
+
         self.type = type
         self.data: List[StreamData] = []
         self.max_data = max_data
@@ -49,6 +51,7 @@ class Feed(BaseClass):
         return self.Get(*args, **kwargs)
 
     def Get(self: Self, *args: Args, **kwargs: Kwargs) -> Iterator[Feed.Data]:
+        self.status = "RUNNING"
         self.data.clear()
         counter = 0
 
@@ -62,10 +65,13 @@ class Feed(BaseClass):
             counter += 1
             if self.max_data and counter >= self.max_data:
                 break
+            
+        self.status = "DONE"
 
     async def Async(
         self: Self, *args: Args, **kwargs: Kwargs
     ) -> AsyncIterator[Feed.Data]:
+        self.status = "RUNNING"
         self.data.clear()
         counter = 0
 
@@ -74,7 +80,7 @@ class Feed(BaseClass):
             if self.type == "image"
             else self._async_text_client
         )
-        async for item in await _get_async_feed_request(
+        async for item in _get_async_feed_request(
             client, kwargs, *args, **kwargs
         ):
             wrapped = self.Data(data=item, time=now())
@@ -83,6 +89,8 @@ class Feed(BaseClass):
             counter += 1
             if self.max_data and counter >= self.max_data:
                 break
+
+        self.status = "DONE"
 
     class Data(BaseClass):
         def __init__(
@@ -97,3 +105,28 @@ class Feed(BaseClass):
 
         def __call__(self: Self, *args: Args, **kwargs: Kwargs) -> StreamData:
             return self.data
+
+        def __getitem__(self: Self, key):
+            return self.data[key]
+
+        def __getattr__(self: Self, name):
+            return getattr(self.data, name)
+
+        def __iter__(self: Self):
+            return iter(self.data)
+
+        def __len__(self: Self):
+            return len(self.data)
+
+        def __contains__(self: Self, item):
+            return item in self.data
+
+        def keys(self: Self):
+            return self.data.keys()
+
+        def values(self: Self):
+            return self.data.values()
+
+        def items(self: Self):
+            return self.data.items()
+
