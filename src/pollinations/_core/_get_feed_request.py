@@ -16,7 +16,7 @@ from ._consts import (
     DEFAULT_TIMEOUT,
 )
 
-from httpx import HTTPError
+from httpx import HTTPError, HTTPStatusError
 from typing import Iterator, AsyncIterator, Optional, Callable
 
 __all__: list[str] = [
@@ -33,36 +33,42 @@ def _get_feed_request(
     **kwargs: Kwargs
 ) -> Iterator[StreamData]:
     params = _prepare_request(params)
-    params["stream"] = True
-    _use_openai = params.pop("__openai", False)
     params = _clean_params(params)
-
     client.headers = DEFAULT_HEADERS
 
     for attempt in range(DEFAULT_MAX_RETRIES + 1):
-        try:
-            with client.stream(
-                "POST",
-                "" if _use_openai is False else "openai",
-                json=params,
-                *args,
-                **kwargs,
-                timeout=DEFAULT_TIMEOUT
-            ) as response:
-                response.raise_for_status()
-                for line in response.iter_lines():
-                    if not line:
-                        continue
-                    processed = processor(line)
-                    if processed is None:
-                        return
-                    if processed:
-                        yield processed
-            return
-        except HTTPError:
-            if attempt == DEFAULT_MAX_RETRIES:
-                raise FailedToStreamError(FailedToStreamError.DefaultMessage)
-            
+        for method in ("POST", "GET"):  
+            try:
+                stream_args = {
+                    "method": method,
+                    "url": "",
+                    "timeout": DEFAULT_TIMEOUT,
+                    **kwargs
+                }
+                if method == "POST":
+                    stream_args["json"] = params
+
+                with client.stream(**stream_args) as response:
+                    response.raise_for_status()
+                    for line in response.iter_lines():
+                        if not line:
+                            continue
+                        processed = processor(line)
+                        if processed is None:
+                            return
+                        if processed:
+                            yield processed
+                return
+            except HTTPStatusError as e:
+                if e.response.status_code == 404 and method == "POST":
+                    continue 
+                if attempt == DEFAULT_MAX_RETRIES:
+                    raise FailedToStreamError(FailedToStreamError.DefaultMessage)
+            except HTTPError:
+                if attempt == DEFAULT_MAX_RETRIES:
+                    raise FailedToStreamError(FailedToStreamError.DefaultMessage)
+
+
 async def _get_async_feed_request(
     client: AsyncClient,
     params: Params,
@@ -71,24 +77,22 @@ async def _get_async_feed_request(
     **kwargs: Kwargs
 ) -> AsyncIterator[StreamData]:
     params = _prepare_request(params)
-    params["stream"] = True
-    _use_openai = params.pop("__openai", False)
     params = _clean_params(params)
-
     client.headers = DEFAULT_HEADERS
 
     for attempt in range(DEFAULT_MAX_RETRIES + 1):
-        try:
+        for method in ("POST", "GET"):
+            try:
+                stream_args = {
+                    "method": method,
+                    "url": "",
+                    "timeout": DEFAULT_TIMEOUT,
+                    **kwargs
+                }
+                if method == "POST":
+                    stream_args["json"] = params
 
-            async def _generator() -> AsyncIterator[StreamData]:
-                async with client.stream(
-                    "POST",
-                    "" if _use_openai is False else "openai",
-                    json=params,
-                    *args,
-                    **kwargs,
-                    timeout=DEFAULT_TIMEOUT
-                ) as response:
+                async with client.stream(**stream_args) as response:
                     response.raise_for_status()
                     async for line in response.aiter_lines():
                         if not line:
@@ -99,9 +103,11 @@ async def _get_async_feed_request(
                         if processed:
                             yield processed
                 return
-
-            return _generator()
-
-        except HTTPError:
-            if attempt == DEFAULT_MAX_RETRIES:
-                raise FailedToStreamError(FailedToStreamError.DefaultMessage)
+            except HTTPStatusError as e:
+                if e.response.status_code == 404 and method == "POST":
+                    continue
+                if attempt == DEFAULT_MAX_RETRIES:
+                    raise FailedToStreamError(FailedToStreamError.DefaultMessage)
+            except HTTPError:
+                if attempt == DEFAULT_MAX_RETRIES:
+                    raise FailedToStreamError(FailedToStreamError.DefaultMessage)
