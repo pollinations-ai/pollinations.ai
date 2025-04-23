@@ -14,7 +14,9 @@ Work with the best generative AI from Pollinations using this Python SDK. 🐝
 
 # Changelog
 
-# 4.5.0 (Fixed text vision)
+# 4.5.1 (Small async generator fix)
+
+# 4.5.0 (Fixed maior issues)
 
 # 4.4.0 (Fixed feed issue + other changes)
 ```diff
