@@ -14,6 +14,15 @@ Work with the best generative AI from Pollinations using this Python SDK. 🐝
 
 # Changelog
 
+# 4.4.0 (Fixed feed issue + other changes)
+```diff
++ Added better access to Feed.Data, such as Feed.Data["key"], Feed.Data.keys(), etc.
++ Added more edge case and error handling in stream processing
++ status is now a property of Image and Text class
++ Added some examples 
++ Added requirements.txt
+```
+
 # 4.3.1 (Feed addition)
 ```diff
 + Feed class (for image and text feed)
