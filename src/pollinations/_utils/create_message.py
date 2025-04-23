@@ -15,4 +15,5 @@ def _create_message(role: Role, prompt: Prompt | Output, images: Optional[Union[
         if isinstance(images, dict):
             images = [images]
         message["content"].extend(images)
+        
     return message

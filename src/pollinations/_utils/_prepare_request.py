@@ -18,8 +18,9 @@ def _prepare_request(params: Params, *args: Args, **kwargs: Kwargs) -> Params | 
     system = _encode_string(params.pop("__system", ""))
     images = params.pop("__images", None)
     seed = params.pop("seed", None)
+    
 
-    if "messages" not in params or not params["messages"]:
+    if images or "messages" not in params or not params["messages"]:
         messages = []
 
         if system:
@@ -42,5 +43,5 @@ def _prepare_request(params: Params, *args: Args, **kwargs: Kwargs) -> Params | 
             if isinstance(seed, (int, float))
             else randint(-2147483648, 2147483647)
         )
-
+        
     return params

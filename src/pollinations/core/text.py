@@ -70,6 +70,8 @@ class Text(BaseClass):
     ) -> None:
         self._client = get_client(TEXT_API_URI)
         self._async_client = get_async_client(TEXT_API_URI)
+        
+        self.status = "DONE"
 
         self.model = model
         self.system = system
@@ -118,6 +120,7 @@ class Text(BaseClass):
         stream: Optional[Stream] = False,
         **kwargs: Kwargs,
     ) -> Output:
+        self.status = "RUNNING"
         prompt = self._check(prompt)
 
         if self.contextual:
@@ -140,6 +143,8 @@ class Text(BaseClass):
                     self.messages.append(
                         _create_message("assistant", self._decode(text))
                     )
+                    
+                self.status = "DONE"
 
             return _generator()
         else:
@@ -149,6 +154,8 @@ class Text(BaseClass):
                 self.messages.append(
                     _create_message("assistant", self.response)
                 )
+
+            self.status = "DONE"
             return self.response
 
     async def Async(
@@ -158,6 +165,7 @@ class Text(BaseClass):
         stream: Optional[Stream] = False,
         **kwargs: Kwargs,
     ) -> Output:
+        self.status = "RUNNING"
         prompt = self._check(prompt)
 
         if self.contextual:
@@ -179,6 +187,7 @@ class Text(BaseClass):
                     self.messages.append(
                         _create_message("assistant", self._decode(text))
                     )
+                self.status = "DONE"
 
             return _generator()
         else:
@@ -190,6 +199,8 @@ class Text(BaseClass):
                 self.messages.append(
                     _create_message("assistant", self.response)
                 )
+
+            self.status = "DONE"
             return self.response
 
     def Transcribe(
@@ -198,13 +209,16 @@ class Text(BaseClass):
         *any_kwargs_will_be_passed_in_request: Args,
         **kwargs: Kwargs,
     ) -> Output:
+        self.status = "RUNNING"
         params: Params = {"file": file, "seed": self.seed}
-        return _get_transcribe_request(
+        request = _get_transcribe_request(
             self._client,
             params,
             *any_kwargs_will_be_passed_in_request,
             **kwargs,
         )
+        self.status = "DONE"
+        return request
 
     async def TranscribeAsync(
         self: Self,
@@ -212,13 +226,16 @@ class Text(BaseClass):
         *any_kwargs_will_be_passed_in_request: Args,
         **kwargs: Kwargs,
     ) -> Output:
+        self.status = "RUNNING"
         params: Params = {"file": file, "seed": self.seed}
-        return await _get_async_transcribe_request(
+        request = await _get_async_transcribe_request(
             self._async_client,
             params,
             *any_kwargs_will_be_passed_in_request,
             **kwargs,
         )
+        self.status = "DONE"
+        return request
 
     def Image(
         self: Self,
